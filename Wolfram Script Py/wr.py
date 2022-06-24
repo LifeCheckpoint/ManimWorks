@@ -2,8 +2,12 @@
 import os
 import sys
 import re
+import file
 
 class WR:
+    wm_Solo = "Solo"
+    wm_Mult = "Mult"
+
     def w_List2list(self, strs, **kwards):
         pass
 
@@ -21,16 +25,36 @@ class WR:
             print("No match.")
 
 
-    def wolfram(self, s: str, output: bool = False):
-        s = s.replace("\"", "\\\"")
-        res = os.popen('wolframscript -c \"' + s + '\"').readlines()
-        return [r.replace("\n", "") for r in res]
+    def wolfram(self, s: str, mode = wm_Solo, output: bool = False):
+        if mode == self.wm_Solo:
+            s = s.replace("\"", "\\\"")
+            res = os.popen('wolframscript -c \"' + s + '\"').readlines()
+            return [r.replace("\n", "") for r in res]
+        if mode == self.wm_Mult:
+            s
 
 # test
-# cz = input()
-cz = "Solve[x==1,{x}]"
+t_const, t_diy, t_mult = 1, 2, 3
 w = WR()
-r = w.wolfram(cz)
-print(r)
-# print(w.w_Solve(w.wolfram(cz)))
-print(w.w_Solve(r[0]))
+# set test mode
+test_mode = t_diy
+if test_mode == t_const:
+    cz = "Solve[x==1,{x}]"
+    r = w.wolfram(cz)
+    print(r)
+    # print(w.w_Solve(w.wolfram(cz)))
+    print(w.w_Solve(r[0]))
+if test_mode == t_diy:
+    cz = input()
+    r = w.wolfram(cz)
+    print(r)
+if test_mode == t_mult:
+    cz = ""
+    file object = open(file_name [, access_mode][, buffering])
+
+    while True:
+        tmp = input()
+        if(tmp.lower() == "end"):
+            break
+        cz = cz + tmp + "\n"
+    
