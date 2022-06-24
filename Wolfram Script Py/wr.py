@@ -4,6 +4,9 @@ import sys
 import re
 
 class WR:
+    def w_List2list(self, strs, **kwards):
+        pass
+
     def w_Solve(self, strs, **kwards):
         if(strs == "{}"):
             return []
@@ -22,18 +25,6 @@ class WR:
         s = s.replace("\"", "\\\"")
         res = os.popen('wolframscript -c \"' + s + '\"').readlines()
         return [r.replace("\n", "") for r in res]
-
-    def ana(self, func_name: str, inputs, replace_enter: bool = True, **kwards):
-        this_module = sys.modules['__main__']
-        if(hasattr(this_module, func_name) == False):
-            print("WR cann't analysis \"" + func_name + "\".")
-            return inputs
-        f = getattr(this_module, func_name)
-        if(isinstance(inputs, str)):
-            return f(inputs, kwards)
-        if(isinstance(inputs, list)):
-            return f(str("\n".join(inputs)), kwards)
-        print("WR cann't analysis the type of \"" + type(inputs).__name__ + "\"")
 
 # test
 # cz = input()
