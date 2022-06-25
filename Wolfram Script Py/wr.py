@@ -1,8 +1,7 @@
 # -*- coding: UTF-8 -*-
 import os
-import sys
 import re
-import file
+import time
 
 class WR:
     wm_Solo = "Solo"
@@ -28,16 +27,23 @@ class WR:
     def wolfram(self, s: str, mode = wm_Solo, output: bool = False):
         if mode == self.wm_Solo:
             s = s.replace("\"", "\\\"")
-            res = os.popen('wolframscript -c \"' + s + '\"').readlines()
+            res = os.popen("wolframscript -c \"" + s + "\"").readlines()
             return [r.replace("\n", "") for r in res]
         if mode == self.wm_Mult:
-            s
+            Filename = os.getcwd() + "\\" + str(time.time()) + "_wr.wrs"
+            tmpFile = open(Filename, "w")
+            print("Sent tmp File to \"" + Filename + "\"")
+            tmpFile.write(s)
+            tmpFile.close()
+            res = os.popen("wolframscript -f \"" + Filename + "\" -print all").readlines()
+            return [r.replace("\n", "") for r in res]
 
 # test
 t_const, t_diy, t_mult = 1, 2, 3
 w = WR()
 # set test mode
-test_mode = t_diy
+test_mode = t_mult
+
 if test_mode == t_const:
     cz = "Solve[x==1,{x}]"
     r = w.wolfram(cz)
@@ -50,11 +56,11 @@ if test_mode == t_diy:
     print(r)
 if test_mode == t_mult:
     cz = ""
-    file object = open(file_name [, access_mode][, buffering])
-
     while True:
         tmp = input()
         if(tmp.lower() == "end"):
             break
         cz = cz + tmp + "\n"
+    r = w.wolfram(cz, mode = w.wm_Mult)
+    print(r)
     
