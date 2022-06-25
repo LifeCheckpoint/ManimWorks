@@ -24,7 +24,11 @@ class WR:
             print("No match.")
 
 
-    def wolfram(self, s: str, mode = wm_Solo, output: bool = False):
+    def wolfram(self, s: str, mode = wm_Solo, **kwargs):
+        f_delete = True
+        for key, value in kwargs.items():
+            if(key == "delete"):
+                f_delete = value
         if mode == self.wm_Solo:
             s = s.replace("\"", "\\\"")
             res = os.popen("wolframscript -c \"" + s + "\"").readlines()
@@ -36,6 +40,8 @@ class WR:
             tmpFile.write(s)
             tmpFile.close()
             res = os.popen("wolframscript -f \"" + Filename + "\" -print all").readlines()
+            if f_delete:
+                os.remove(Filename)
             return [r.replace("\n", "") for r in res]
 
 # test
@@ -61,6 +67,6 @@ if test_mode == t_mult:
         if(tmp.lower() == "end"):
             break
         cz = cz + tmp + "\n"
-    r = w.wolfram(cz, mode = w.wm_Mult)
+    r = w.wolfram(cz, mode = w.wm_Mult, delete = True)
     print(r)
     
