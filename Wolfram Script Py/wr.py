@@ -41,8 +41,8 @@ class WR:
     def stop_thread(self, thread):
         self._async_raise(thread.ident, SystemExit)
         
-        def w_List2list(self, strs, **kwards):
-            pass
+    def w_List2list(self, strs, **kwards):
+        pass
 
     # def w_Solve(self, strs, **kwards):
     #     if(strs == "{}"):
@@ -81,6 +81,7 @@ class WR:
                 else:
                     time.sleep(0.05)
             
+            os.system("taskkill /f /im wolfram.exe")
             self.stop_thread(calc_th)
             return ["TimeOut of " + str(f_time) + " ms"]
 
@@ -103,6 +104,7 @@ class WR:
                 else:
                     time.sleep(0.05)
             
+            os.system("taskkill /f /im wolfram.exe")
             self.stop_thread(calc_th)
             if f_delete:
                 os.remove(Filename)
