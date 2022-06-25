@@ -9,16 +9,19 @@ import inspect
 class WR_sc_thread(th.Thread):
     calc_suc = False
 
-    def __init__(self, threadID, s):
+    def __init__(self, threadID, s, f_debug = False):
         th.Thread.__init__(self)
         self.threadID = threadID
         self.s = s
+        self.f_debug = f_debug
     
     def run(self):
-        print("WolframScript_" + str(self.threadID) + " starts")
+        if self.f_debug:
+            print("Thread WolframScript_" + str(self.threadID) + " starts")
         self.res = os.popen(self.s).readlines()
         self.calc_suc = True
-        print("WolframScript_" + str(self.threadID) + " ends")
+        if self.f_debug:
+            print("Thread WolframScript_" + str(self.threadID) + " ends")
 
 class WR:
     wm_Solo = "Solo"
@@ -57,14 +60,18 @@ class WR:
     #     else:
     #         print("No match.")
 
-    def wolfram(self, s: str, mode = wm_Solo, **kwargs):
+    def wolfram_calc(self, s, mode, **kwargs):
+        
         f_delete = True
         f_time = 5000   # ms
+        f_debug = False
         for key, value in kwargs.items():
             if(key.lower() == "delete"):
                 f_delete = value
             if(key.lower() == "timeout"):
                 f_time = value
+            if(key.lower() == "debug"):
+                f_debug = value
         
         t_st = time.time() * 1000
         
@@ -72,7 +79,7 @@ class WR:
             s = s.replace("\"", "\\\"")
 
             th_id = int(time.time())
-            calc_th = WR_sc_thread(th_id, "wolframscript -c \"" + s + "\"")
+            calc_th = WR_sc_thread(th_id, "wolframscript -c \"" + s + "\"", f_debug)
             calc_th.start()
             while time.time() * 1000 - t_st < f_time:
                 if calc_th.calc_suc:
@@ -88,12 +95,13 @@ class WR:
         if mode == self.wm_Mult:
             Filename = os.getcwd() + "\\" + str(time.time()) + "_wr.wrs"
             tmpFile = open(Filename, "w")
-            print("Sent tmp File to \"" + Filename + "\"")
+            if f_debug:
+                print("Write file to \"" + Filename + "\"")
             tmpFile.write(s)
             tmpFile.close()
             
             th_id = int(time.time())
-            calc_th = WR_sc_thread(th_id, "wolframscript -f \"" + Filename + "\" -print all")
+            calc_th = WR_sc_thread(th_id, "wolframscript -f \"" + Filename + "\" -print all", f_debug)
             calc_th.start()
             while time.time() * 1000 - t_st < f_time:
                 if calc_th.calc_suc:
@@ -109,6 +117,13 @@ class WR:
             if f_delete:
                 os.remove(Filename)
             return ["TimeOut of " + str(f_time) + " ms"]
+
+    def wolfram(self, s: str, mode = wm_Solo, **kwargs):
+        print("-----------------------")
+        res = self.wolfram_calc(s, mode, **kwargs)
+        print("-----------------------")
+        return res
+
 
 # test
 t_const, t_diy, t_mult = 1, 2, 3
@@ -142,7 +157,8 @@ if test_mode == t_mult:
         cz, 
         mode = w.wm_Mult, 
         delete = True, 
-        timeout = 10000
+        timeout = 10000,
+        debug = True
     )
     print(r)
     
