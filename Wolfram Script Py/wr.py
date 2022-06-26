@@ -1,11 +1,9 @@
 # -*- coding: UTF-8 -*-
 import os
-import re
 import time
 import threading as th
 import ctypes
 import inspect
-import shutil
 
 class WR_sc_thread(th.Thread):
     calc_suc = False
@@ -55,19 +53,6 @@ class WR:
         
     def w_List2list(self, strs, **kwards):
         pass
-
-    # def w_Solve(self, strs, **kwards):
-    #     if(strs == "{}"):
-    #         return []
-    #     res = []
-    #     patt = "(.*) -> (.*)"
-    #     ree = re.compile(patt)
-    #     r = ree.findall(strs)
-    #     if r:
-    #         print(len(r))
-    #         return r
-    #     else:
-    #         print("No match.")
 
     def wolfram_calc(self, s, mode, **kwargs):
         
@@ -130,8 +115,11 @@ class WR:
     def wolfram(self, s: str, mode = wm_Solo, **kwargs):
         print("-----------------------")
         res = self.wolfram_calc(s, mode, **kwargs)
+        res_t = ""
+        for i in res:
+            res_t = res_t + i + "\n"
         print("-----------------------")
-        return res
+        return res_t
 
 
 # test
@@ -148,8 +136,6 @@ if test_mode == t_const:
     cz = "Solve[x==1,{x}]"
     r = w.wolfram(cz)
     print(r)
-    # print(w.w_Solve(w.wolfram(cz)))
-    print(w.w_Solve(r[0]))
 if test_mode == t_diy:
     cz = input()
     r = w.wolfram(cz)
