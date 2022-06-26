@@ -5,6 +5,7 @@ import time
 import threading as th
 import ctypes
 import inspect
+import shutil
 
 class WR_sc_thread(th.Thread):
     calc_suc = False
@@ -26,6 +27,14 @@ class WR_sc_thread(th.Thread):
 class WR:
     wm_Solo = "Solo"
     wm_Mult = "Mult"
+    calc_path = ""
+
+    def __init__(self):
+        cwd = os.getcwd() + "\\wr_calc"
+        if os.path.exists(cwd) == False:
+            os.mkdir(cwd)
+        os.chdir(cwd)
+        self.calc_path = os.getcwd()
 
     def _async_raise(self, tid, exctype):
         """raises the exception, performs cleanup if needed"""
@@ -93,7 +102,7 @@ class WR:
             return ["TimeOut of " + str(f_time) + " ms"]
 
         if mode == self.wm_Mult:
-            Filename = os.getcwd() + "\\" + str(time.time()) + "_wr.wrs"
+            Filename = self.calc_path + "\\" + str(time.time()) + "_wr.wrs"
             tmpFile = open(Filename, "w")
             if f_debug:
                 print("Write file to \"" + Filename + "\"")
