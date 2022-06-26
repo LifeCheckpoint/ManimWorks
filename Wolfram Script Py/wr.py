@@ -54,6 +54,10 @@ class WR:
     def w_List2list(self, strs, **kwards):
         pass
 
+    # def tex_form(self, s: str):
+    #     # Cann't transform matrix
+    #     return self.wolfram("TeXForm[" + s + "]")
+
     def wolfram_calc(self, s, mode, **kwargs):
         
         f_delete = True
@@ -110,15 +114,22 @@ class WR:
             self.stop_thread(calc_th)
             if f_delete:
                 os.remove(Filename)
-            return ["TimeOut of " + str(f_time) + " ms"]
+            return "TimeOut of " + str(f_time) + " ms"
 
     def wolfram(self, s: str, mode = wm_Solo, **kwargs):
         print("-----------------------")
+        f_max_len = -1
+        for key, value in kwargs.items():
+            if(key.lower() == "maxlen" or key.lower() == "max_len" ):
+                f_max_len = value
+        
         res = self.wolfram_calc(s, mode, **kwargs)
         res_t = ""
         for i in res:
             res_t = res_t + i + "\n"
         print("-----------------------")
+        if f_max_len != -1 and len(res_t) > f_max_len:
+            return "LenOut of " + str(f_max_len)
         return res_t
 
 
@@ -153,7 +164,8 @@ if test_mode == t_mult:
         mode = w.wm_Mult, 
         delete = True, 
         timeout = 10000,
-        debug = True
+        debug = True,
+        maxlen = 1145
     )
     print(r)
     
