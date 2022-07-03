@@ -47,7 +47,44 @@ class DAni_1:
             it = it + st
         return obj
 
+    def dotWithText(self, text: str = "P", locate: ndarray = ORIGIN, sight: ndarray = UP, **kwargs) -> VGroup:
+        """
+        获得带文字的点，text为Tex
+        text: 文字
+        locate: 点坐标
+        sight: 文字相对点位置
+        **kwargs: 其余参数
+        """
+        
+        g = VGroup(
+            Dot(locate, **kwargs),
+            Tex(text).scale(0.7)
+        )
+        g[1].next_to(g[0], sight)
+        return g
 
+    def dotsWithTexts(self, texts: list = ["p"], locates: ndarray = ORIGIN, sight: ndarray = UP, **kwargs) -> list:
+        """
+        获得一组dotWithText
+        文字数与点数必须相同，否则抛出异常
+        texts: 文字
+        locates: 点坐标
+        sight: 文字相对点位置
+        **kwargs: 其余参数
+        """
+
+        dots = []
+        if len(texts) != len(locates):
+            raise Exception("text's number is not equal to locates!")
+        for i in range(len(texts)):
+            dots.append(self.getPointWithText(
+                texts[i],
+                locate = locates[i],
+                sight = sight,
+                **kwargs
+            ))
+        return dots
 
 # a = DAni_1()
 # a.FunctionGraphEx()
+# a.dotWithText()
