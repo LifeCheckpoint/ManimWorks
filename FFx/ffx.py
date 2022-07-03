@@ -1271,7 +1271,7 @@ class s2(Scene):
         self.wait(2.5)
         self.play(ReplacementTransform(group3, text4_6))
         self.wait(1.5)
-        self.play(FadeOutAndShiftDown(text4_6))
+        self.play(FadeOut(text4_6))
 
         #--5--
         self.play(Write(text5_1))
@@ -1352,7 +1352,7 @@ class s2(Scene):
         self.wait(2)
         self.play(
             ReplacementTransform(group5, text5_6),
-            FadeOutAndShiftDown(text5_5),
+            FadeOut(text5_5),
             background5_1.shift, ORIGIN
         )
         self.wait(0.25)
@@ -1584,8 +1584,6 @@ class test(Scene):
     def construct(self):
         t = TexMobject("\\text{i: }f\\text{的一个}2m\\text{循环轨道图可分裂为两个}f_{2}\\text{的}m\\text{循环轨道图}")
         self.add(t)
-        self.wait(2)
-        self.add(get_submobject_index_labels(t[0]))
         self.wait(3)
         self.remove(t)
         self.add(text7_1)

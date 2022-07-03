@@ -19,6 +19,12 @@ class DAction2:
     dotsWithTexts: 获得一组带文字的点
     """
 
+    def __init__(self):
+        """
+        无需传入Scene
+        """
+        pass
+
     def dotWithText(self, text: str = "P", locate: ndarray = ORIGIN, sight: ndarray = UP, **kwargs) -> VGroup:
         """
         获得带文字的点，text为Tex
