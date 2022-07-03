@@ -12,40 +12,12 @@ from manimlib import *
 from numpy import *
 from decimal import *
 
-class DAni_1:
-    # 实现一些代码量较大的动画效果
-
-    def __init__(self, thisScene: Scene):
-        """
-        初始化
-        thisScene: 动画所处Scene
-        """
-        self.sc = thisScene
-
-    def FunctionGraphEx(self, func: function, x_range: list = [-8, 8, 0.01], color = WHITE, **kwargs) -> VGroup:
-        """
-        以时间换取精度，绘制GL中绘制有误的函数图像
-        func: 函数
-        x_range: 设定绘制范围及步长：[x_min, x_max, gamma]
-        color: 设定颜色
-        **kwargs: 其余参数
-        """
-
-        it = x_range[0]
-        endx = x_range[1]
-        st = x_range[2]
-        obj = VGroup()
-        while it <= endx:
-            obj.add(
-                Line(
-                    [it, func(it), 0],
-                    [it + st, func(it + st), 0],
-                    color = color,
-                    **kwargs
-                )
-            )
-            it = it + st
-        return obj
+class DAction2:
+    """
+    实现一些动效
+    dotWithText: 获得带文字的点
+    dotsWithTexts: 获得一组带文字的点
+    """
 
     def dotWithText(self, text: str = "P", locate: ndarray = ORIGIN, sight: ndarray = UP, **kwargs) -> VGroup:
         """
@@ -85,6 +57,32 @@ class DAni_1:
             ))
         return dots
 
-# a = DAni_1()
-# a.FunctionGraphEx()
-# a.dotWithText()
+    def arrowP2P(self, p1: Dot = Dot(), p2: Dot = Dot(), buff: float = 0.2, **kwargs):
+        """
+        获取箭头，从一点射向另一点
+        p1: 起点
+        p2: 终点
+        buff: 箭头离点距离
+        **kwargs: 其余箭头参数
+        """
+
+        return Arrow(p1.get_center(), p2.get_center(), buff = buff, **kwargs)
+
+    def arrowsP2Ps(self, pMap, buff = 0.2, **kwargs):
+        """
+        获取一组箭头，从一组一点射向另一组一点
+        pMap: Dot型list[2, n]
+        p2: 终点
+        buff: 箭头离点距离
+        **kwargs: 其余箭头参数
+        """
+
+        arrows = []
+        for i in range(len(pMap)):
+            arrows.append(self.arrowP2P(
+                pMap[i][0],
+                pMap[i][1],
+                buff = buff,
+                **kwargs
+            ))
+        return arrows
