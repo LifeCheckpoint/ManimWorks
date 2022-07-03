@@ -12,7 +12,7 @@ from manimlib import *
 from numpy import *
 from decimal import *
 
-class DAni_2(Tex):
+class textTeX(Tex):
     """
     Form: cigar666 - MyText
     Tex下标分析方法：
