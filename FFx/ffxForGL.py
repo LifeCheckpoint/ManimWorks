@@ -9,11 +9,6 @@
 #   
 #   author: LDDMiao
 #   date: 2021 - 11 - 7 TO 2022 - _ - _
-#   version: V1.1.1
-#       > setup.py
-#               author: LDDMiao & cigar666
-#               date: 2022 - 2 - 3 TO 2022 - ? - ?
-#               version: V2.1.7
 #
 #   QAQ好长好难做
 #   你这代码保熟吗？
