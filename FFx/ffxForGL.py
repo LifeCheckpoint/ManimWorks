@@ -29,6 +29,8 @@ import matplotlib.pyplot as plt
 from manimlib import *
 from numpy import *
 from decimal import *
+from DAction1 import *
+from DAction2 import *
 
 DFont_WeiRuanYaHei = "微软雅黑"
 DFont_MFLangQianNoncommercial_Light = "MFLangQian_Noncommercial-Light"
@@ -36,398 +38,21 @@ DFont_MFLangQianNoncommercial_Bold = "MFLangQian_Noncommercial-Bold"
 DFont_MFXingHei_Noncommercial_Light = "MFXingHei_Noncommercial-Light"
 DFont_MFXingHei_Noncommercial_Bold = "MFXingHei_Noncommercial-Bold"
 
-class DAni_1:
-    # 实现一些代码量较大的动画效果
-
-    # sc = Scene()
-    def __init__(self, thisScene):
-        self.sc = thisScene
-    
-    def FunctionGraphEx(self, func, x_range = [-8, 8, 0.01], lineColor = WHITE):
-        # 用来画一些自带函数不方便渲染的图像
-        # 注意，返回一个VGroup
-
-        it = x_range[0]
-        endx = x_range[1]
-        st = x_range[2]
-        obj = VGroup()
-        while it <= endx:
-            obj.add(
-                Line(
-                    [it, func(it), 0],
-                    [it + st, func(it + st), 0],
-                    color = lineColor
-                )
-            )
-            it = it + st
-        return obj
-
-    def getPointWithText(self, text, dotLocate = ORIGIN, textNextSight = UP, **dotsKwards):
-        # 获得一个带文字的点，默认使用不含r的TexMobject
-        g = VGroup(
-            Dot(dotLocate, **dotsKwards),
-            Tex(text).scale(0.7)
-        )
-        g[1].next_to(g[0], textNextSight)
-        return g
-
-    def gpwtList(self, texts, locates, textsNextSight = UP, **dotsKwards):
-        # 获得一堆带文字的点，将返回list
-        # texts与locates为list，应该对应
-        # textsNextSight为标量，默认为UP
-        dots = []
-        if len(texts) != len(locates):
-            print("texts number is not equal to locates!")
-            return []
-        for i in range(len(texts)):
-            dots.append(self.getPointWithText(
-                texts[i],
-                dotLocate = locates[i],
-                textNextSight = textsNextSight,
-                **dotsKwards
-            ))
-        return dots
-
-    def fadeInTitle(self, titleText, subTitleText = "", titleFont = DFont_MFLangQianNoncommercial_Light, showTime = 5, lineRightTo = 6, lineWidth = 0.075, titletc = {}):
-        # 对标题进行一个华丽的淡出淡入
-        # 实际上有一点歪打正着，不对可以自行改改
-
-        textHeight = 1.8
-        title = Text(titleText, font = titleFont, t2c = titletc).scale(1.5).move_to(UP * 5, aligned_edge = RIGHT)
-        dot = Dot(
-            LEFT * (lineRightTo + 0.5),
-            color = BLACK
-        ).shift(UP * 5)
-        sq_cover = Rectangle(
-            height = textHeight + 0.5, 
-            width = 32, 
-            color = BLACK,
-            fill_opacity = 1.0,
-            stroke_color = BLACK
-        ).move_to(UP * 5, aligned_edge = RIGHT)
-        if subTitleText == "":
-            sq_line = Rectangle(
-                height = textHeight, 
-                width = lineWidth, 
-                color = WHITE,
-                fill_opacity = 1.0,
-                stroke_color = WHITE
-            ).move_to(UP * 5)
-            subTitleText = Text("")
-        else:
-            sq_line = Rectangle(
-                height = textHeight, 
-                width = lineWidth, 
-                color = WHITE,
-                fill_opacity = 1.0,
-                stroke_color = WHITE
-            ).move_to(UP * 5 + DOWN * 0.25)
-            subTitleText = Text(subTitleText, font = titleFont, t2c = titletc).scale(0.7).move_to(UP * 5 + DOWN * 0.5 + RIGHT * title.get_left()[0], aligned_edge = LEFT)
-            # print(RIGHT * title.get_left()[0])
-
-        # if titletc != {}:
-            
-            # title.set_color_by_t2c(titletc)
-            # subTitleText.set_color_by_t2c(titletc)
-
-        self.sc.add(title)
-        self.sc.add(subTitleText)
-        self.sc.add(sq_cover)
-        self.sc.add(dot)
-        self.sc.add(sq_line)
-        self.sc.play(
-            sq_cover.shift, DOWN * 5,
-            sq_line.shift, DOWN * 5,
-            title.shift, DOWN * 5,
-            subTitleText.shift, DOWN * 5,
-            run_time = 1.5
-        )
-        self.sc.wait(0.5)
-        self.sc.play(
-            sq_cover.shift, LEFT * lineRightTo,
-            sq_line.shift, RIGHT * lineRightTo,
-            subTitleText.shift, LEFT * title.get_left()[0],
-            title.move_to, ORIGIN, aligned_edge = ORIGIN,
-            run_time = 1.5
-        )
-        self.sc.wait(0.25)
-        dot.shift(DOWN * 5)
-        self.sc.play(
-            ShowPassingFlashAround(title),
-            Flash(dot, color = WHITE),
-            title.scale, 1.2,
-            subTitleText.shift, DOWN * 0.3,
-            sq_line.shift, LEFT * lineRightTo * 2,
-            sq_line.set_opacity, 0.5,
-            run_time = 1.5
-        )
-
-        self.sc.wait(showTime)
-
-        dot.shift(UP * 5)
-        self.sc.play(
-            sq_line.shift, RIGHT * lineRightTo,
-            sq_line.set_opacity, 1.0,
-            sq_cover.shift, RIGHT * lineRightTo,
-            title.move_to, LEFT * lineRightTo,
-            subTitleText.move_to, LEFT * lineRightTo,
-            run_time = 1.5
-        )
-        self.sc.wait(0.5)
-        title.move_to(UP * 5)
-        subTitleText.move_to(UP * 5)
-        self.sc.play(
-            FadeOut(sq_cover),
-            FadeOut(sq_line),
-            FadeOut(title),
-            FadeOut(subTitleText),
-            run_time = 1.5
-        )
-        # self.sc.play(
-        #     sq_cover.shift, DOWN * 5,
-        #     sq_line.shift, DOWN * 5,
-        #     titleText.shift, DOWN * 5,
-        #     run_time = 1.5
-        # )
-        self.sc.wait(1)
-
-    # 由于兼容问题，暂时弃用
-
-    # def defineTextList(self, type = "Text", textLocation = ORIGIN, textAligned = ORIGIN, textColor = WHITE, textFont = DFont_MFLangQianNoncommercial_Light, autoScale = False, textScale = 0.8, textWidth = -1, t2cDict = {}, textList = []):
-    #     # 自动生成Text列表，并含有自动格式控制
-    #     # 打开autoScale，若不提供textWidth，则第一个text大小将会设为textScale，否则将所有宽度设为textWidth
-    #     # 其余Text将会进行width自适配
-    #     # 提供t2cdict字典，格式：{"count": {"text": color, ...}, ...}
-    #     # type = "Text" "TextMobject" or "Tex"，为后两者时textFont无效
-
-    #     # 另外这里的逻辑能一次写对也是奇迹
-        
-    #     def tryLength(textClass, wid):
-    #         # 返回一个合适于宽度wid的scale系数，最大将返回4
-    #         sc = 0.01
-    #         while sc <= 4:
-    #             textClass.scale(sc)
-    #             loc_1 = textClass.get_left()
-    #             loc_2 = textClass.get_right()
-    #             w_ = loc_2[0] - loc_1[0]
-    #             if w_ >= wid:
-    #                 textClass.scale(1 / sc)
-    #                 return sc
-    #             textClass.scale(1 / sc)
-    #             sc = sc + 0.01
-    #         return 4
-
-    #     t = []
-    #     w = 0
-    #     # print(textList)
-    #     for i in range(len(textList)):
-    #         # 处理文字，字体，总体颜色
-    #         if type == "Text":
-    #             text = Text(textList[i], font = textFont, color = textColor)
-    #         else:
-    #             text = Text(textList[i], color = textColor)
-
-    #         # 处理缩放
-    #         if autoScale == True:
-    #             if i == 0 and textWidth == -1:
-    #                 text.scale(textScale)
-    #                 loc1 = text.get_left()
-    #                 loc2 = text.get_right()
-    #                 w = loc2[0] - loc1[0]
-    #             if i != 0 and textWidth == -1:
-    #                 text.scale(tryLength(text, w))
-    #             if textWidth != -1:
-    #                 text.scale(tryLength(text, textWidth))
-    #         else:
-    #             text = text.scale(textScale)
-
-    #         # 处理位移
-    #         text = text.move_to(textLocation, aligned_edge = textAligned)
-
-    #         # 处理颜色
-    #         if t2cDict != {}:
-    #             text.set_color_by_t2c(t2cDict.get(str(i), {})) 
-
-    #         t.append(text)
-    #     return t
-
-    def p2p_LR(self, point, sight, scaleUD = False):
-        # 将一个屏幕上点的位置转移到分成两半的左或右边的屏幕的点的位置
-        # sight = "L"为左端，sight = "R"为右端，错误的填写将返回原来的点位置
-        # scaleUD表示是否对上下同时缩放
-
-        if sight != "L" and sight != "R":
-            return point
-        
-        if scaleUD:
-            point[1] = point[1] / 2
-        if sight == "L":
-            point[0] = -point[0] / 2 - FRAME_WIDTH / 4
-            pass
-        if sight == "R":
-            point[0] = -point[0] / 2 + FRAME_WIDTH / 4
-        return point
-
-    def getArrowFromp2p(self, p1, p2, arrowBuff = 0.2, **arrowKwards):
-        # 获取一个从点射向点的箭头
-        return Arrow(p1.get_center(), p2.get_center(), buff = arrowBuff, **arrowKwards)
-
-    def gafpList(self, pMap, arrowsBuff = 0.2, **arrowKwards):
-        # 获取一堆从点射向点的箭头
-        # pMap是二维Dot型list，包含有序的箭头关系
-        arrows = []
-        for i in range(len(pMap)):
-            arrows.append(self.getArrowFromp2p(
-                pMap[i][0],
-                pMap[i][1],
-                arrowBuff = arrowsBuff,
-                **arrowKwards
-            ))
-        return arrows
-
-    def shiftList(self, mobjects, locate, type = "method", **animateKwards):
-        # 对list内对象进行移动
-        # type可选animate或method
-        # 若是animate则需提供scene
-        # 若是method则返回移动后的list
-        if type == "animate":
-            l_a = []
-            for i in mobjects:
-                l_a.append(i.shift)
-                l_a.append(locate)
-            self.sc.play(
-                *[j for j in l_a],
-                **animateKwards
-            )
-        if type == "method":
-            for i in range(len(mobjects)):
-                mobjects[i] = mobjects[i].shift(locate)
-            return mobjects
-
-    def getColorGradient(self, numOfFPS, colors):
-        # 返回渐变颜色路径
-        # colors为Color型List，若colors为空则生成随机颜色路径，否则按colors渐变三种颜色
-        # numOfFPS表示一共帧数
-        # 返回一个Color型的List
-        resColor = []
-        if colors == []:
-            colors = [rgb_to_color(np.array([ran.random() for _ in range(3)])) for _ in range(3)]
-        ef = int(numOfFPS / (len(colors) - 1))
-        for i in range(len(colors) - 1):
-            c1 = color_to_rgb(colors[i])
-            c2 = color_to_rgb(colors[i + 1])
-            dc = (c2 - c1) / ef
-            for j in range(ef):
-                resColor.append(rgb_to_color(c1 + dc * j))
-        less = numOfFPS - len(resColor)
-        # 对齐
-        if less != 0:
-            for _ in range(int(less)):
-                resColor.append(colors[len(colors) - 1])
-        return resColor
-
-
-class DAni_2(Tex):
-    # 本类精简于cigar666的MyText类，可以在公式中使用自定义字体
-    # 注意：Tex下标分析方法：
-    # 使用debugTeX, 先self.add(tex) 然后再debugTeX(self, tex)
-    # 导出最后一帧，观察每段字符上的标号，即为下标
-    # 或使用自带的函数get_submobject_index_labels获取下标的VGroup
-    # 然后添加
-
-    # 默认配置
-    CONFIG = {
-        'default_font': DFont_MFLangQianNoncommercial_Bold,
-        'tex_scale_factor': 1,
-    }
-
-    def __init__(self, *tex_strings, **kwargs):
-        # 传入欲实现转换的Tex小块以及参数
-        # 例子：
-        # formula_i = MyText(
-        #         'f', '(', 't', ')', '=', 'x', '(', 't', ')', '+', 'y', '(', 't', ')', 'i', '=', '(', 'R', '-', 'r', ')', 'e^{', 'i', 't}', '+', 'd', 'e^{', '-', 'i', '{R', '-', 'r', '\\over', 'r}', 't}',
-        #         default_font = someFont, 
-        #         tex_scale_factor = 0.75
-        #     )
-        # 可以传入color_dict对对应的Tex上色
-        # formula_i.set_color_by_tex_to_color_map(color_dict)
-        self.tex_list = tex_strings
-        Tex.__init__(self, *tex_strings, **kwargs)
-        self.new_font_texs = VGroup()
-
-    def reset_tex_with_font(self):
-        self.new_font_texs = VGroup()
-
-    def get_color_by_tex(self, tex, **kwargs):
-        parts = self.get_parts_by_tex(tex, **kwargs)
-        colors = []
-        for part in parts:
-            colors.append(part.get_color())
-        return colors[0]
-
-    def get_new_font_texs(self, replace_dict):
-        # 将载入的Tex片段转换成为一组Text后输出
-        # 需要传入replace_dict参数以表明某些无法识别的Tex片段应该以什么形式输出
-        # 例如：
-        # replace_dict = {'e^{': 'e', 't}': 't', '{R': 'R', 'r}': 'r', '\\over': '-'}
-        # new_formula = formula_i.get_new_font_texs(replace_dict)
-        # 只需要转换无法识别的即可，无需写入所有
-        for i in range(len(self.tex_strings)):
-            tex = self.tex_strings[i]
-            color = self.get_color_by_tex(tex)
-            if tex in replace_dict:
-                tex = replace_dict[tex]
-            tex_new = Text(tex, font=self.default_font, color=color)
-            tex_new.set_height(self[i].get_height())
-            if tex == '-' or tex == '=':
-                tex_new.set_width(self[i].get_width(), stretch=True)
-            tex_new.scale(self.tex_scale_factor)
-            tex_new.move_to(self[i])
-            self.new_font_texs.add(tex_new)
-        return self.new_font_texs
-
-        
-
-    # HELP：
-        # DFont:
-        #     DFont_WeiRuanYaHei = "微软雅黑"
-        #     DFont_MFLangQianNoncommercial_Light = "MFLangQian_Noncommercial-Light"
-        #     DFont_MFLangQianNoncommercial_Bold = "MFLangQian_Noncommercial-Bold"
-        #     DFont_MFXingHei_Noncommercial_Light = "MFXingHei_Noncommercial-Light"
-        #     DFont_MFXingHei_Noncommercial_Bold = "MFXingHei_Noncommercial-Bold"
-        # DAni_1:
-        # 实现一些代码量较大的动画效果
-        #     __init__ 传入欲实现动画的Scene
-        #     FunctionGraphEx 用来画一些自带函数不方便渲染的图像
-        #     getPointWithText 获得一个带文字的点，默认使用不含r的TexMobject
-        #     gpwtList 获得一堆带文字的点
-        #     fadeInTitle 对标题进行一个华丽的淡出淡入
-        #     defineTextList 自动生成Text列表，并含有自动格式控制
-        #     p2p_LR 将一个屏幕上点的位置转移到分成两半的左或右边的屏幕的点的位置
-        #     getArrowFromp2p 获取一个从点射向点的箭头
-        #     gafpList 获取一堆从点射向点的箭头
-        #     shiftList 对列表内对象进行移动
-        #     getColorGradient 返回渐变颜色路径
-        # DAni_2:
-        # 本类精简于cigar666的MyText类，可以在公式中使用自定义字体 
-        #     __init__ 传入欲实现转换的Tex小块以及参数
-        #     get_new_font_texs 将载入的Tex片段转换成为一组Text后输出
-    
-# SETUP OVER
-
-
 ###FUNCTIONS###
 
-ad = DAni_1("") #传入伪参数，适用于不使用self的函数
+ad1 = DAction1()
+ad2 = DAction2()
 
-def protect_range(x):
+def protect_range(x: float):
     if x >= 100 or x <= -100:
         return 15
     else:
         return x
 
 def func_itea(func, n):
-    return ad.FunctionGraphEx(lambda x: protect_range(func(x, n)), x_range = [-10, 10, 0.005], lineColor = BLUE)
+    return ad1.FunctionGraphEx(
+        lambda x: protect_range(func(x, n)), x_range = [-10, 10, 0.005], lineColor = BLUE
+    )
 
 ###CONSTANTS###
 
@@ -435,11 +60,6 @@ def func_2(x, n):
     for _ in range(n):
         x = x ** 2 - 1
     return x
-
-# def func_3_complex(a, b, n):
-#     for _ in range(n):
-#         x = (cm.cos(x) - cm.sin(x)) / (cm.cos(x) - cm.exp(x))
-#     return x
 
 #--1--
 text1_1 = Tex(r"f\left( f\left( x\right) \right) =ax^2+bx+c").scale(1.4)
@@ -998,11 +618,11 @@ class s0(Scene):
 
 class s1(Scene):
     def construct(self):
-        ad_ = DAni_1(self)
+        ad1.setScene(self)
 
         #--1--
         self.wait(1)
-        ad_.fadeInTitle("一  迭代函数", subTitleText = "交叠，即是回环", titletc = {"迭代": RED, "交叠": PINK}, showTime = 3)
+        ad1.fadeInTitle("一  迭代函数", subTitleText = "交叠，即是回环", titletc = {"迭代": RED, "交叠": PINK}, showTime = 3)
         # self.wait(2)
         # self.play(Write(text1_1))
         # self.wait(2)
@@ -1075,7 +695,7 @@ class s1(Scene):
         self.wait(2)
 
         # --3--
-        ad_.fadeInTitle("二  不动点", subTitleText = "神静，方可察理", titletc = {"不动": RED, "静": PINK}, showTime = 2)
+        ad1.fadeInTitle("二  不动点", subTitleText = "神静，方可察理", titletc = {"不动": RED, "静": PINK}, showTime = 2)
         self.wait(1)
         self.play(
             FadeIn(text3_1),
@@ -1181,14 +801,13 @@ class s1(Scene):
 
 class s2(Scene):
     def construct(self):
-        ad_ = DAni_1(self)
 
         #--4--
         self.wait(0.5)
         # self.play(Write(text4_1))
         # self.wait(3)
         # self.play(FadeOutAndShiftDown(text4_1))
-        ad_.fadeInTitle("三  函数轨道图", subTitleText = "破格，不落世俗", titletc = {"轨道": RED, "格": PINK}, showTime = 2)
+        ad1.fadeInTitle("三  函数轨道图", subTitleText = "破格，不落世俗", titletc = {"轨道": RED, "格": PINK}, showTime = 2)
         self.wait(1.5)
         self.play(FadeIn(tq4_1))
         self.wait(1.5)
@@ -1367,11 +986,10 @@ class s2(Scene):
 
 class s3(Scene):
     def construct(self):
-        ad_ = DAni_1(self)
 
         #--6--
         self.wait(1)
-        # ad_.fadeInTitle("四  循环", subTitleText = "迷途，寻觅往返", titletc = {"循环": RED, "往返": PINK}, showTime = 2)
+        # ad1.fadeInTitle("四  循环", subTitleText = "迷途，寻觅往返", titletc = {"循环": RED, "往返": PINK}, showTime = 2)
         # self.wait(1)
         self.play(Write(text6_1))
         self.wait(0.5)
@@ -1448,7 +1066,7 @@ class s3(Scene):
         self.wait(1)
 
         # --7--
-        ad_.fadeInTitle("四  轨道图的分裂", subTitleText = "天灯，欲裂乾坤", titletc = {"分裂": RED, "裂": PINK}, showTime = 2)
+        ad1.fadeInTitle("四  轨道图的分裂", subTitleText = "天灯，欲裂乾坤", titletc = {"分裂": RED, "裂": PINK}, showTime = 2)
         self.wait(3)
         self.add(
             text7_1.shift(LEFT * 16),
@@ -1470,7 +1088,7 @@ class s3(Scene):
         # self.dt = 1 / 15
         # def changeColor(obj):
         #     if self.cls == []:
-        #         self.cls = ad_.getColorGradient(int(1 / self.dt) * self.t_all, color7_1)
+        #         self.cls = ad1.getColorGradient(int(1 / self.dt) * self.t_all, color7_1)
         #     obj.set_color(self.cls[self.t])
         #     self.t = self.t + 1
 
@@ -1585,16 +1203,16 @@ class s3(Scene):
         )
         
 
-class test(Scene):
-    def construct(self):
-        t = Tex("\\text{i: }f\\text{的一个}2m\\text{循环轨道图可分裂为两个}f_{2}\\text{的}m\\text{循环轨道图}")
-        self.add(t)
-        self.wait(3)
-        self.remove(t)
-        self.add(text7_1)
-        self.wait(3)
-        # self.add(text7_1)
-        # self.wait(5)
+# class test(Scene):
+#     def construct(self):
+#         t = Tex("\\text{i: }f\\text{的一个}2m\\text{循环轨道图可分裂为两个}f_{2}\\text{的}m\\text{循环轨道图}")
+#         self.add(t)
+#         self.wait(3)
+#         self.remove(t)
+#         self.add(text7_1)
+#         self.wait(3)
+#         # self.add(text7_1)
+#         # self.wait(5)
 
 
 
