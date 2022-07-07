@@ -29,8 +29,7 @@ import matplotlib.pyplot as plt
 from manimlib import *
 from numpy import *
 from decimal import *
-from DAction1 import *
-from DAction2 import *
+from mod.mods import *
 
 DFont_WeiRuanYaHei = "微软雅黑"
 DFont_MFLangQianNoncommercial_Light = "MFLangQian_Noncommercial-Light"
