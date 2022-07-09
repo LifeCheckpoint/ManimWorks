@@ -22,9 +22,8 @@ import numpy as np
 import scipy as sc
 import matplotlib as mat
 import matplotlib.pyplot as plt
-# import sys
-# sys.path.append("..")
-# import Wolfram_Script_Py.wr as wr
+import sys
+sys.path.append("D:\\Users\\program\\anaconda\\Lib\\site-packages\\manimlib\\mod")
 
 from manimlib import *
 from numpy import *
