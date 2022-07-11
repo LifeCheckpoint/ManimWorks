@@ -22,13 +22,11 @@ import numpy as np
 import scipy as sc
 import matplotlib as mat
 import matplotlib.pyplot as plt
-import sys
-sys.path.append("D:\\Users\\program\\anaconda\\Lib\\site-packages\\manimlib\\mod")
 
 from manimlib import *
 from numpy import *
 from decimal import *
-from mod.mods import *
+from mods import *
 
 DFont_WeiRuanYaHei = "微软雅黑"
 DFont_MFLangQianNoncommercial_Light = "MFLangQian_Noncommercial-Light"
@@ -163,12 +161,12 @@ square4_3 = Rectangle(height = 1, width = 1, color = ORANGE, fill_opacity = 1.0)
 group7 = VGroup(tq4_4, square4_1, square4_2, square4_3)
 
 dot4_1 = [
-    ad.getPointWithText("x_1", dotLocate = DOWN * 0.5 + LEFT * 0.5, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
-    ad.getPointWithText("x_2", dotLocate = DOWN * 0.5 + RIGHT * 0.5, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)
+    ad2.dotWithText("x_1", dotLocate = DOWN * 0.5 + LEFT * 0.5, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText("x_2", dotLocate = DOWN * 0.5 + RIGHT * 0.5, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)
 ]
 # Dot().get_center
 line4_1 = [
-    ad.getArrowFromp2p(dot4_1[0][0], dot4_1[1][0], arc_path = 0.8)
+    ad2.arrowP2P(dot4_1[0][0], dot4_1[1][0], arc_path = 0.8)
 ]
 
 group3 = VGroup(dot4_1[0], dot4_1[1], line4_1[0], text4_5)
@@ -188,15 +186,15 @@ text5_6 = Text(r"m - 圈", font = DFont_MFXingHei_Noncommercial_Bold).scale(1.4)
 
 dot5_1 = dot4_1
 dot5_2 = [
-    ad.getPointWithText("x_1", dotLocate = UP * 1 + LEFT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 0
-    ad.getPointWithText("x_2", dotLocate = UP * 1 + LEFT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 1
-    ad.getPointWithText("x_3", dotLocate = UP * 1 + LEFT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 2
-    ad.getPointWithText("z_1", dotLocate = UP * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 3
-    ad.getPointWithText("z_2", dotLocate = RIGHT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 4
-    ad.getPointWithText("z_3", dotLocate = DOWN * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 5
-    ad.getPointWithText("z_4", dotLocate = LEFT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 6
-    ad.getPointWithText("y_1", dotLocate = DOWN * 1 + RIGHT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 7
-    ad.getPointWithText("y_2", dotLocate = DOWN * 1 + RIGHT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0) # 8
+    ad2.dotWithText("x_1", dotLocate = UP * 1 + LEFT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 0
+    ad2.dotWithText("x_2", dotLocate = UP * 1 + LEFT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 1
+    ad2.dotWithText("x_3", dotLocate = UP * 1 + LEFT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 2
+    ad2.dotWithText("z_1", dotLocate = UP * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 3
+    ad2.dotWithText("z_2", dotLocate = RIGHT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 4
+    ad2.dotWithText("z_3", dotLocate = DOWN * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 5
+    ad2.dotWithText("z_4", dotLocate = LEFT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 6
+    ad2.dotWithText("y_1", dotLocate = DOWN * 1 + RIGHT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 7
+    ad2.dotWithText("y_2", dotLocate = DOWN * 1 + RIGHT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0) # 8
 ]
 
 color5_1, color5_2 = rgb_to_color(hex_to_rgb("#00DBDE")), rgb_to_color(hex_to_rgb("#FC00FF"))
@@ -223,15 +221,15 @@ dot5_4.set_color(color5_2)
 
 line5_1 = line4_1
 line5_2 = [
-    ad.getArrowFromp2p(dot5_2[0][0], dot5_2[1][0]),
-    ad.getArrowFromp2p(dot5_2[1][0], dot5_2[2][0]),
-    ad.getArrowFromp2p(dot5_2[2][0], dot5_2[3][0]),
-    ad.getArrowFromp2p(dot5_2[3][0], dot5_2[4][0]),
-    ad.getArrowFromp2p(dot5_2[4][0], dot5_2[5][0]),
-    ad.getArrowFromp2p(dot5_2[5][0], dot5_2[6][0]),
-    ad.getArrowFromp2p(dot5_2[6][0], dot5_2[3][0]),
-    ad.getArrowFromp2p(dot5_2[8][0], dot5_2[5][0]),
-    ad.getArrowFromp2p(dot5_2[7][0], dot5_2[8][0])
+    ad2.arrowP2P(dot5_2[0][0], dot5_2[1][0]),
+    ad2.arrowP2P(dot5_2[1][0], dot5_2[2][0]),
+    ad2.arrowP2P(dot5_2[2][0], dot5_2[3][0]),
+    ad2.arrowP2P(dot5_2[3][0], dot5_2[4][0]),
+    ad2.arrowP2P(dot5_2[4][0], dot5_2[5][0]),
+    ad2.arrowP2P(dot5_2[5][0], dot5_2[6][0]),
+    ad2.arrowP2P(dot5_2[6][0], dot5_2[3][0]),
+    ad2.arrowP2P(dot5_2[8][0], dot5_2[5][0]),
+    ad2.arrowP2P(dot5_2[7][0], dot5_2[8][0])
 ]
 
 group4 = VGroup(dot5_1[0], dot5_1[1], line5_1[0], text5_1)
@@ -272,30 +270,30 @@ text6_7 = Tex(r"x_0=3").move_to(RIGHT * 2)
 # y_2 <-- y_1 <-- k_3     ^
 #                      > k_1
 dot6_1 = dot5_2
-dot6_1.append(ad.getPointWithText(r"k_3", dotLocate = DOWN * 1 + RIGHT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 9
-dot6_1.append(ad.getPointWithText(r"k_1", dotLocate = DOWN * 1.5 + RIGHT * 4 * m.sqrt(2), textNextSight = DOWN, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 10
-dot6_1.append(ad.getPointWithText(r"k_2", dotLocate = DOWN * 0.5 + RIGHT * 4 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 11
+dot6_1.append(ad2.dotWithText(r"k_3", dotLocate = DOWN * 1 + RIGHT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 9
+dot6_1.append(ad2.dotWithText(r"k_1", dotLocate = DOWN * 1.5 + RIGHT * 4 * m.sqrt(2), textNextSight = DOWN, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 10
+dot6_1.append(ad2.dotWithText(r"k_2", dotLocate = DOWN * 0.5 + RIGHT * 4 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 11
 
 #          v  <
 # x_0 --> x_1 ^
 # 
 dot6_2 = [
-    ad.getPointWithText(r"x_0=0", dotLocate = LEFT * 2 + LEFT * 1.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
-    ad.getPointWithText(r"x_1=1", dotLocate = LEFT * 2 + LEFT * 0.5 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)
+    ad2.dotWithText(r"x_0=0", dotLocate = LEFT * 2 + LEFT * 1.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText(r"x_1=1", dotLocate = LEFT * 2 + LEFT * 0.5 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)
 ]
 # x_0 --> x_1 -- > x_2 --> ...
 dot6_3 = [
-    ad.getPointWithText(r"x_0=3", dotLocate = RIGHT * 2 + LEFT * 2.25 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
-    ad.getPointWithText(r"x_1=6", dotLocate = RIGHT * 2 + LEFT * 0.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
-    ad.getPointWithText(r"x_2=720", dotLocate = RIGHT * 2 + RIGHT * 0.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
-    ad.getPointWithText(r"...", dotLocate = RIGHT * 2 + RIGHT * 2.25 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText(r"x_0=3", dotLocate = RIGHT * 2 + LEFT * 2.25 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText(r"x_1=6", dotLocate = RIGHT * 2 + LEFT * 0.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText(r"x_2=720", dotLocate = RIGHT * 2 + RIGHT * 0.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText(r"...", dotLocate = RIGHT * 2 + RIGHT * 2.25 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
 ]
 
 line6_1 = line5_2
-line6_1.append(ad.getArrowFromp2p(dot5_2[9][0], dot5_2[7][0]))
-line6_1.append(ad.getArrowFromp2p(dot5_2[9][0], dot5_2[10][0]))
-line6_1.append(ad.getArrowFromp2p(dot5_2[10][0], dot5_2[11][0]))
-line6_1.append(ad.getArrowFromp2p(dot5_2[11][0], dot5_2[9][0]))
+line6_1.append(ad2.arrowP2P(dot5_2[9][0], dot5_2[7][0]))
+line6_1.append(ad2.arrowP2P(dot5_2[9][0], dot5_2[10][0]))
+line6_1.append(ad2.arrowP2P(dot5_2[10][0], dot5_2[11][0]))
+line6_1.append(ad2.arrowP2P(dot5_2[11][0], dot5_2[9][0]))
 line6_2_1 = Line(
     array(
         [
@@ -331,13 +329,13 @@ line6_2_2 = Line(
     color = RED
 ).scale(0.75)
 line6_2 = [
-    ad.getArrowFromp2p(dot6_2[0][0], dot6_2[1][0]),
+    ad2.arrowP2P(dot6_2[0][0], dot6_2[1][0]),
     Arc(start_angle = PI + 0.4, angle = 2 * PI - 0.8, radius = 0.5).add_tip().scale(0.5).move_to(LEFT * 2.5 + RIGHT * 0.55 + DOWN * 2)
 ]
 line6_3 = [
-    ad.getArrowFromp2p(dot6_3[0][0], dot6_3[1][0]),
-    ad.getArrowFromp2p(dot6_3[1][0], dot6_3[2][0]),
-    ad.getArrowFromp2p(dot6_3[2][0], dot6_3[3][0]),
+    ad2.arrowP2P(dot6_3[0][0], dot6_3[1][0]),
+    ad2.arrowP2P(dot6_3[1][0], dot6_3[2][0]),
+    ad2.arrowP2P(dot6_3[2][0], dot6_3[3][0]),
 ]
 
 group6_2_1 = VGroup(
@@ -355,7 +353,7 @@ background6_1 = SurroundingRectangle(group6_2_1, opacity = 0.1, fill_color = WHI
 # background6_2 = RoundedRectangle(width = 5, height = 3, opacity = 1.0, fill_color = GREY, stroke_color = WHITE).move_to(UP * 2.5 + LEFT * 5, aligned_edge = LEFT)
 
 # --7--
-text7_1 = DAni_2(
+text7_1 = TextTeX(
     "\\text{i: }", "f", "\\text{的一个}", "2m", "\\text{循环轨道图可分裂为两个}", "f_", "{2}", "\\text{的}", "m", "\\text{循环轨道图}",
     default_font = DFont_MFLangQianNoncommercial_Light,
     text_scale_factor = 0.77
@@ -368,7 +366,7 @@ text7_1 = DAni_2(
     "\\text{的}": "的",
     "\\text{循环轨道图}": "循环轨道图"
 }).scale(0.8).move_to(UP * 1 + LEFT * 6, aligned_edge = LEFT)
-text7_2 = DAni_2("\\text{i: }", "f", "\\text{的一个非循环轨道图可分裂为两个}", "f_", "{2}", "\\text{的非循环轨道图}",
+text7_2 = TextTeX("\\text{i: }", "f", "\\text{的一个非循环轨道图可分裂为两个}", "f_", "{2}", "\\text{的非循环轨道图}",
     default_font = DFont_MFLangQianNoncommercial_Light,
     text_scale_factor = 0.77
 ).get_new_font_texs({
@@ -378,7 +376,7 @@ text7_2 = DAni_2("\\text{i: }", "f", "\\text{的一个非循环轨道图可分�
     "{2}": "2",
     "\\text{的非循环轨道图}": "的非循环轨道图"
 }).scale(0.8).move_to(UP * 1 + LEFT * 6, aligned_edge = LEFT)
-text7_3 = DAni_2("\\text{iii: }", "f", "\\text{的一个}", "2m+1", "\\text{循环轨道图可变形为一个}", "f_", "{2}", "\\text{的}", "2m+1", "\\text{循环轨道图}",
+text7_3 = TextTeX("\\text{iii: }", "f", "\\text{的一个}", "2m+1", "\\text{循环轨道图可变形为一个}", "f_", "{2}", "\\text{的}", "2m+1", "\\text{循环轨道图}",
     default_font = DFont_MFLangQianNoncommercial_Light,
     text_scale_factor = 0.77
 ).get_new_font_texs({
@@ -394,7 +392,7 @@ text7_3 = DAni_2("\\text{iii: }", "f", "\\text{的一个}", "2m+1", "\\text{循�
 # x_1 --> x_2 --> x_3 --> z_1
 #                     z_4    z_2
 #                         z_3 <-- y_2 <-- y_1
-dot7_1 = ad.gpwtList(
+dot7_1 = ad2.dotsWithTexts(
     [
         "x_1",  # 0
         "x_2",  # 1
@@ -421,7 +419,7 @@ dot7_1 = ad.gpwtList(
     radius = 0.12,
     stroke_width = 1.0
 )
-dot7_1a = ad.gpwtList(
+dot7_1a = ad2.dotsWithTexts(
     [
         "x_1",  # 0
         "x_2",  # 1
@@ -449,21 +447,21 @@ dot7_1a = ad.gpwtList(
     stroke_width = 1.0
 )
 # dot7_1 = [
-#     ad.getPointWithText("x_1", dotLocate = UP * 1 + LEFT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 0
-#     ad.getPointWithText("x_2", dotLocate = UP * 1 + LEFT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 1
-#     ad.getPointWithText("x_3", dotLocate = UP * 1 + LEFT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 2
-#     ad.getPointWithText("z_1", dotLocate = UP * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 3
-#     ad.getPointWithText("z_2", dotLocate = RIGHT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 4
-#     ad.getPointWithText("z_3", dotLocate = DOWN * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 5
-#     ad.getPointWithText("z_4", dotLocate = LEFT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 6
-#     ad.getPointWithText("y_1", dotLocate = DOWN * 1 + RIGHT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 7
-#     ad.getPointWithText("y_2", dotLocate = DOWN * 1 + RIGHT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0) # 8
+#     ad2.dotWithText("x_1", dotLocate = UP * 1 + LEFT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 0
+#     ad2.dotWithText("x_2", dotLocate = UP * 1 + LEFT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 1
+#     ad2.dotWithText("x_3", dotLocate = UP * 1 + LEFT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 2
+#     ad2.dotWithText("z_1", dotLocate = UP * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 3
+#     ad2.dotWithText("z_2", dotLocate = RIGHT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 4
+#     ad2.dotWithText("z_3", dotLocate = DOWN * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 5
+#     ad2.dotWithText("z_4", dotLocate = LEFT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 6
+#     ad2.dotWithText("y_1", dotLocate = DOWN * 1 + RIGHT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 7
+#     ad2.dotWithText("y_2", dotLocate = DOWN * 1 + RIGHT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0) # 8
 # ]
 
 #                  v     <
 # x_1 --> x_3 --> z_2 > z_4 <-- y_2
 # 
-dot7_2 = ad.gpwtList(
+dot7_2 = ad2.dotsWithTexts(
     [
         "x_1",  # 0
         "x_3",  # 1
@@ -482,7 +480,7 @@ dot7_2 = ad.gpwtList(
     radius = 0.12,
     stroke_width = 1.0
 )
-dot7_2a = ad.gpwtList(
+dot7_2a = ad2.dotsWithTexts(
     [
         "x_1",  # 0
         "x_3",  # 1
@@ -512,7 +510,7 @@ dot7_2a = ad.gpwtList(
 #          v     <
 # x_2 --> z_1 > z_3 <-- y_1
 # 
-dot7_3 = ad.gpwtList(
+dot7_3 = ad2.dotsWithTexts(
     [
         "x_2",  # 0
         "z_1",  # 1
@@ -529,7 +527,7 @@ dot7_3 = ad.gpwtList(
     radius = 0.12,
     stroke_width = 1.0
 )
-dot7_3a = ad.gpwtList(
+dot7_3a = ad2.dotsWithTexts(
     [
         "x_2",  # 0
         "z_1",  # 1
@@ -566,7 +564,7 @@ ad.shiftList(dot7_3, DOWN * 2.5)
 ad.shiftList(dot7_2a, DOWN * 2.5)
 ad.shiftList(dot7_3a, DOWN * 2.5)
 
-line7_1 = ad.gafpList([
+line7_1 = ad2.gafpList([
     [dot7_1[0][0], dot7_1[1][0]],
     [dot7_1[1][0], dot7_1[2][0]],
     [dot7_1[2][0], dot7_1[3][0]],
@@ -578,28 +576,28 @@ line7_1 = ad.gafpList([
     [dot7_1[7][0], dot7_1[8][0]],
 ])
 # line7_1 = [
-#     ad.getArrowFromp2p(dot7_1[0][0], dot7_1[1][0]),
-#     ad.getArrowFromp2p(dot7_1[1][0], dot7_1[2][0]),
-#     ad.getArrowFromp2p(dot7_1[2][0], dot7_1[3][0]),
-#     ad.getArrowFromp2p(dot7_1[3][0], dot7_1[4][0]),
-#     ad.getArrowFromp2p(dot7_1[4][0], dot7_1[5][0]),
-#     ad.getArrowFromp2p(dot7_1[5][0], dot7_1[6][0]),
-#     ad.getArrowFromp2p(dot7_1[6][0], dot7_1[3][0]),
-#     ad.getArrowFromp2p(dot7_1[8][0], dot7_1[5][0]),
-#     ad.getArrowFromp2p(dot7_1[7][0], dot7_1[8][0])
+#     ad.arrowP2P(dot7_1[0][0], dot7_1[1][0]),
+#     ad.arrowP2P(dot7_1[1][0], dot7_1[2][0]),
+#     ad.arrowP2P(dot7_1[2][0], dot7_1[3][0]),
+#     ad.arrowP2P(dot7_1[3][0], dot7_1[4][0]),
+#     ad.arrowP2P(dot7_1[4][0], dot7_1[5][0]),
+#     ad.arrowP2P(dot7_1[5][0], dot7_1[6][0]),
+#     ad.arrowP2P(dot7_1[6][0], dot7_1[3][0]),
+#     ad.arrowP2P(dot7_1[8][0], dot7_1[5][0]),
+#     ad.arrowP2P(dot7_1[7][0], dot7_1[8][0])
 # ]
 line7_2 = [
-    ad.getArrowFromp2p(dot7_2[0][0], dot7_2[1][0]),
-    ad.getArrowFromp2p(dot7_2[1][0], dot7_2[2][0]),
-    ad.getArrowFromp2p(dot7_2[2][0], dot7_2[3][0]).shift(LEFT * 0.2),
-    ad.getArrowFromp2p(dot7_2[3][0], dot7_2[2][0]).shift(RIGHT * 0.2),
-    ad.getArrowFromp2p(dot7_2[4][0], dot7_2[3][0])
+    ad2.arrowP2P(dot7_2[0][0], dot7_2[1][0]),
+    ad2.arrowP2P(dot7_2[1][0], dot7_2[2][0]),
+    ad2.arrowP2P(dot7_2[2][0], dot7_2[3][0]).shift(LEFT * 0.2),
+    ad2.arrowP2P(dot7_2[3][0], dot7_2[2][0]).shift(RIGHT * 0.2),
+    ad2.arrowP2P(dot7_2[4][0], dot7_2[3][0])
 ]
 line7_3 = [
-    ad.getArrowFromp2p(dot7_3[0][0], dot7_3[1][0]),
-    ad.getArrowFromp2p(dot7_3[1][0], dot7_3[2][0]).shift(LEFT * 0.2),
-    ad.getArrowFromp2p(dot7_3[2][0], dot7_3[1][0]).shift(RIGHT * 0.2),
-    ad.getArrowFromp2p(dot7_3[3][0], dot7_3[2][0])
+    ad2.arrowP2P(dot7_3[0][0], dot7_3[1][0]),
+    ad2.arrowP2P(dot7_3[1][0], dot7_3[2][0]).shift(LEFT * 0.2),
+    ad2.arrowP2P(dot7_3[2][0], dot7_3[1][0]).shift(RIGHT * 0.2),
+    ad2.arrowP2P(dot7_3[3][0], dot7_3[2][0])
 ]
 
 group7_1 = VGroup(*[i1 for i1 in dot7_1a], *[i2 for i2 in line7_1])

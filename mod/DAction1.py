@@ -39,7 +39,7 @@ class DAction1:
         """
         self.sc = thisScene
 
-    def FunctionGraphEx(self, func: function, x_range: list = [-8, 8, 0.01], color = WHITE, **kwargs) -> VGroup:
+    def FunctionGraphEx(self, func, x_range: list = [-8, 8, 0.01], color = WHITE, **kwargs) -> VGroup:
         """
         以时间换取精度，绘制GL中绘制有误的函数图像
         func: 函数
