@@ -233,17 +233,13 @@ color6_1 = color5_1
 
 # "循 环 轨 道 图": color6_1
 text6_1 = Text(r"循 环 轨 道 图 的 性 质", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"性 质": BLUE}).scale(1.2)
-text6_2 = Text(r"多 个 圈", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"多 个": GREEN}).move_to(RIGHT * 2.5)
-text6_3 = Text(r"非 循 环 轨 道 图 有 无 穷 多 顶 点", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"无 穷 多": GREEN})
-text6_4 = Text(r"对 于 函 数 f  ， 其 轨 道 图 可 能 不 止 一 个", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"不 止 一 个": GREEN})
+text6_2 = Text(r"多个圈", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"多个": GREEN}).move_to(RIGHT * 2.5)
+text6_2_1 = Text(r"不允许存在多个圈", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"多个": GREEN, "不允许": RED}).move_to(RIGHT * 2.5)
+text6_3 = Text(r"非循环轨道图有无穷多顶点", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"无穷多": GREEN})
+text6_4 = Text(r"对于函数f，其轨道图可能不止一个", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"不止一个": GREEN})
 text6_5 = Tex(r"f\left( x\right) =x!").move_to(UP * 1 + LEFT * 0.5)
 text6_6 = Tex(r"x_0=0").move_to(LEFT * (2.5 + 3.75) / 2)
 text6_7 = Tex(r"x_0=3").move_to(RIGHT * 2)
-
-# text6_1.set_color_by_t2c({"循 环 轨 道 图": color6_1, "性 质": BLUE})
-# text6_2.set_color_by_t2c({"多 个": GREEN})
-# text6_3.set_color_by_t2c({"无 穷 多": GREEN})
-# text6_4.set_color_by_t2c({"不 止 一 个": GREEN})
 
 #                      < k_2
 # y_2 <-- y_1 <-- k_3     ^
@@ -987,27 +983,30 @@ class s3(Scene):
             # Write(background6_2),
             Write(rectan6_1),
             text6_1.scale, 0.8,
-            text6_1.move_to, UP * 2.5 + LEFT * 5, aligned_edge = LEFT
+            text6_1.next_to, rectan6_1
         )
+        self.play(text6_1.shift, UP * 1.5)
         self.wait(1)
         self.play(Write(group6_1))
-        self.wait(0.5)
+        self.wait(1.5)
         self.play(
             Write(background6_1),
             FadeIn(text6_2)
         )
         self.play(Write(line6_2_1))
-        self.wait(2)
+        self.wait(1)
+        self.play(ReplacementTransform(text6_2, text6_2_1))
+        self.wait(3)
         self.play(
             Uncreate(group6_1),
             Uncreate(background6_1),
             FadeOut(line6_2_1),
-            text6_2.scale, 0.75,
-            text6_2.next_to, rectan6_1, direction = RIGHT
+            text6_2_1.scale, 0.75,
+            text6_2_1.next_to, rectan6_1, direction = RIGHT
         )
-        self.play(text6_2.shift, ORIGIN + RIGHT * 0.5)
-        line6_2_2.move_to(text6_2.get_center())
-        self.play(FadeIn(line6_2_2))
+        self.play(text6_2_1.shift, UP * 1)
+        # line6_2_2.move_to(text6_2.get_center())
+        # self.play(FadeIn(line6_2_2))
         self.wait(1)
         self.play(Write(text6_3))
         self.wait(3)
@@ -1015,7 +1014,7 @@ class s3(Scene):
             text6_3.scale, 0.75,
             text6_3.next_to, rectan6_1, direction = RIGHT
         )
-        self.play(text6_3.shift, DOWN * 0.5 + RIGHT * 0.5)
+        self.play(text6_3.shift, UP * 1 + DOWN * 0.5)
         self.wait(1)
         self.play(Write(text6_4))
         self.wait(2)
@@ -1042,14 +1041,14 @@ class s3(Scene):
             text6_4.scale, 0.75,
             text6_4.next_to, rectan6_1, direction = RIGHT
         )
-        self.play(text6_4.shift, DOWN * 1 + RIGHT * 0.5)
+        self.play(text6_4.shift, UP * 1 + DOWN * 1)
         self.wait(3)
         self.play(
             FadeOut(text6_1),
-            FadeOut(text6_2),
+            FadeOut(text6_2_1),
             FadeOut(text6_3),
             FadeOut(text6_4),
-            FadeOut(line6_2_2),
+            # FadeOut(line6_2_2),
             FadeOut(rectan6_1)
             # FadeOut(background6_2)
         )
@@ -1074,7 +1073,7 @@ class s3(Scene):
         self.play(Write(group7_1))
         self.wait(2)
 
-        # 我这里出了好多BUG，所以没法实现颜色的自由转换，我真的麻了
+        # Many BUGs......
 
         # 注意：t_all要设置为$TIMER_S到$TIMER_E部分的Animate总时长，dt要设置为帧率
         # self.t_all = 15
@@ -1125,7 +1124,6 @@ class s3(Scene):
             *[FadeIn(i) for i in line7_2],
             run_time = 4
         )
-        # 是否没看清楚？
         self.wait(2)
         self.play(
             ReplacementTransform(dot7_2[0], dot7_1a[0]),
@@ -1158,7 +1156,6 @@ class s3(Scene):
             *[FadeIn(i) for i in line7_3],
             run_time = 4
         )
-        # 是否没看清楚？
         self.wait(2)
         self.play(
             ReplacementTransform(dot7_3[0], dot7_1a[1]),
@@ -1196,6 +1193,7 @@ class s3(Scene):
             Uncreate(group7_2), 
             Uncreate(group7_3)
         )
+        
         
 
 # class test(Scene):
