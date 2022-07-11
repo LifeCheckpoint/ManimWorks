@@ -65,7 +65,7 @@ class DAction1:
         return obj
 
 
-    def fadeInTitle(self, titleText: str, subTitleText: str = "", font: str = "等线", time: float = 5, rightTo: float = 6, width: float = 0.075, tex2Color: dict = {}):
+    def fadeInTitle(self, titleText: str, subTitleText: str = "", font: str = "等线", time: float = 5, rightTo: float = 6, width: float = 0.075, coverColor = DEFAULT_BACK, tex2Color: dict = {}):
         """
         标题华丽动效
         请玄学调参
@@ -75,21 +75,25 @@ class DAction1:
         time: 动画时长
         rightTo: 控制淡入器能到达的最右边位置
         width: 淡入器的宽度
+        coverColor: 遮罩颜色
         tex2Color: 标题t2c字典
+
+        若显示DEFAULT_BACK未定义，到constants.py中加入定义：
+            DEFAULT_BACK = "#333333"
         """
 
         textHeight = 1.8
         title = Text(titleText, font = font).scale(1.5).move_to(UP * 5, aligned_edge = RIGHT)
         dot = Dot(
             LEFT * (rightTo + 0.5),
-            color = BLACK
+            color = coverColor
         ).shift(UP * 5)
         sq_cover = Rectangle(
             height = textHeight + 0.5, 
             width = 32, 
-            color = BLACK,
+            color = coverColor,
             fill_opacity = 1.0,
-            stroke_color = BLACK
+            stroke_color = coverColor
         ).move_to(UP * 5, aligned_edge = RIGHT)
         if subTitleText == "":
             sq_line = Rectangle(

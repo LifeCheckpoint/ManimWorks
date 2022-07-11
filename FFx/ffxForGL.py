@@ -618,7 +618,12 @@ class s1(Scene):
 
         #--1--
         self.wait(1)
-        ad1.fadeInTitle("一  迭代函数", subTitleText = "交叠，即是回环", titletc = {"迭代": RED, "交叠": PINK}, showTime = 3)
+        ad1.fadeInTitle(
+            "一  迭代函数", 
+            subTitleText = "交叠，即是回环", 
+            tex2Color = {"迭代": RED, "交叠": PINK}, 
+            time = 3
+        )
         # self.wait(2)
         # self.play(Write(text1_1))
         # self.wait(2)
@@ -667,14 +672,14 @@ class s1(Scene):
         self.play(Write(text2_1))
         self.wait(1.5)
         self.play(
-            text2_1.shift, UP * 0.5,
-            FadeIn(text2_2)
+            FadeIn(text2_2),
+            text2_1.shift, UP * 0.5
         )
         self.wait(1.5)
         self.play(
+            FadeIn(text2_3),
             text2_1.shift, UP * 0.5,
-            text2_2.shift, UP * 0.5,
-            FadeIn(text2_3)
+            text2_2.shift, UP * 0.5
         )
         self.wait(2)
         self.play(group1.shift, LEFT * 3)
@@ -691,7 +696,7 @@ class s1(Scene):
         self.wait(2)
 
         # --3--
-        ad1.fadeInTitle("二  不动点", subTitleText = "神静，方可察理", titletc = {"不动": RED, "静": PINK}, showTime = 2)
+        ad1.fadeInTitle("二  不动点", subTitleText = "神静，方可察理", tex2Color = {"不动": RED, "静": PINK}, time = 2)
         self.wait(1)
         self.play(
             FadeIn(text3_1),
@@ -755,8 +760,8 @@ class s1(Scene):
         )
         self.wait(2)
         self.play(
-            text3_5.shift, UP * 1,
-            FadeIn(text3_4)
+            FadeIn(text3_4),
+            text3_5.shift, UP * 1
         )
         self.wait(2)
         self.play(ReplacementTransform(text3_5, text3_6))
@@ -803,7 +808,7 @@ class s2(Scene):
         # self.play(Write(text4_1))
         # self.wait(3)
         # self.play(FadeOutAndShiftDown(text4_1))
-        ad1.fadeInTitle("三  函数轨道图", subTitleText = "破格，不落世俗", titletc = {"轨道": RED, "格": PINK}, showTime = 2)
+        ad1.fadeInTitle("三  函数轨道图", subTitleText = "破格，不落世俗", tex2Color = {"轨道": RED, "格": PINK}, time = 2)
         self.wait(1.5)
         self.play(FadeIn(tq4_1))
         self.wait(1.5)
@@ -985,7 +990,7 @@ class s3(Scene):
 
         #--6--
         self.wait(1)
-        # ad1.fadeInTitle("四  循环", subTitleText = "迷途，寻觅往返", titletc = {"循环": RED, "往返": PINK}, showTime = 2)
+        # ad1.fadeInTitle("四  循环", subTitleText = "迷途，寻觅往返", tex2Color = {"循环": RED, "往返": PINK}, time = 2)
         # self.wait(1)
         self.play(Write(text6_1))
         self.wait(0.5)
@@ -1062,7 +1067,7 @@ class s3(Scene):
         self.wait(1)
 
         # --7--
-        ad1.fadeInTitle("四  轨道图的分裂", subTitleText = "天灯，欲裂乾坤", titletc = {"分裂": RED, "裂": PINK}, showTime = 2)
+        ad1.fadeInTitle("四  轨道图的分裂", subTitleText = "天灯，欲裂乾坤", tex2Color = {"分裂": RED, "裂": PINK}, time = 2)
         self.wait(3)
         self.add(
             text7_1.shift(LEFT * 16),
