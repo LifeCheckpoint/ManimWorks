@@ -559,12 +559,12 @@ dot7_4 = Dot(
 )
 dot7_4.set_color(RED)
 
-ad.shiftList(dot7_2, DOWN * 2.5)
-ad.shiftList(dot7_3, DOWN * 2.5)
-ad.shiftList(dot7_2a, DOWN * 2.5)
-ad.shiftList(dot7_3a, DOWN * 2.5)
+ad1.shiftList(dot7_2, DOWN * 2.5)
+ad1.shiftList(dot7_3, DOWN * 2.5)
+ad1.shiftList(dot7_2a, DOWN * 2.5)
+ad1.shiftList(dot7_3a, DOWN * 2.5)
 
-line7_1 = ad2.gafpList([
+line7_1 = ad2.arrowsP2Ps([
     [dot7_1[0][0], dot7_1[1][0]],
     [dot7_1[1][0], dot7_1[2][0]],
     [dot7_1[2][0], dot7_1[3][0]],

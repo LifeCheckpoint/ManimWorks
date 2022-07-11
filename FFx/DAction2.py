@@ -43,7 +43,7 @@ class DAction2:
         g[1].next_to(g[0], sight)
         return g
 
-    def dotsWithTexts(self, texts: list = ["p"], locates: ndarray = ORIGIN, sight: ndarray = UP, **kwargs) -> list:
+    def dotsWithTexts(self, texts: list = ["p"], locates: list = [ORIGIN], sight: ndarray = UP, **kwargs) -> list:
         """
         获得一组dotWithText
         文字数与点数必须相同，否则抛出异常
@@ -57,7 +57,7 @@ class DAction2:
         if len(texts) != len(locates):
             raise Exception("text's number is not equal to locates!")
         for i in range(len(texts)):
-            dots.append(self.getPointWithText(
+            dots.append(self.dotWithText(
                 texts[i],
                 locate = locates[i],
                 sight = sight,

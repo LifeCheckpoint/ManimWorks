@@ -169,3 +169,18 @@ class DAction1:
             run_time = 1.5
         )
         self.sc.wait(1)
+
+    def shiftList(self, mobjects: list = [], locate: ndarray = ORIGIN):
+        """
+        对list内的mobject进行整体移动
+        mobjects: 物体
+        locate: 移动向量
+        """
+        for i in mobjects:
+            i.shift(locate)
+
+    def list2VGroup(self, mobjects: list = []) -> VGroup:
+        v = VGroup()
+        for i in mobjects:
+            v.add(i)
+        return v
