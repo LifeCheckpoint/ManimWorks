@@ -1180,9 +1180,9 @@ class s3(Scene):
         self.wait(1)
         # self.play(*[FadeIn(i) for i in line7_3])
         self.play(
+            *[FadeOut(i) for i in line7_1],
             group7_2.shift, UP * 2.5,
-            group7_3.shift, UP * 2.5,
-            *[FadeOut(i) for i in line7_1]
+            group7_3.shift, UP * 2.5
         )
         # self.wait(0.5)
         # self.play(*[FadeOut(i) for i in line7_1])
