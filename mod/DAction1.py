@@ -18,6 +18,8 @@ class DAction1:
     setScene: 设置动画所处Scene
     FunctionGraphEx: 高精函数图像
     fadeInTitle: 标题进入动效
+    shiftList: 对list内的mobject进行整体移动
+    list2VGroup: 将list内的mobject打包为VGroup
     """
 
     def __init__(self, thisScene: Scene):
@@ -184,6 +186,10 @@ class DAction1:
             i.shift(locate)
 
     def list2VGroup(self, mobjects: list = []) -> VGroup:
+        """
+        将list内的mobject打包为VGroup
+        mobjects: 物体
+        """
         v = VGroup()
         for i in mobjects:
             v.add(i)

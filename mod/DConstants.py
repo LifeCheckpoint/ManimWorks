@@ -1,0 +1,5 @@
+DFont_WeiRuanYaHei = "微软雅黑"
+DFont_MFLangQianNoncommercial_Light = "MFLangQian_Noncommercial-Light"
+DFont_MFLangQianNoncommercial_Bold = "MFLangQian_Noncommercial-Bold"
+DFont_MFXingHei_Noncommercial_Light = "MFXingHei_Noncommercial-Light"
+DFont_MFXingHei_Noncommercial_Bold = "MFXingHei_Noncommercial-Bold"

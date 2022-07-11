@@ -10,29 +10,12 @@
 #   author: LDDMiao
 #   date: 2021 - 11 - 7 TO 2022 - _ - _
 #
-#   QAQ好长好难做
+#   QAQ
 #   你这代码保熟吗？
 
 # -*- coding: UTF-8 -*-
 
-import cmath as cm
-import math as m
-import random as ran
-import numpy as np
-import scipy as sc
-import matplotlib as mat
-import matplotlib.pyplot as plt
-
-from manimlib import *
-from numpy import *
-from decimal import *
 from mods import *
-
-DFont_WeiRuanYaHei = "微软雅黑"
-DFont_MFLangQianNoncommercial_Light = "MFLangQian_Noncommercial-Light"
-DFont_MFLangQianNoncommercial_Bold = "MFLangQian_Noncommercial-Bold"
-DFont_MFXingHei_Noncommercial_Light = "MFXingHei_Noncommercial-Light"
-DFont_MFXingHei_Noncommercial_Bold = "MFXingHei_Noncommercial-Bold"
 
 ###FUNCTIONS###
 
@@ -161,15 +144,15 @@ square4_3 = Rectangle(height = 1, width = 1, color = ORANGE, fill_opacity = 1.0)
 group7 = VGroup(tq4_4, square4_1, square4_2, square4_3)
 
 dot4_1 = [
-    ad2.dotWithText("x_1", dotLocate = DOWN * 0.5 + LEFT * 0.5, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
-    ad2.dotWithText("x_2", dotLocate = DOWN * 0.5 + RIGHT * 0.5, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)
+    ad2.dotWithText("x_1", locate = DOWN * 0.5 + LEFT * 0.5, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText("x_2", locate = DOWN * 0.5 + RIGHT * 0.5, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)
 ]
 # Dot().get_center
 line4_1 = [
     ad2.arrowP2P(dot4_1[0][0], dot4_1[1][0], arc_path = 0.8)
 ]
 
-group3 = VGroup(dot4_1[0], dot4_1[1], line4_1[0], text4_5)
+group3 = VGroup(ad1.list2VGroup(dot4_1), ad1.list2VGroup(line4_1), text4_5)
 
 #--5--
 text5_1 = Tex(r"f\left( x \right) =\frac{1}{x}").scale(1.4)
@@ -186,18 +169,18 @@ text5_6 = Text(r"m - 圈", font = DFont_MFXingHei_Noncommercial_Bold).scale(1.4)
 
 dot5_1 = dot4_1
 dot5_2 = [
-    ad2.dotWithText("x_1", dotLocate = UP * 1 + LEFT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 0
-    ad2.dotWithText("x_2", dotLocate = UP * 1 + LEFT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 1
-    ad2.dotWithText("x_3", dotLocate = UP * 1 + LEFT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 2
-    ad2.dotWithText("z_1", dotLocate = UP * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 3
-    ad2.dotWithText("z_2", dotLocate = RIGHT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 4
-    ad2.dotWithText("z_3", dotLocate = DOWN * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 5
-    ad2.dotWithText("z_4", dotLocate = LEFT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 6
-    ad2.dotWithText("y_1", dotLocate = DOWN * 1 + RIGHT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 7
-    ad2.dotWithText("y_2", dotLocate = DOWN * 1 + RIGHT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0) # 8
+    ad2.dotWithText("x_1", locate = UP * 1 + LEFT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 0
+    ad2.dotWithText("x_2", locate = UP * 1 + LEFT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 1
+    ad2.dotWithText("x_3", locate = UP * 1 + LEFT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 2
+    ad2.dotWithText("z_1", locate = UP * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 3
+    ad2.dotWithText("z_2", locate = RIGHT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 4
+    ad2.dotWithText("z_3", locate = DOWN * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 5
+    ad2.dotWithText("z_4", locate = LEFT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 6
+    ad2.dotWithText("y_1", locate = DOWN * 1 + RIGHT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 7
+    ad2.dotWithText("y_2", locate = DOWN * 1 + RIGHT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0) # 8
 ]
 
-color5_1, color5_2 = rgb_to_color(hex_to_rgb("#00DBDE")), rgb_to_color(hex_to_rgb("#FC00FF"))
+color5_1, color5_2 = "#00DBDE", "#FC00FF"
 
 dot5_3 = Dot(
     fill_opacity = 1.0, 
@@ -232,13 +215,9 @@ line5_2 = [
     ad2.arrowP2P(dot5_2[7][0], dot5_2[8][0])
 ]
 
-group4 = VGroup(dot5_1[0], dot5_1[1], line5_1[0], text5_1)
-group5 = VGroup(*[i for i in dot5_2])
-group5.add(*[i for i in line5_2])
+group4 = VGroup(ad1.list2VGroup(dot5_1), ad1.list2VGroup(line5_1), text5_1)
+group5 = VGroup(ad1.list2VGroup(dot5_2), ad1.list2VGroup(line5_2))
 group8 = VGroup()
-for i in range(9):
-    group5.add(dot5_2[i])
-    group5.add(line5_2[i])
 group6 = VGroup(
     dot5_2[3][0], 
     dot5_2[4][0], 
@@ -270,23 +249,23 @@ text6_7 = Tex(r"x_0=3").move_to(RIGHT * 2)
 # y_2 <-- y_1 <-- k_3     ^
 #                      > k_1
 dot6_1 = dot5_2
-dot6_1.append(ad2.dotWithText(r"k_3", dotLocate = DOWN * 1 + RIGHT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 9
-dot6_1.append(ad2.dotWithText(r"k_1", dotLocate = DOWN * 1.5 + RIGHT * 4 * m.sqrt(2), textNextSight = DOWN, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 10
-dot6_1.append(ad2.dotWithText(r"k_2", dotLocate = DOWN * 0.5 + RIGHT * 4 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 11
+dot6_1.append(ad2.dotWithText(r"k_3", locate = DOWN * 1 + RIGHT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 9
+dot6_1.append(ad2.dotWithText(r"k_1", locate = DOWN * 1.5 + RIGHT * 4 * m.sqrt(2), textNextSight = DOWN, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 10
+dot6_1.append(ad2.dotWithText(r"k_2", locate = DOWN * 0.5 + RIGHT * 4 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 11
 
 #          v  <
 # x_0 --> x_1 ^
 # 
 dot6_2 = [
-    ad2.dotWithText(r"x_0=0", dotLocate = LEFT * 2 + LEFT * 1.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
-    ad2.dotWithText(r"x_1=1", dotLocate = LEFT * 2 + LEFT * 0.5 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)
+    ad2.dotWithText(r"x_0=0", locate = LEFT * 2 + LEFT * 1.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText(r"x_1=1", locate = LEFT * 2 + LEFT * 0.5 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)
 ]
 # x_0 --> x_1 -- > x_2 --> ...
 dot6_3 = [
-    ad2.dotWithText(r"x_0=3", dotLocate = RIGHT * 2 + LEFT * 2.25 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
-    ad2.dotWithText(r"x_1=6", dotLocate = RIGHT * 2 + LEFT * 0.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
-    ad2.dotWithText(r"x_2=720", dotLocate = RIGHT * 2 + RIGHT * 0.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
-    ad2.dotWithText(r"...", dotLocate = RIGHT * 2 + RIGHT * 2.25 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText(r"x_0=3", locate = RIGHT * 2 + LEFT * 2.25 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText(r"x_1=6", locate = RIGHT * 2 + LEFT * 0.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText(r"x_2=720", locate = RIGHT * 2 + RIGHT * 0.75 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
+    ad2.dotWithText(r"...", locate = RIGHT * 2 + RIGHT * 2.25 + DOWN * 2, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),
 ]
 
 line6_1 = line5_2
@@ -447,15 +426,15 @@ dot7_1a = ad2.dotsWithTexts(
     stroke_width = 1.0
 )
 # dot7_1 = [
-#     ad2.dotWithText("x_1", dotLocate = UP * 1 + LEFT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 0
-#     ad2.dotWithText("x_2", dotLocate = UP * 1 + LEFT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 1
-#     ad2.dotWithText("x_3", dotLocate = UP * 1 + LEFT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 2
-#     ad2.dotWithText("z_1", dotLocate = UP * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 3
-#     ad2.dotWithText("z_2", dotLocate = RIGHT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 4
-#     ad2.dotWithText("z_3", dotLocate = DOWN * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 5
-#     ad2.dotWithText("z_4", dotLocate = LEFT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 6
-#     ad2.dotWithText("y_1", dotLocate = DOWN * 1 + RIGHT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 7
-#     ad2.dotWithText("y_2", dotLocate = DOWN * 1 + RIGHT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0) # 8
+#     ad2.dotWithText("x_1", locate = UP * 1 + LEFT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 0
+#     ad2.dotWithText("x_2", locate = UP * 1 + LEFT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 1
+#     ad2.dotWithText("x_3", locate = UP * 1 + LEFT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 2
+#     ad2.dotWithText("z_1", locate = UP * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 3
+#     ad2.dotWithText("z_2", locate = RIGHT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 4
+#     ad2.dotWithText("z_3", locate = DOWN * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 5
+#     ad2.dotWithText("z_4", locate = LEFT * 1, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 6
+#     ad2.dotWithText("y_1", locate = DOWN * 1 + RIGHT * 2 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0),   # 7
+#     ad2.dotWithText("y_2", locate = DOWN * 1 + RIGHT * 1 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0) # 8
 # ]
 
 #                  v     <
@@ -802,13 +781,19 @@ class s1(Scene):
 
 class s2(Scene):
     def construct(self):
+        ad1.setScene(self)
 
         #--4--
         self.wait(0.5)
         # self.play(Write(text4_1))
         # self.wait(3)
         # self.play(FadeOutAndShiftDown(text4_1))
-        ad1.fadeInTitle("三  函数轨道图", subTitleText = "破格，不落世俗", tex2Color = {"轨道": RED, "格": PINK}, time = 2)
+        ad1.fadeInTitle(
+            "三  函数轨道图", 
+            subTitleText = "破格，不落世俗", 
+            tex2Color = {"轨道": RED, "格": PINK}, 
+            time = 2
+        )
         self.wait(1.5)
         self.play(FadeIn(tq4_1))
         self.wait(1.5)
@@ -877,8 +862,8 @@ class s2(Scene):
         self.play(FadeIn(text4_4))
         self.wait(1.5)
         self.play(
-            text4_4.shift, UP * 0.5,
-            Write(dot4_1[0])
+            Write(dot4_1[0]),
+            text4_4.shift, UP * 0.5
         )
         self.wait(0.25)
         self.play(Write(line4_1[0]))
@@ -887,10 +872,10 @@ class s2(Scene):
         self.wait(1.5)
         self.play(
             Uncreate(text4_4),
+            Write(text4_5),
             dot4_1[0].shift, UP * 1,
             dot4_1[1].shift, UP * 1,
-            line4_1[0].shift, UP * 1,
-            Write(text4_5)
+            line4_1[0].shift, UP * 1
         )
         self.wait(2.5)
         self.play(ReplacementTransform(group3, text4_6))
@@ -902,32 +887,35 @@ class s2(Scene):
         self.wait(1.5)
         self.remove(text4_6)
         self.play(
-            text5_1.shift, UP * 1.5,
             Write(dot5_1[0]),
             Write(dot5_1[1]),
-            Write(line5_1[0])
+            Write(line5_1[0]),
             # Write(line5_1[1]),
+            text5_1.shift, UP * 1.5
         )
         self.wait(3)
-        self.play(ReplacementTransform(group4, group5))
+        # Some BUG?
+        # self.play(ReplacementTransform(group4, group5))
+        self.play(FadeOut(group4))
+        self.play(FadeIn(group5))
         self.wait(3)
         self.play(
-            group5.shift, LEFT * 1,
-            Write(text5_3)
+            Write(text5_3),
+            group5.shift, LEFT * 1
         )
         self.wait(2)
         self.play(
-            group5.shift, RIGHT * 1,
-            Uncreate(text5_3)
+            Uncreate(text5_3),
+            group5.shift, RIGHT * 1
         )
         self.wait(1)
         self.play(Write(background5_1))
         self.wait(2)
         # Arrow().set_color()
         self.play(
+            Write(text5_2[0]),
             group5.shift, UP * 1,
-            background5_1.shift, UP * 1,
-            Write(text5_2[0])
+            background5_1.shift, UP * 1
         )
         self.wait(0.75)
         self.play(
@@ -987,6 +975,7 @@ class s2(Scene):
 
 class s3(Scene):
     def construct(self):
+        ad1.setScene(self)
 
         #--6--
         self.wait(1)
@@ -1067,7 +1056,12 @@ class s3(Scene):
         self.wait(1)
 
         # --7--
-        ad1.fadeInTitle("四  轨道图的分裂", subTitleText = "天灯，欲裂乾坤", tex2Color = {"分裂": RED, "裂": PINK}, time = 2)
+        ad1.fadeInTitle(
+            "四  轨道图的分裂", 
+            subTitleText = "天灯，欲裂乾坤", 
+            tex2Color = {"分裂": RED, "裂": PINK}, 
+            time = 2
+        )
         self.wait(3)
         self.add(
             text7_1.shift(LEFT * 16),
