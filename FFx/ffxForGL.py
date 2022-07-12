@@ -233,7 +233,7 @@ color6_1 = color5_1
 
 # "循 环 轨 道 图": color6_1
 text6_1 = Text(r"循 环 轨 道 图 的 性 质", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"性 质": BLUE}).scale(1.2)
-text6_2 = Text(r"多个圈", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"多个": GREEN}).move_to(RIGHT * 2.5)
+text6_2 = Text(r"多个圈？", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"多个": GREEN}).move_to(RIGHT * 2.5)
 text6_2_1 = Text(r"不允许存在多个圈", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"多个": GREEN, "不允许": RED}).move_to(RIGHT * 2.5)
 text6_3 = Text(r"非循环轨道图有无穷多顶点", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"无穷多": GREEN})
 text6_4 = Text(r"对于函数f，其轨道图可能不止一个", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"不止一个": GREEN})
@@ -246,8 +246,8 @@ text6_7 = Tex(r"x_0=3").move_to(RIGHT * 2)
 #                      > k_1
 dot6_1 = dot5_2
 dot6_1.append(ad2.dotWithText(r"k_3", locate = DOWN * 1 + RIGHT * 3 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 9
-dot6_1.append(ad2.dotWithText(r"k_1", locate = DOWN * 1.5 + RIGHT * 4 * m.sqrt(2), textNextSight = DOWN, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 10
-dot6_1.append(ad2.dotWithText(r"k_2", locate = DOWN * 0.5 + RIGHT * 4 * m.sqrt(2), fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 11
+dot6_1.append(ad2.dotWithText(r"k_1", locate = DOWN * 1.5 + RIGHT * 3 * m.sqrt(2) + RIGHT, sight = DOWN, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 10
+dot6_1.append(ad2.dotWithText(r"k_2", locate = DOWN * 0.5 + RIGHT * 3 * m.sqrt(2) + RIGHT, fill_opacity = 0.0, radius = 0.12, stroke_width = 1.0)) # 11
 
 #          v  <
 # x_0 --> x_1 ^
@@ -322,7 +322,7 @@ group6_1 = VGroup(*[i for i in dot6_1], *[i for i in line6_1])
 group6_2 = VGroup(*[i for i in dot6_2], *[i for i in line6_2])
 group6_3 = VGroup(*[i for i in dot6_3], *[i for i in line6_3])
 
-rectan6_1 = Rectangle(width = 0.05, height = 3, color = WHITE, fill_opacity = 1.0).move_to(LEFT * 7 + UP * 1.5)
+rectan6_1 = Rectangle(width = 0.05, height = 2, color = WHITE, fill_opacity = 1.0).move_to(LEFT * 7 + UP * 2.25)
 
 background6_1 = SurroundingRectangle(group6_2_1, opacity = 0.1, fill_color = WHITE, color = PURPLE)
 # background6_2 = RoundedRectangle(width = 5, height = 3, opacity = 1.0, fill_color = GREY, stroke_color = WHITE).move_to(UP * 2.5 + LEFT * 5, aligned_edge = LEFT)
@@ -341,7 +341,7 @@ text7_1 = TextTeX(
     "\\text{的}": "的",
     "\\text{循环轨道图}": "循环轨道图"
 }).scale(0.8).move_to(UP * 1 + LEFT * 6, aligned_edge = LEFT)
-text7_2 = TextTeX("\\text{i: }", "f", "\\text{的一个非循环轨道图可分裂为两个}", "f_", "{2}", "\\text{的非循环轨道图}",
+text7_2 = TextTeX("\\text{ii: }", "f", "\\text{的一个非循环轨道图可分裂为两个}", "f_", "{2}", "\\text{的非循环轨道图}",
     default_font = DFont_MFLangQianNoncommercial_Light,
     text_scale_factor = 0.77
 ).get_new_font_texs({
@@ -363,6 +363,8 @@ text7_3 = TextTeX("\\text{iii: }", "f", "\\text{的一个}", "2m+1", "\\text{循
     "\\text{的}": "的",
     "\\text{循环轨道图}": "循环轨道图"
 }).scale(0.8).move_to(UP * 1 + LEFT * 6, aligned_edge = LEFT)
+text7_1_1 = Tex("f").move_to(LEFT * 1)
+text7_1_2 = Tex("f_2").move_to(RIGHT * 1)
 
 # x_1 --> x_2 --> x_3 --> z_1
 #                     z_4    z_2
@@ -527,12 +529,13 @@ dot7_3a = ad2.dotsWithTexts(
 # ]
 
 dot7_4 = Dot(
-    point = dot7_1[0].get_center(),
+    UP * 1 + LEFT * 3 * m.sqrt(2),
     fill_opacity = 0.0,
     radius = 0.12,
     stroke_width = 1.0
 )
-dot7_4.set_color(RED)
+# dot7_4.set_color(RED)
+dot7_4.set_fill(RED, opacity = 1)
 
 ad1.shiftList(dot7_2, DOWN * 2.5)
 ad1.shiftList(dot7_3, DOWN * 2.5)
@@ -993,14 +996,14 @@ class s3(Scene):
             Write(background6_1),
             FadeIn(text6_2)
         )
-        self.play(Write(line6_2_1))
+        # self.play(Write(line6_2_1))
         self.wait(1)
         self.play(ReplacementTransform(text6_2, text6_2_1))
         self.wait(3)
         self.play(
             Uncreate(group6_1),
             Uncreate(background6_1),
-            FadeOut(line6_2_1),
+            # FadeOut(line6_2_1),
             text6_2_1.scale, 0.75,
             text6_2_1.next_to, rectan6_1, direction = RIGHT
         )
@@ -1063,13 +1066,35 @@ class s3(Scene):
         )
         self.wait(3)
         self.add(
-            text7_1.shift(LEFT * 16),
-            text7_2.shift(LEFT * 16),
-            text7_3.shift(LEFT * 16)
+            text7_1.move_to(LEFT * 16 + UP * 1.25),
+            text7_2.move_to(LEFT * 16),
+            text7_3.move_to(LEFT * 16 + DOWN * 1.25)
         )
         self.play(text7_1.shift, RIGHT * 16)
+        self.play(text7_2.shift, RIGHT * 16)
+        self.play(text7_3.shift, RIGHT * 16)
+        self.play(
+            text7_1.move_to, LEFT * 1 + UP * 1,
+            text7_2.move_to, ORIGIN,
+            text7_3.move_to, RIGHT * 1 + DOWN * 1
+        )
+        self.wait(3)
+        self.play(
+            FadeOut(text7_1),
+            FadeOut(text7_2),
+            FadeOut(text7_3)
+        )
         self.wait(2)
-        self.play(text7_1.shift, UP * 2)
+        # self.play(text7_1.shift, UP * 2)
+        
+        self.play(FadeIn(text7_1_1))
+        self.play(FadeIn(text7_1_2))
+        self.wait(3)
+        self.play(
+            FadeOut(text7_1_1),
+            FadeOut(text7_1_2)
+        )
+        self.wait(1.5)
         self.play(Write(group7_1))
         self.wait(2)
 
@@ -1091,25 +1116,30 @@ class s3(Scene):
         # TIMER_S
         self.wait(1.5)
         self.play(
-            dot7_4.move_to, dot7_1[2].get_center(),
+            dot7_4.move_to, UP * 1 + LEFT * 1 * m.sqrt(2),
             run_time = 2
         )
         self.wait(1)
         self.play(
-            dot7_4.move_to, dot7_1[4].get_center(),
+            dot7_4.move_to, RIGHT * 1,
             run_time = 2
         )
         self.wait(1)
         self.play(
-            dot7_4.move_to, dot7_1[6].get_center(),
+            dot7_4.move_to, LEFT * 1,
             run_time = 2
         )
         self.wait(1)
         self.play(
-            dot7_4.move_to, dot7_1[8].get_center(),
+            dot7_4.move_to, DOWN * 1 + RIGHT * 1 * m.sqrt(2),
             run_time = 2
         )
-        self.wait(2)
+        self.wait(1)
+        self.play(
+            dot7_4.move_to, LEFT * 1,
+            run_time = 2
+        )
+        self.wait(3)
         # TIMER_E
         # dot7_4.remove_updater(changeColor)
         self.play(FadeOut(dot7_4))

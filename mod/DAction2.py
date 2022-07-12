@@ -94,3 +94,21 @@ class DAction2:
                 **kwargs
             ))
         return arrows
+
+class DGraph:
+    """
+    实现简单图关系的绘制
+    未来可能支持Wolfram Script的自适应算法调用
+    """
+    def __init__(self, dots: list = [], ve: list = [], name: list = [], dotParam: dict = {}, veParam: dict = {}):
+        """
+        建图
+        dots: 给出ndarray型list，代表节点位置
+        ve: 二维int型list，给出节点有向关系
+        name: 为点名称
+        dotParam: 提供给Dot的参数字典
+        veParam: 提供给arrow的参数字典
+        """
+        
+        # 到时候再做（开摆）
+        pass
