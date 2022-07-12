@@ -366,6 +366,27 @@ text7_3 = TextTeX("\\text{iii: }", "f", "\\text{的一个}", "2m+1", "\\text{循
 text7_1_1 = Tex("f").move_to(LEFT * 1)
 text7_1_2 = Tex("f_2").move_to(RIGHT * 1)
 
+text7_4_1 = Tex("f_2\\left( x_1\\right) =x_3").scale(0.7).move_to(RIGHT * 5 + UP * 1.5)
+text7_4_2 = Tex("f_2\\left( x_3\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + UP * 0.75)
+text7_4_3 = Tex("f_2\\left( z_2\\right) =z_4").scale(0.7).move_to(RIGHT * 5)
+text7_4_4 = Tex("f_2\\left( z_4\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + DOWN * 0.75)
+text7_4_5 = Tex("f_2\\left( y_2\\right) =z_4").scale(0.7).move_to(RIGHT * 5 + DOWN * 1.5)
+
+text7_5_1 = Tex("f_2\\left( x_2\\right) =z_1").scale(0.7).move_to(RIGHT * 5 + UP * 1.5)
+text7_5_2 = Tex("f_2\\left( z_1\\right) =z_3").scale(0.7).move_to(RIGHT * 5 + UP * 0.5)
+text7_5_3 = Tex("f_2\\left( z_3\\right) =z_1").scale(0.7).move_to(RIGHT * 5 + DOWN * 0.5)
+text7_5_4 = Tex("f_2\\left( y_1\\right) =z_3").scale(0.7).move_to(RIGHT * 5 + DOWN * 1.5)
+text7_6 = Text("4 - 循环", font = DFont_MFXingHei_Noncommercial_Bold).scale(1).move_to(UP * 0.5)
+text7_7_1 = Text("2 - 循环", font = DFont_MFXingHei_Noncommercial_Bold).scale(0.8).move_to(DOWN * 2 + LEFT * 5)
+text7_7_2 = Text("2 - 循环", font = DFont_MFXingHei_Noncommercial_Bold).scale(0.8).move_to(DOWN * 2 + RIGHT * 5)
+
+text7_6.set_color_by_t2c({"4": PURPLE})
+text7_7_1.set_color_by_t2c({"2": BLUE})
+text7_7_2.set_color_by_t2c({"2": BLUE})
+
+group9_1 = VGroup(text7_4_1, text7_4_2, text7_4_3, text7_4_4, text7_4_5)
+group9_2 = VGroup(text7_5_1, text7_5_2, text7_5_3, text7_5_4)
+
 # x_1 --> x_2 --> x_3 --> z_1
 #                     z_4    z_2
 #                         z_3 <-- y_2 <-- y_1
@@ -534,8 +555,16 @@ dot7_4 = Dot(
     radius = 0.12,
     stroke_width = 1.0
 )
+dot7_5 = Dot(
+    UP * 1 + LEFT * 1 * m.sqrt(2),
+    fill_opacity = 0.0,
+    radius = 0.12,
+    stroke_width = 1.0
+)
+
 # dot7_4.set_color(RED)
 dot7_4.set_fill(RED, opacity = 1)
+dot7_5.set_fill(GREEN, opacity = 1)
 
 ad1.shiftList(dot7_2, DOWN * 2.5)
 ad1.shiftList(dot7_3, DOWN * 2.5)
@@ -581,6 +610,11 @@ line7_3 = [
 group7_1 = VGroup(*[i1 for i1 in dot7_1a], *[i2 for i2 in line7_1])
 group7_2 = VGroup(*[i1 for i1 in dot7_2a], *[i2 for i2 in line7_2])
 group7_3 = VGroup(*[i1 for i1 in dot7_3a], *[i2 for i2 in line7_3])
+group10_1 = VGroup(dot7_2a[2], dot7_2a[3])
+group10_2 = VGroup(dot7_3a[1], dot7_3a[2])
+
+background7_1 = SurroundingRectangle(group10_1, opacity = 0.1, fill_color = WHITE, color = BLUE).shift(UP * 2.5)
+background7_2 = SurroundingRectangle(group10_2, opacity = 0.1, fill_color = WHITE, color = BLUE).shift(UP * 2.5)
 
 color7_1 = [RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE]
 
@@ -1112,37 +1146,51 @@ class s3(Scene):
         #     self.t = self.t + 1
 
         self.play(Write(dot7_4), run_time = 1)
+        self.wait(1)
+        self.play(Write(text7_4_1))
+        self.wait(1.5)
+        self.play(Write(dot7_5), run_time = 1)
         # dot7_4.add_updater(changeColor)
         # TIMER_S
-        self.wait(1.5)
+        self.wait(2)
         self.play(
             dot7_4.move_to, UP * 1 + LEFT * 1 * m.sqrt(2),
+            dot7_5.move_to, RIGHT * 1,
             run_time = 2
         )
+        self.wait(1)
+        self.play(Write(text7_4_2))
         self.wait(1)
         self.play(
             dot7_4.move_to, RIGHT * 1,
+            dot7_5.move_to, LEFT * 1,
             run_time = 2
         )
+        self.wait(0.5)
+        self.play(Write(text7_4_3))
         self.wait(1)
         self.play(
             dot7_4.move_to, LEFT * 1,
+            dot7_5.move_to, RIGHT * 1,
             run_time = 2
         )
+        self.wait(0.5)
+        self.play(Write(text7_4_4))
         self.wait(1)
         self.play(
             dot7_4.move_to, DOWN * 1 + RIGHT * 1 * m.sqrt(2),
+            dot7_5.move_to, LEFT * 1,
             run_time = 2
         )
-        self.wait(1)
-        self.play(
-            dot7_4.move_to, LEFT * 1,
-            run_time = 2
-        )
-        self.wait(3)
+        self.wait(0.5)
+        self.play(Write(text7_4_5))
+        self.wait(4)
         # TIMER_E
         # dot7_4.remove_updater(changeColor)
-        self.play(FadeOut(dot7_4))
+        self.play(
+            FadeOut(dot7_4),
+            FadeOut(dot7_5)    
+        )
         
         # self.play(Uncreate(group7_1))
         self.play(
@@ -1154,7 +1202,7 @@ class s3(Scene):
             *[FadeIn(i) for i in line7_2],
             run_time = 4
         )
-        self.wait(2)
+        self.wait(2.5)
         self.play(
             ReplacementTransform(dot7_2[0], dot7_1a[0]),
             ReplacementTransform(dot7_2[1], dot7_1a[2]),
@@ -1162,29 +1210,39 @@ class s3(Scene):
             ReplacementTransform(dot7_2[3], dot7_1a[6]),
             ReplacementTransform(dot7_2[4], dot7_1a[8]),
             *[FadeOut(i) for i in line7_2],
-            run_time = 0.5
+            run_time = 1
         )
-        self.wait(1)
+        self.play(ReplacementTransform(group9_1, group9_2))
+        self.wait(1.5)
+        dot7_4.move_to(UP * 1 + LEFT * 2 * m.sqrt(2))
+        dot7_5.move_to(UP * 1)
         self.play(
-            ReplacementTransform(dot7_1a[0], dot7_2a[0]),
-            ReplacementTransform(dot7_1a[2], dot7_2a[1]),
-            ReplacementTransform(dot7_1a[4], dot7_2a[2]),
-            ReplacementTransform(dot7_1a[6], dot7_2a[3]),
-            ReplacementTransform(dot7_1a[8], dot7_2a[4]),
-            *[FadeIn(i) for i in line7_2],
-            run_time = 4
+            Write(dot7_4),
+            Write(dot7_5)
         )
-        self.wait(1)
-        # self.play(*[FadeIn(i) for i in line7_2])
-        self.wait(4)
-
+        self.wait(2)
+        self.play(
+            dot7_4.move_to, UP * 1,
+            dot7_5.move_to, DOWN * 1,
+        )
+        self.wait(2)
+        self.play(
+            dot7_4.move_to, DOWN * 1,
+            dot7_5.move_to, UP * 1,
+        )
+        self.wait(2)
+        self.play(
+            dot7_4.move_to, DOWN * 1 + RIGHT * 2 * m.sqrt(2),
+            dot7_5.move_to, DOWN * 1,
+        )
+        self.wait(2.5)
         self.play(
             ReplacementTransform(dot7_1[1], dot7_3[0]),
             ReplacementTransform(dot7_1[3], dot7_3[1]),
             ReplacementTransform(dot7_1[5], dot7_3[2]),
             ReplacementTransform(dot7_1[7], dot7_3[3]),
             *[FadeIn(i) for i in line7_3],
-            run_time = 4
+            run_time = 3
         )
         self.wait(2)
         self.play(
@@ -1193,7 +1251,19 @@ class s3(Scene):
             ReplacementTransform(dot7_3[2], dot7_1a[5]),
             ReplacementTransform(dot7_3[3], dot7_1a[7]),
             *[FadeOut(i) for i in line7_3],
-            run_time = 0.5
+            run_time = 1
+        )
+
+        self.play(
+            FadeOut(dot7_4),
+            FadeOut(dot7_5),
+            ReplacementTransform(dot7_1a[0], dot7_2a[0]),
+            ReplacementTransform(dot7_1a[2], dot7_2a[1]),
+            ReplacementTransform(dot7_1a[4], dot7_2a[2]),
+            ReplacementTransform(dot7_1a[6], dot7_2a[3]),
+            ReplacementTransform(dot7_1a[8], dot7_2a[4]),
+            *[FadeIn(i) for i in line7_2],
+            run_time = 2
         )
         self.wait(1)
         self.play(
@@ -1202,8 +1272,9 @@ class s3(Scene):
             ReplacementTransform(dot7_1a[5], dot7_3a[2]),
             ReplacementTransform(dot7_1a[7], dot7_3a[3]),
             *[FadeIn(i) for i in line7_3],
-            run_time = 4
+            run_time = 2
         )
+        self.play(FadeOut(group9_2))
         self.wait(1)
         # self.play(*[FadeIn(i) for i in line7_3])
         self.play(
@@ -1213,15 +1284,29 @@ class s3(Scene):
         )
         # self.wait(0.5)
         # self.play(*[FadeOut(i) for i in line7_1])
+        self.wait(3)
+        
+        self.play(Write(text7_6))
+        self.wait(1.5)
+        self.play(
+            Write(text7_7_1),
+            Write(text7_7_2),
+            Write(background7_1),
+            Write(background7_2)
+        )
+        self.wait(2.5)
+        text7_1.move_to(UP * 2).scale(1.1)
+        self.play(Write(text7_1))
         self.wait(4)
-
-        # self.wait(1.5)
-        # self.play(Uncreate(group7_1))
-        # self.play(Write(group7_3))
-        # self.wait(1.5)
         self.play(
             Uncreate(group7_2), 
-            Uncreate(group7_3)
+            Uncreate(group7_3),
+            Uncreate(text7_1),
+            Uncreate(text7_6),
+            Uncreate(text7_7_1),
+            Uncreate(text7_7_2),
+            Uncreate(background7_1),
+            Uncreate(background7_2)
         )
         
         
