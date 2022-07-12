@@ -341,21 +341,21 @@ text7_1 = TextTeX(
     "\\text{的}": "的",
     "\\text{循环轨道图}": "循环轨道图"
 }).scale(0.8).move_to(UP * 1 + LEFT * 6, aligned_edge = LEFT)
-text7_2 = TextTeX("\\text{ii: }", "f", "\\text{的一个非循环轨道图可分裂为两个}", "f_", "{2}", "\\text{的非循环轨道图}",
+text7_3 = TextTeX("\\text{iii: }", "f", "\\text{的一个非循环轨道图可分裂为两个}", "f_", "{2}", "\\text{的非循环轨道图}",
     default_font = DFont_MFLangQianNoncommercial_Light,
     text_scale_factor = 0.77
 ).get_new_font_texs({
-    "\\text{ii: }": "ii: ",
+    "\\text{iii: }": "iii: ",
     "\\text{的一个非循环轨道图可分裂为两个}": "的一个非循环轨道图可分裂为两个",
     "f_": "f",
     "{2}": "2",
     "\\text{的非循环轨道图}": "的非循环轨道图"
 }).scale(0.8).move_to(UP * 1 + LEFT * 6, aligned_edge = LEFT)
-text7_3 = TextTeX("\\text{iii: }", "f", "\\text{的一个}", "2m+1", "\\text{循环轨道图可变形为一个}", "f_", "{2}", "\\text{的}", "2m+1", "\\text{循环轨道图}",
+text7_2 = TextTeX("\\text{ii: }", "f", "\\text{的一个}", "2m+1", "\\text{循环轨道图可变形为一个}", "f_", "{2}", "\\text{的}", "2m+1", "\\text{循环轨道图}",
     default_font = DFont_MFLangQianNoncommercial_Light,
     text_scale_factor = 0.77
 ).get_new_font_texs({
-    "\\text{iii: }": "iii: ",
+    "\\text{ii: }": "ii: ",
     "\\text{的一个}": "的一个",
     "\\text{循环轨道图可变形为一个}": "循环轨道图可变形为一个",
     "f_": "f",
@@ -379,10 +379,14 @@ text7_5_4 = Tex("f_2\\left( y_1\\right) =z_3").scale(0.7).move_to(RIGHT * 5 + DO
 text7_6 = Text("4 - 循环", font = DFont_MFXingHei_Noncommercial_Bold).scale(1).move_to(UP * 0.5)
 text7_7_1 = Text("2 - 循环", font = DFont_MFXingHei_Noncommercial_Bold).scale(0.8).move_to(DOWN * 2 + LEFT * 5)
 text7_7_2 = Text("2 - 循环", font = DFont_MFXingHei_Noncommercial_Bold).scale(0.8).move_to(DOWN * 2 + RIGHT * 5)
+text7_8 = Text("even", font = DFont_MFXingHei_Noncommercial_Bold).move_to(UP * 2.5)
+text7_9 = Text("odd", font = DFont_MFXingHei_Noncommercial_Bold).move_to(UP * 2.5)
 
 text7_6.set_color_by_t2c({"4": PURPLE})
 text7_7_1.set_color_by_t2c({"2": BLUE})
 text7_7_2.set_color_by_t2c({"2": BLUE})
+text7_8.set_color_by_t2c({"even": YELLOW})
+text7_8.set_color_by_t2c({"odd": RED})
 
 group9_1 = VGroup(text7_4_1, text7_4_2, text7_4_3, text7_4_4, text7_4_5)
 group9_2 = VGroup(text7_5_1, text7_5_2, text7_5_3, text7_5_4)
@@ -562,7 +566,6 @@ dot7_5 = Dot(
     stroke_width = 1.0
 )
 
-# dot7_4.set_color(RED)
 dot7_4.set_fill(RED, opacity = 1)
 dot7_5.set_fill(GREEN, opacity = 1)
 
@@ -615,8 +618,124 @@ group10_2 = VGroup(dot7_3a[1], dot7_3a[2])
 
 background7_1 = SurroundingRectangle(group10_1, opacity = 0.1, fill_color = WHITE, color = BLUE).shift(UP * 2.5)
 background7_2 = SurroundingRectangle(group10_2, opacity = 0.1, fill_color = WHITE, color = BLUE).shift(UP * 2.5)
+background7_3 = SurroundingRectangle(group7_1, opacity = 0.1, fill_color = WHITE, color = YELLOW).shift(UP * 2.5)
 
 color7_1 = [RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE]
+
+# --8--
+
+text8_1_1 = Tex("f_2\\left( x_1\\right) =z_1").scale(0.7).move_to(RIGHT * 5 + UP * 3.5)
+text8_1_2 = Tex("f_2\\left( x_2\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + UP * 2.5)
+text8_1_3 = Tex("f_2\\left( z_1\\right) =z_3").scale(0.7).move_to(RIGHT * 5 + UP * 1.5)
+text8_1_4 = Tex("f_2\\left( z_2\\right) =z_1").scale(0.7).move_to(RIGHT * 5 + UP * 0.5)
+text8_1_5 = Tex("f_2\\left( z_3\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + DOWN * 0.5)
+text8_1_6 = Tex("f_2\\left( y_3\\right) =z_3").scale(0.7).move_to(RIGHT * 5 + DOWN * 1.5)
+text8_1_7 = Tex("f_2\\left( y_1\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + DOWN * 2.5)
+text8_1_8 = Tex("f_2\\left( y_2\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + DOWN * 3.5)
+# 0 --> 1 --> 2 <
+#             v  4
+# 6 --> 5 --> 3 >
+#       ^
+# 7 -->
+dot8_1 = ad2.dotsWithTexts(
+    [
+        "x_1",  # 0
+        "x_2",  # 1
+        "z_1",  # 2
+        "z_2",  # 3
+        "z_3",  # 4
+        "y_3",  # 5
+        "y_1",  # 6
+        "y_2"  # 7
+    ],
+    [
+        UP * 1 + LEFT * 1.5 * m.sqrt(2),  # 0
+        UP * 1 + LEFT * 0.5 * m.sqrt(2),  # 1
+        UP * 1 + RIGHT * 0.5 * m.sqrt(2),  # 2
+        RIGHT * 0.5 * m.sqrt(2),  # 3
+        UP * 0.5 + RIGHT * (0.5 * m.sqrt(2) + 1),  # 4
+        LEFT * 0.5 * m.sqrt(2),  # 5
+        LEFT * 1.5 * m.sqrt(2),  # 6
+        DOWN * 1 + LEFT * 1.5 * m.sqrt(2)  # 7
+    ],
+    fill_opacity = 0.0,
+    radius = 0.12,
+    stroke_width = 1.0
+)
+dot8_1[3][1].next_to(dot8_1[3][0], DOWN)
+#             4     5
+#             v   ↙
+# 0 --> 1 <-- 2 <-- 6
+#       v     ^
+#          3
+#          ^
+#          7
+dot8_2 = ad2.dotsWithTexts(
+    [
+        "x_1",  # 0
+        "z_1",  # 1
+        "z_2",  # 2
+        "z_3",  # 3
+        "x_2",  # 4
+        "y_1",  # 5
+        "y_2",  # 6
+        "y_3"  # 7
+    ],
+    [
+        UP * 0.5 + LEFT * 1.5 * m.sqrt(2),  # 0
+        UP * 0.5 + LEFT * 0.5 * m.sqrt(2),  # 1
+        UP * 0.5 + RIGHT * 0.5 * m.sqrt(2),  # 2
+        DOWN * 0.5,  # 3
+        UP * 1.5 + RIGHT * 0.5 * m.sqrt(2),  # 4
+        UP * 1.5 + RIGHT * 1.5 * m.sqrt(2),  # 5
+        UP * 0.5 + RIGHT * 1.5 * m.sqrt(2),  # 6
+        DOWN * 1.5  # 7
+    ],
+    fill_opacity = 0.0,
+    radius = 0.12,
+    stroke_width = 1.0
+)
+dot8_2[2][1].next_to(dot8_2[2][0], DOWN)
+dot8_2[7][1].next_to(dot8_2[7][0], DOWN)
+dot8_2_1 = Dot(
+    UP * 1 + LEFT * 1.5 * m.sqrt(2),
+    fill_opacity = 0.0,
+    radius = 0.12,
+    stroke_width = 1.0
+)
+dot8_2_2 = Dot(
+    UP * 1 + RIGHT * 0.5 * m.sqrt(2),
+    fill_opacity = 0.0,
+    radius = 0.12,
+    stroke_width = 1.0
+)
+
+dot8_2_1.set_fill(RED, opacity = 1)
+dot8_2_2.set_fill(GREEN, opacity = 1)
+
+line8_1 = [
+    ad2.arrowP2P(dot8_1[0][0], dot8_1[1][0]),
+    ad2.arrowP2P(dot8_1[1][0], dot8_1[2][0]),
+    ad2.arrowP2P(dot8_1[2][0], dot8_1[3][0]),
+    ad2.arrowP2P(dot8_1[3][0], dot8_1[4][0]),
+    ad2.arrowP2P(dot8_1[4][0], dot8_1[2][0]),
+    ad2.arrowP2P(dot8_1[5][0], dot8_1[3][0]),
+    ad2.arrowP2P(dot8_1[6][0], dot8_1[5][0]),
+    ad2.arrowP2P(dot8_1[7][0], dot8_1[5][0])
+]
+line8_2 = [
+    ad2.arrowP2P(dot8_2[0][0], dot8_2[1][0]),
+    ad2.arrowP2P(dot8_2[1][0], dot8_2[3][0]),
+    ad2.arrowP2P(dot8_2[2][0], dot8_2[1][0]),
+    ad2.arrowP2P(dot8_2[3][0], dot8_2[2][0]),
+    ad2.arrowP2P(dot8_2[4][0], dot8_2[2][0]),
+    ad2.arrowP2P(dot8_2[5][0], dot8_2[2][0]),
+    ad2.arrowP2P(dot8_2[6][0], dot8_2[2][0]),
+    ad2.arrowP2P(dot8_2[7][0], dot8_2[3][0])
+]
+
+group11_1 = VGroup(ad1.list2VGroup(dot8_1), ad1.list2VGroup(line8_1))
+group11_2 = VGroup(ad1.list2VGroup(dot8_2), ad1.list2VGroup(line8_2))
 
 ###PROGRAMME###
 
@@ -1308,6 +1427,98 @@ class s3(Scene):
             Uncreate(background7_1),
             Uncreate(background7_2)
         )
+        self.wait(2)
+
+        # --8--
+        group7_1.move_to(ORIGIN)
+        self.play(Write(group7_1))
+        background7_3.move_to(group7_1.get_center())
+        self.play(Write(background7_3))
+        self.wait(0.5)
+        self.play(ReplacementTransform(background7_3, text7_8))
+        self.wait(1.5)
+        self.play(ReplacementTransform(text7_8, text7_9))
+        self.play(
+            FadeOut(group7_1),
+            text7_9.move_to, ORIGIN
+        )
+        self.wait(1)
+        self.play(FadeOut(text7_9))
+        self.wait(1)
+
+        self.play(Write(group11_1))
+        self.wait(2.5)
+        self.play(
+            Write(dot8_2_1),
+            Write(dot8_2_2)
+        )
+        self.wait(1)
+        self.play(Write(text8_1_1))
+        self.wait(1)
+        self.play(
+            dot8_2_1.move_to, UP * 1 + LEFT * 0.5 * m.sqrt(2),
+            dot8_2_2.move_to, RIGHT * 0.5 * m.sqrt(2)
+        )
+        self.wait(1)
+        self.play(Write(text8_1_2))
+        self.wait(1)
+        self.play(
+            dot8_2_1.move_to, UP * 1 + RIGHT * 0.5 * m.sqrt(2),
+            dot8_2_2.move_to, UP * 0.5 + RIGHT * (0.5 * m.sqrt(2) + 1)
+        )
+        self.wait(1)
+        self.play(Write(text8_1_3))
+        self.wait(1)
+        self.play(
+            dot8_2_1.move_to, RIGHT * 0.5 * m.sqrt(2),
+            dot8_2_2.move_to, UP * 1 + RIGHT * 0.5 * m.sqrt(2)
+        )
+        self.wait(1)
+        self.play(Write(text8_1_4))
+        self.wait(1)
+        self.play(
+            dot8_2_1.move_to, UP * 0.5 + RIGHT * (0.5 * m.sqrt(2) + 1),
+            dot8_2_2.move_to, RIGHT * 0.5 * m.sqrt(2)
+        )
+        self.wait(1)
+        self.play(Write(text8_1_5))
+        self.wait(1)
+        self.play(
+            dot8_2_1.move_to, LEFT * 0.5 * m.sqrt(2),
+            dot8_2_2.move_to, UP * 0.5 + RIGHT * (0.5 * m.sqrt(2) + 1)
+        )
+        self.wait(1)
+        self.play(Write(text8_1_6))
+        self.wait(1)
+        self.play(
+            dot8_2_1.move_to, LEFT * 1.5 * m.sqrt(2),
+            dot8_2_2.move_to, RIGHT * 0.5 * m.sqrt(2)
+        )
+        self.wait(1)
+        self.play(Write(text8_1_7))
+        self.wait(1)
+        self.play(
+            dot8_2_1.move_to, DOWN * 1 + LEFT * 1.5 * m.sqrt(2),
+            dot8_2_2.move_to, RIGHT * 0.5 * m.sqrt(2)
+        )
+        self.wait(1)
+        self.play(Write(text8_1_8))
+        self.wait(3)
+        group11_2.shift(DOWN * 1.5)
+        self.play(
+            FadeOut(dot8_2_1),
+            FadeOut(dot8_2_2),
+            TransformFromCopy(group11_1, group11_2),
+            group11_1.shift, UP * 1.5,
+            run_time = 2
+        )
+        self.wait(3)
+
+
+
+
+
+
         
         
 
