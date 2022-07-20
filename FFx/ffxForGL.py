@@ -632,6 +632,8 @@ text8_1_5 = Tex("f_2\\left( z_3\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + DO
 text8_1_6 = Tex("f_2\\left( y_3\\right) =z_3").scale(0.7).move_to(RIGHT * 5 + DOWN * 1.5)
 text8_1_7 = Tex("f_2\\left( y_1\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + DOWN * 2.5)
 text8_1_8 = Tex("f_2\\left( y_2\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + DOWN * 3.5)
+text8_2 = Text(r"（自证不难）", font = DFont_MFXingHei_Noncommercial_Bold).scale(0.7).shift(DOWN * 1)
+
 # 0 --> 1 --> 2 <
 #             v  4
 # 6 --> 5 --> 3 >
@@ -663,6 +665,14 @@ dot8_1 = ad2.dotsWithTexts(
     stroke_width = 1.0
 )
 dot8_1[3][1].next_to(dot8_1[3][0], DOWN)
+dot8_1_2 = []
+dot8_1_2.append(dot8_1[2].copy())
+dot8_1_2.append(dot8_1[3].copy())
+dot8_1_2.append(dot8_1[4].copy())
+for i in range(len(dot8_1_2)):
+    dot8_1_2[i].set_color(BLUE)
+    dot8_1_2[i].shift(UP * 1.5)
+    
 #             4     5
 #             v   ↙
 # 0 --> 1 <-- 2 <-- 6
@@ -713,6 +723,46 @@ dot8_2_2 = Dot(
 dot8_2_1.set_fill(RED, opacity = 1)
 dot8_2_2.set_fill(GREEN, opacity = 1)
 
+dot8_2_3 = []
+dot8_2_3.append(dot8_2[1].copy())
+dot8_2_3.append(dot8_2[2].copy())
+dot8_2_3.append(dot8_2[3].copy())
+for i in range(len(dot8_2_3)):
+    dot8_2_3[i].set_color(BLUE)
+    dot8_2_3[i].shift(DOWN * 1.5)
+
+# 工作量有点大，懒了 
+# # 
+# # 
+# # 1 --> 2 --> 3 --> 4 --> 5
+# #       6     ^
+# # 
+# dot8_3 = ad2.dotsWithTexts(
+#     [
+#         "x_1",  # 0
+#         "z_1",  # 1
+#         "z_2",  # 2
+#         "z_3",  # 3
+#         "x_2",  # 4
+#         "y_1",  # 5
+#         "y_2",  # 6
+#         "y_3"  # 7
+#     ],
+#     [
+#         UP * 0.5 + LEFT * 1.5 * m.sqrt(2),  # 0
+#         UP * 0.5 + LEFT * 0.5 * m.sqrt(2),  # 1
+#         UP * 0.5 + RIGHT * 0.5 * m.sqrt(2),  # 2
+#         DOWN * 0.5,  # 3
+#         UP * 1.5 + RIGHT * 0.5 * m.sqrt(2),  # 4
+#         UP * 1.5 + RIGHT * 1.5 * m.sqrt(2),  # 5
+#         UP * 0.5 + RIGHT * 1.5 * m.sqrt(2),  # 6
+#         DOWN * 1.5  # 7
+#     ],
+#     fill_opacity = 0.0,
+#     radius = 0.12,
+#     stroke_width = 1.0
+# )
+
 line8_1 = [
     ad2.arrowP2P(dot8_1[0][0], dot8_1[1][0]),
     ad2.arrowP2P(dot8_1[1][0], dot8_1[2][0]),
@@ -723,6 +773,14 @@ line8_1 = [
     ad2.arrowP2P(dot8_1[6][0], dot8_1[5][0]),
     ad2.arrowP2P(dot8_1[7][0], dot8_1[5][0])
 ]
+line8_1_2 = []
+line8_1_2.append(line8_1[2].copy())
+line8_1_2.append(line8_1[3].copy())
+line8_1_2.append(line8_1[4].copy())
+for i in range(len(line8_1_2)):
+    line8_1_2[i].set_color(BLUE)
+    line8_1_2[i].shift(UP * 1.5)
+
 line8_2 = [
     ad2.arrowP2P(dot8_2[0][0], dot8_2[1][0]),
     ad2.arrowP2P(dot8_2[1][0], dot8_2[3][0]),
@@ -733,9 +791,24 @@ line8_2 = [
     ad2.arrowP2P(dot8_2[6][0], dot8_2[2][0]),
     ad2.arrowP2P(dot8_2[7][0], dot8_2[3][0])
 ]
+line8_2_3 = []
+line8_2_3.append(line8_2[1].copy())
+line8_2_3.append(line8_2[2].copy())
+line8_2_3.append(line8_2[3].copy())
+for i in range(len(line8_2_3)):
+    line8_2_3[i].set_color(BLUE)
+    line8_2_3[i].shift(DOWN * 1.5)
 
 group11_1 = VGroup(ad1.list2VGroup(dot8_1), ad1.list2VGroup(line8_1))
 group11_2 = VGroup(ad1.list2VGroup(dot8_2), ad1.list2VGroup(line8_2))
+group12_1 = VGroup(dot8_1[1], dot8_1[2], dot8_1[3], line8_1[1], line8_1[2], line8_1[3])
+group12_2 = VGroup(*[i for i in dot8_1_2], *[i for i in line8_1_2])
+group12_3 = VGroup(dot8_2[1], dot8_2[2], dot8_2[3], line8_2[1], line8_2[2], line8_2[3])
+group12_4 = VGroup(*[i for i in dot8_2_3], *[i for i in line8_2_3])
+group12_5 = VGroup(text8_1_1, text8_1_2, text8_1_3, text8_1_4, text8_1_5, text8_1_6, text8_1_7, text8_1_8)
+group12_6 = VGroup(group11_1, group11_2, group12_2, group12_4, group12_5)
+
+# --9--
 
 ###PROGRAMME###
 
@@ -1513,8 +1586,55 @@ class s3(Scene):
             run_time = 2
         )
         self.wait(3)
+        self.play(
+            FadeIn(group12_2),
+            FadeIn(group12_4)
+        )
+        self.wait(1)
+        self.play(
+            group12_2.shift, LEFT * 6,
+            group12_4.shift, LEFT * 6 + RIGHT * m.sqrt(2),
+            run_time = 2
+        )
+        self.wait(1)
+        self.play(
+            *[Flash(i[0]) for i in dot8_1_2],
+            *[Flash(i[0]) for i in dot8_2_3]
+        )
+        self.wait(2)
+        text7_2.move_to(UP * 3.5 + RIGHT * 15, aligned_edge = LEFT)
+        self.play(group12_6.scale, 0.75, about_point = LEFT * 14 + DOWN * 4)
+        self.play(text7_2.move_to, UP * 3.5, aligned_edge = ORIGIN)
+        # self.play(
+        #     group12_6.scale, *{'scale_factor': 0.75, 'about_point': LEFT * 14 + DOWN * 4},
+        #     text7_2.move_to, *{'point_or_mobject': UP * 3.5, 'aligned_edge': ORIGIN}
+        # )
+        self.wait(4)
+        self.play(
+            Uncreate(group12_6),
+            Uncreate(text7_2)
+        )
+        self.wait(2)
+        text7_3.move_to(ORIGIN)
+        self.play(Write(text7_3))
+        self.wait(1)
+        self.play(
+            FadeIn(text8_2),
+            text7_3.shift, UP * 1
+        )
+        self.wait(3)
+        self.play(
+            Uncreate(text7_3),
+            Uncreate(text8_2)
+        )
+        self.wait(1)
 
 
+class s4(Scene):
+    def construct(self):
+        ad1.setScene(self)
+
+        # --9--
 
 
 
