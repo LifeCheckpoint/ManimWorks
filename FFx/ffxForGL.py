@@ -810,6 +810,143 @@ group12_6 = VGroup(group11_1, group11_2, group12_2, group12_4, group12_5)
 
 # --9--
 
+text9_1 = Tex(r"f_2=g").scale(0.8)
+text9_2 = TextTeX(
+    "\\text{对任意正整数}", "m", "\\text{，}", "f_", "{2}", "\\text{的}", "2m", "\\text{循环轨道图一定有偶数个}",
+    default_font = DFont_MFLangQianNoncommercial_Light,
+    text_scale_factor = 0.77
+).get_new_font_texs({
+    "\\text{对任意正整数}": "对任意正整数", 
+    "m": "m", 
+    "\\text{，}": "，", 
+    "f_": "f", 
+    "{2}": "2", 
+    "\\text{的}": "的", 
+    "2m": "2m", 
+    "\\text{循环轨道图一定有偶数个}": "循环轨道图一定有偶数个",
+}).scale(0.8)
+text9_3 = Tex(r"g=x^2+1").scale(0.8)
+text9_4 = Tex(r"g_2\left( x\right) =x").scale(0.8)
+text9_5 = Tex(r"\left( x^2+1\right) ^2+1=x").scale(0.8)
+text9_6 = Tex(r"x^4+2x^2-x+2=0").scale(0.8)
+text9_7 = Tex(r"""
+    \begin{matrix}
+	    x_1=\frac{1+\sqrt{3}i}{2}&		x_2=\frac{1-\sqrt{3}i}{2}\\
+	    x_3=\frac{-1+\sqrt{7}i}{2}&		x_4=\frac{-1-\sqrt{7}i}{2}\\
+    \end{matrix}
+""").shift(DOWN)
+text9_8 = Tex(r"""
+    \begin{matrix}
+	    g\left( x_1\right) =x_1&		g\left( x_2\right) =x_2\\
+	    g\left( x_3\right) \ne x_3&		g\left( x_4\right) \ne x_4\\
+    \end{matrix}
+""").shift(DOWN)
+
+# x_1 --> x_2 --> x_3 --> z_1
+#                     z_4    z_2
+#                         z_3 <-- y_2 <-- y_1
+dot9_1 = ad2.dotsWithTexts(
+    [
+        "x_1",  # 0
+        "x_2",  # 1
+        "x_3",  # 2
+        "z_1",  # 3
+        "z_2",  # 4
+        "z_3",  # 5
+        "z_4",  # 6
+        "y_1",  # 7
+        "y_2"   # 8
+    ],
+    [
+        UP * 1 + LEFT * 3 * m.sqrt(2),  # 0
+        UP * 1 + LEFT * 2 * m.sqrt(2),  # 1
+        UP * 1 + LEFT * 1 * m.sqrt(2),  # 2
+        UP * 1,  # 3
+        RIGHT * 1,  # 4
+        DOWN * 1,  # 5
+        LEFT * 1,  # 6
+        DOWN * 1 + RIGHT * 2 * m.sqrt(2),  # 7
+        DOWN * 1 + RIGHT * 1 * m.sqrt(2)    # 8
+    ],
+    fill_opacity = 0.0,
+    radius = 0.12,
+    stroke_width = 1.0
+)
+#                  v     <
+# x_1 --> x_3 --> z_2 > z_4 <-- y_2
+# 
+dot9_2 = ad2.dotsWithTexts(
+    [
+        "x_1",  # 0
+        "x_3",  # 1
+        "z_2",  # 2
+        "z_4",  # 3
+        "y_2"   # 4
+    ],
+    [
+        LEFT * 3.5 + LEFT * 1.5 + UP * 0.5,  # 0
+        LEFT * 3.5 + LEFT * 0.5 + UP * 0.5,  # 1
+        LEFT * 3.5 + RIGHT * 0.5 + UP * 0.5,  # 2
+        LEFT * 3.5 + RIGHT * 0.5 + DOWN * 0.5,  # 3
+        LEFT * 3.5 + RIGHT * 1.5 + DOWN * 0.5  # 4
+    ],
+    fill_opacity = 0.0,
+    radius = 0.12,
+    stroke_width = 1.0
+)
+#          v     <
+# x_2 --> z_1 > z_3 <-- y_1
+# 
+dot9_3 = ad2.dotsWithTexts(
+    [
+        "x_2",  # 0
+        "z_1",  # 1
+        "z_3",  # 2
+        "y_1"  # 3
+    ],
+    [
+        RIGHT * 3.5 + LEFT * 1 + UP * 0.5,  # 0
+        RIGHT * 3.5 + UP * 0.5,  # 1
+        RIGHT * 3.5 + DOWN * 0.5,  # 2
+        RIGHT * 3.5 + RIGHT * 1 + DOWN * 0.5  # 3
+    ],
+    fill_opacity = 0.0,
+    radius = 0.12,
+    stroke_width = 1.0
+)
+
+line9_1 = ad2.arrowsP2Ps([
+    [dot9_1[0][0], dot9_1[1][0]],
+    [dot9_1[1][0], dot9_1[2][0]],
+    [dot9_1[2][0], dot9_1[3][0]],
+    [dot9_1[3][0], dot9_1[4][0]],
+    [dot9_1[4][0], dot9_1[5][0]],
+    [dot9_1[5][0], dot9_1[6][0]],
+    [dot9_1[6][0], dot9_1[3][0]],
+    [dot9_1[8][0], dot9_1[5][0]],
+    [dot9_1[7][0], dot9_1[8][0]],
+])
+line9_2 = [
+    ad2.arrowP2P(dot9_2[0][0], dot9_2[1][0]),
+    ad2.arrowP2P(dot9_2[1][0], dot9_2[2][0]),
+    ad2.arrowP2P(dot9_2[2][0], dot9_2[3][0]).shift(LEFT * 0.2),
+    ad2.arrowP2P(dot9_2[3][0], dot9_2[2][0]).shift(RIGHT * 0.2),
+    ad2.arrowP2P(dot9_2[4][0], dot9_2[3][0])
+]
+line9_3 = [
+    ad2.arrowP2P(dot9_3[0][0], dot9_3[1][0]),
+    ad2.arrowP2P(dot9_3[1][0], dot9_3[2][0]).shift(LEFT * 0.2),
+    ad2.arrowP2P(dot9_3[2][0], dot9_3[1][0]).shift(RIGHT * 0.2),
+    ad2.arrowP2P(dot9_3[3][0], dot9_3[2][0])
+]
+
+group13_1 = VGroup(*[i for i in dot9_1], *[i for i in line9_1])
+group13_2 = VGroup(*[i for i in dot9_2], *[i for i in line9_2])
+group13_3 = VGroup(*[i for i in dot9_3], *[i for i in line9_3])
+
+# --10--
+text10_1 = Text(r"", font = DFont_MFXingHei_Noncommercial_Bold).scale(1)
+
 ###PROGRAMME###
 
 class s0(Scene):
@@ -1627,14 +1764,93 @@ class s3(Scene):
             Uncreate(text7_3),
             Uncreate(text8_2)
         )
-        self.wait(1)
-
+        self.wait(2)
 
 class s4(Scene):
     def construct(self):
         ad1.setScene(self)
 
         # --9--
+        self.play(Write(text9_1))
+        self.wait(1.5)
+        self.play(
+            Write(text9_2),
+            text9_1.shift, UP * 1
+        )
+        self.wait(3)
+        group13_2.move_to(LEFT * 3).scale(1.25)
+        self.play(
+            FadeOut(text9_1),
+            Write(group13_2),
+            text9_2.to_edge, LEFT + UP,
+            text9_2.scale, 0.8
+        )
+        self.wait(2)
+        group13_1.move_to(RIGHT * 3)
+        self.play(Write(group13_1))
+        self.wait(2)
+        group13_3.move_to(RIGHT * 4.5 + DOWN * 1.5).scale(1.25)
+        self.play(
+            Write(group13_3),
+            group13_2.move_to, LEFT * 3.5 + DOWN * 1.5,
+            group13_1.move_to, UP * 1.5 + LEFT * 0.5
+        )
+        self.wait(2)
+        self.play(
+            Uncreate(group13_1),
+            Uncreate(group13_2),
+            Uncreate(group13_3)
+        )
+        text9_1.move_to(ORIGIN)
+        self.play(Write(text9_1))
+        self.wait(1)
+        self.play(
+            TransformMatchingShapes(text9_1, text9_3, path_arc = 90 * DEGREES),
+            run_time = 2
+        )
+        self.wait(1.5)
+        self.play(
+            FadeIn(text9_4),
+            text9_3.shift, UP * 0.75
+        )
+        self.wait(2)
+        self.play(
+            TransformMatchingShapes(text9_4, text9_5, path_arc = 90 * DEGREES),
+            run_time = 2
+        )
+        self.wait(2)
+        self.play(
+            TransformMatchingShapes(text9_5, text9_6, path_arc = 90 * DEGREES),
+            run_time = 2
+        )
+        self.wait(2)
+        self.play(
+            FadeOut(text9_3),
+            Write(text9_7),
+            text9_6.shift, UP * 1
+        )
+        self.wait(2)
+        self.play(
+            TransformMatchingShapes(text9_7, text9_8, path_arc = 90 * DEGREES),
+            run_time = 2
+        )
+        self.wait(3)
+        self.play(
+            text9_2.move_to, UP * 2
+        )
+        self.wait(3)
+
+        # --10--
+
+        ad1.fadeInTitle(
+            "五  实数域上的数值解", 
+            subTitleText = "天灭解析式，数值保平安", 
+            tex2Color = {"解析式": RED, "数值": GREEN}, 
+            time = 2
+        )
+        self.wait(2)
+
+
 
 
 
