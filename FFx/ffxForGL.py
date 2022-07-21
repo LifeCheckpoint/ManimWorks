@@ -945,7 +945,20 @@ group13_2 = VGroup(*[i for i in dot9_2], *[i for i in line9_2])
 group13_3 = VGroup(*[i for i in dot9_3], *[i for i in line9_3])
 
 # --10--
-text10_1 = Text(r"", font = DFont_MFXingHei_Noncommercial_Bold).scale(1)
+iso10_1 = ["f", "(", ")", "x", "=", "+", "1"]
+iso10_2 = ["\\phi", "(", ")", "x", "=", "+", "1"]
+
+text10_1 = Tex(r"f(f(x)) =x^2+1", isolate = iso10_1).scale(0.8)
+text10_2 = Tex(r"f(x)^2+1", isolate = iso10_1).scale(0.8)
+text10_3 = Tex(r"f(x)^2+1=f(f(f(x)))", isolate = iso10_1).scale(0.8)
+text10_4 = Tex(r"f(x)^2+1=f(x^2+1)", isolate = iso10_1).scale(0.8)
+text10_5 = Tex(r"f(x)=\sqrt{f(x^2+1)-1}", isolate = iso10_1).scale(0.8)
+text10_6 = Tex(r"\phi_n(x)=\sqrt{\phi_{n-1}(x^2+1)-1}", isolate = iso10_2).scale(0.8)
+text10_7 = Tex(r"\phi_1(x)", isolate = iso10_2).scale(0.8).move_to(DOWN * 0.5)
+text10_8 = Tex(r"\phi_1(x)=\left| x\right| ^{\sqrt{2}}", isolate = iso10_2).scale(0.8).move_to(DOWN * 0.5)
+text10_8a = Tex(r"\phi_1(x)=\left| x\right| ^{\sqrt{2}}", isolate = iso10_2).scale(0.8).move_to(DOWN * 0.5)
+text10_9 = Tex(r"\phi _1 ( x ) =\left| x \right|^{\sqrt{2}}+\frac{\left| x \right|^{\sqrt{2}-2}}{\sqrt{2}}-\frac{\left| x \right|^{-\sqrt{2}}}{2}").scale(0.8).move_to(DOWN * 0.5)
+text10_10 = Tex(r"\left| \phi _n\left( \phi _n\left( x \right) \right) -\left( x^2+1 \right) \right|\ll \frac{1}{2^n}").scale(0.8).move_to(DOWN * 1)
 
 ###PROGRAMME###
 
@@ -1839,6 +1852,11 @@ class s4(Scene):
             text9_2.move_to, UP * 2
         )
         self.wait(3)
+        self.play(
+            Uncreate(text9_2),
+            Uncreate(text9_8),
+            Uncreate(text9_6)
+        )
 
         # --10--
 
@@ -1847,6 +1865,68 @@ class s4(Scene):
             subTitleText = "天灭解析式，数值保平安", 
             tex2Color = {"解析式": RED, "数值": GREEN}, 
             time = 2
+        )
+        self.wait(2)
+        self.play(Write(text10_1))
+        self.wait(2)
+        self.play(
+            Uncreate(text10_1),
+            FadeIn(text10_2)
+        )
+        self.wait(1.5)
+        self.play(
+            TransformMatchingShapes(text10_2, text10_3, path_arc = 90 * DEGREES),
+            run_time = 2
+        )
+        self.wait(3)
+        self.play(
+            TransformMatchingShapes(text10_3, text10_4, path_arc = 90 * DEGREES, key_map = {r"f(f(x))": r"x^2+1"}),
+            run_time = 2
+        )
+        self.wait(3)
+        self.play(
+            TransformMatchingShapes(text10_4, text10_5, path_arc = 90 * DEGREES, transform_mismatches = True),
+            run_time = 2
+        )
+        self.wait(2.5)
+        self.play(
+            TransformMatchingShapes(text10_5, text10_6, path_arc = 90 * DEGREES),
+            run_time = 2
+        )
+        self.wait(3)
+        self.play(
+            Write(text10_7),
+            text10_6.shift, UP * 0.5
+        )
+        self.wait(2)
+        self.play(
+            TransformMatchingShapes(text10_7, text10_8, path_arc = 90 * DEGREES),
+            run_time = 2
+        )
+        self.wait(2)
+        self.play(
+            TransformMatchingShapes(text10_8, text10_9, path_arc = 90 * DEGREES),
+            run_time = 2
+        )
+        self.wait(2)
+
+        # 此处插入Mathematica中的计算录屏
+
+        self.wait(2)
+        text10_8a.move_to(ORIGIN)
+        text10_10.move_to(DOWN * 1.5)
+        # A render BUG, fix me
+        self.play(
+            TransformMatchingShapes(text10_9, text10_10, path_arc = 90 * DEGREES, transform_mismatches = True),
+            TransformMatchingShapes(text10_9, text10_8a, path_arc = 90 * DEGREES),
+            text10_6.move_to, UP * 1.5,
+            run_time = 2
+        )
+        self.wait(3)
+        self.play(
+            FadeOut(text10_10),
+            FadeOut(text10_8a),
+            FadeOut(text10_6)
         )
         self.wait(2)
 
