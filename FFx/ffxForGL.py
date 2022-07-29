@@ -59,7 +59,7 @@ text1_2[4].set_color_by_tex(r"f\left( f\left( f\left( \text{...} f\left( x\right
 
 text1_3 = Tex(r"f\left( f\left( f\left( \text{...} f\left( x\right) \text{...} \right) \right) \right)").scale(1.4)
 
-text1_4 = Text("迭 代 函 数", font = DFont_MFXingHei_Noncommercial_Bold).scale(1.4)
+text1_4 = Text("迭 代 函 数").scale(1.4)
 
 # def func_1(x, n):
 #     for i in range(n):
@@ -73,8 +73,8 @@ dot1_2 = Dot([0.5 * (1 + m.sqrt(5)), 0.5 * (1 + m.sqrt(5)), 0], color = RED)
 text2_1 = Tex(r"f\left( x\right)").scale(1.4)
 text2_2 = Tex(r"f_0\left( x\right) =f\left( x\right)").scale(1.4).shift(DOWN * 0.5)
 text2_3 = Tex(r"f_{n+1}\left( x\right) =f\left( f_n\left( x\right)\right)").scale(1.4).shift(DOWN * 1)
-text2_4 = Tex(r"\Longrightarrow").scale(1.5)
-text2_5 = Text(r"归 纳 定 义 函 数 的 迭 代", font = DFont_MFXingHei_Noncommercial_Bold).scale(1).shift(RIGHT * 3)
+text2_4 = Tex(r"\Longrightarrow").scale(1.2)
+text2_5 = Text(r"归纳定义函数的迭代").scale(1).shift(RIGHT * 3)
 
 group1 = VGroup(text2_1, text2_2, text2_3)
 
@@ -86,20 +86,18 @@ text3_3 = [
     Tex(r"P_2=\left( \frac{1+\sqrt{5}}{2} ,\frac{1+\sqrt{5}}{2}\right)").scale(0.6).shift(RIGHT * 3.5 + UP * 1.5)
 ]
 dashLine3_1 = DashedLine(array([-2, -2, 0]), array([6, 6, 0]), color = GREY).shift(LEFT * 1)
-text3_4 = Tex(r"f_{n}\left( x \right) =x").scale(1.4).shift(DOWN * 1)
-text3_5 = Text(r"不 动 点", font = DFont_MFXingHei_Noncommercial_Bold).scale(1.4)
-text3_6 = Text(r"一 阶 不 动 点", font = DFont_MFXingHei_Noncommercial_Bold).scale(1.4).shift(UP * 0.5)
-text3_7 = Text(r"M 阶 不 动 点", font = DFont_MFXingHei_Noncommercial_Bold).scale(1.4).shift(UP * 0.5)
-text3_8 = Tex(r"f_{nM}\left( x \right) =f_M\left( x \right) =x").scale(1.2).shift(DOWN * 1)
+text3_4 = Tex(r"f\left( x \right) =x").scale(1.4).shift(DOWN * 1)
+text3_5 = Text(r"不 动 点").scale(1.4)
+text3_6 = Text(r"一 阶 不 动 点").scale(1.4).shift(UP * 0.5)
+text3_7 = Text(r"M 阶 不 动 点").scale(1.4).shift(UP * 0.5)
+text3_8 = Tex(r"f_M\left( x \right) =x").scale(1.2).shift(DOWN * 1)
 text3_9 = Tex(r"f\left( x \right) =\frac{\cos \left( x \right) -\sin \left( x \right)}{\cos \left( x \right) -e^x}").scale(1.2)
 
-numplane_1 = NumberPlane()
+# numplane_1 = NumberPlane()
 numAxes_1 = Axes(
-    x_min = -5,
-    x_max = 5,
-    y_min = -1.25,
-    y_max = 5,
-    number_line_config={
+    x_range = [-5, 5],
+    y_range = [-1.25, 5],
+    number_line_config = {
         "stroke_color": GREY,
         "stroke_width": 2,
         "include_tip": False,
@@ -109,7 +107,7 @@ numAxes_1 = Axes(
 group2 = VGroup(dot1_1, dot1_2)
 
 #--4--
-text4_1 = Text(r"轨 道 图", font = DFont_MFXingHei_Noncommercial_Bold).scale(1.4)
+text4_1 = Text(r"轨 道 图").scale(1.4)
 text4_2 = [
     Tex(r"f\left( x\right) =x^2-1").scale(1).shift(UP * 0.5),
     Tex(r"f\left( f\left( x\right) \right) =\left( x^2-1\right) ^2-1=x^4-2x^2").scale(1).shift(UP * 0.5),
@@ -126,7 +124,7 @@ text4_2 = [
 # ]
 text4_4 = Tex(r"f\left( x \right) \rightarrow x").scale(1.4).shift(UP * 0.5)
 text4_5 = Tex(r"f\left( x_1\right) =x_2").scale(0.7).shift(DOWN * 0.5)
-text4_6 = Text(r"举 个 例 子", font = DFont_MFXingHei_Noncommercial_Bold).scale(1.4)
+text4_6 = Text(r"举 个 例 子").scale(1.4)
 text4_7 = Tex(r"x_0=x\quad x_1=f_1\left( x \right) \quad x_2=f_2\left( x \right) \quad x_3=f_3\left( x \right) ").scale(0.8).shift(DOWN * 1)
 
 tq4_1 = Tex(r"x_0", color = GREY).scale(1.1)
@@ -162,10 +160,10 @@ text5_2 = [
     Tex(r"f\left( z_3 \right) =z_4").shift(DOWN * 1),
     Tex(r"f\left( z_4 \right) =z_1").shift(DOWN * 1)
 ]
-text5_3 = Text(r"轨 道 图", font = DFont_MFXingHei_Noncommercial_Bold).scale(1.4).shift(RIGHT * 4)
-text5_4 = Text(r"4 - 循 环", font = DFont_MFXingHei_Noncommercial_Bold).shift(DOWN * 1.2)
-text5_5 = Text(r"m - 循 环", font = DFont_MFXingHei_Noncommercial_Bold).shift(DOWN * 1.2)
-text5_6 = Text(r"m - 圈", font = DFont_MFXingHei_Noncommercial_Bold).scale(1.4)
+text5_3 = Text(r"轨 道 图").scale(1.4).shift(RIGHT * 4)
+text5_4 = Text(r"4 - 循 环").shift(DOWN * 1.2)
+text5_5 = Text(r"m - 循 环").shift(DOWN * 1.2)
+text5_6 = Text(r"m - 圈").scale(1.4)
 
 dot5_1 = dot4_1
 dot5_2 = [
@@ -232,11 +230,11 @@ background5_1 = SurroundingRectangle(group6, opacity = 0.1, fill_color = WHITE, 
 color6_1 = color5_1
 
 # "循 环 轨 道 图": color6_1
-text6_1 = Text(r"循 环 轨 道 图 的 性 质", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"性 质": BLUE}).scale(1.2)
-text6_2 = Text(r"多个圈？", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"多个": GREEN}).move_to(RIGHT * 2.5)
-text6_2_1 = Text(r"不允许存在多个圈", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"多个": GREEN, "不允许": RED}).move_to(RIGHT * 2.5)
-text6_3 = Text(r"非循环轨道图有无穷多顶点", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"无穷多": GREEN})
-text6_4 = Text(r"对于函数f，其轨道图可能不止一个", font = DFont_MFXingHei_Noncommercial_Bold, t2c = {"不止一个": GREEN})
+text6_1 = Text(r"循 环 轨 道 图 的 性 质", t2c = {"性 质": BLUE}).scale(1.2)
+text6_2 = Text(r"多个圈？", t2c = {"多个": GREEN}).move_to(RIGHT * 2.5)
+text6_2_1 = Text(r"不允许存在多个圈", t2c = {"多个": GREEN, "不允许": RED}).move_to(RIGHT * 2.5)
+text6_3 = Text(r"非循环轨道图有无穷多顶点", t2c = {"无穷多": GREEN})
+text6_4 = Text(r"对于函数f，其轨道图可能不止一个", t2c = {"不止一个": GREEN})
 text6_5 = Tex(r"f\left( x\right) =x!").move_to(UP * 1 + LEFT * 0.5)
 text6_6 = Tex(r"x_0=0").move_to(LEFT * (2.5 + 3.75) / 2)
 text6_7 = Tex(r"x_0=3").move_to(RIGHT * 2)
@@ -376,11 +374,11 @@ text7_5_1 = Tex("f_2\\left( x_2\\right) =z_1").scale(0.7).move_to(RIGHT * 5 + UP
 text7_5_2 = Tex("f_2\\left( z_1\\right) =z_3").scale(0.7).move_to(RIGHT * 5 + UP * 0.5)
 text7_5_3 = Tex("f_2\\left( z_3\\right) =z_1").scale(0.7).move_to(RIGHT * 5 + DOWN * 0.5)
 text7_5_4 = Tex("f_2\\left( y_1\\right) =z_3").scale(0.7).move_to(RIGHT * 5 + DOWN * 1.5)
-text7_6 = Text("4 - 循环", font = DFont_MFXingHei_Noncommercial_Bold).scale(1).move_to(UP * 0.5)
-text7_7_1 = Text("2 - 循环", font = DFont_MFXingHei_Noncommercial_Bold).scale(0.8).move_to(DOWN * 2 + LEFT * 5)
-text7_7_2 = Text("2 - 循环", font = DFont_MFXingHei_Noncommercial_Bold).scale(0.8).move_to(DOWN * 2 + RIGHT * 5)
-text7_8 = Text("even", font = DFont_MFXingHei_Noncommercial_Bold).move_to(UP * 2.5)
-text7_9 = Text("odd", font = DFont_MFXingHei_Noncommercial_Bold).move_to(UP * 2.5)
+text7_6 = Text("4 - 循环").scale(1).move_to(UP * 0.5)
+text7_7_1 = Text("2 - 循环").scale(0.8).move_to(DOWN * 2 + LEFT * 5)
+text7_7_2 = Text("2 - 循环").scale(0.8).move_to(DOWN * 2 + RIGHT * 5)
+text7_8 = Text("even").move_to(UP * 2.5)
+text7_9 = Text("odd").move_to(UP * 2.5)
 
 text7_6.set_color_by_t2c({"4": PURPLE})
 text7_7_1.set_color_by_t2c({"2": BLUE})
@@ -632,7 +630,7 @@ text8_1_5 = Tex("f_2\\left( z_3\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + DO
 text8_1_6 = Tex("f_2\\left( y_3\\right) =z_3").scale(0.7).move_to(RIGHT * 5 + DOWN * 1.5)
 text8_1_7 = Tex("f_2\\left( y_1\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + DOWN * 2.5)
 text8_1_8 = Tex("f_2\\left( y_2\\right) =z_2").scale(0.7).move_to(RIGHT * 5 + DOWN * 3.5)
-text8_2 = Text(r"（自证不难）", font = DFont_MFXingHei_Noncommercial_Bold).scale(0.7).shift(DOWN * 1)
+text8_2 = Text(r"（自证不难）").scale(0.7).shift(DOWN * 1)
 
 # 0 --> 1 --> 2 <
 #             v  4
@@ -973,8 +971,8 @@ class s1(Scene):
         #--1--
         self.wait(1)
         ad1.fadeInTitle(
-            "一  迭代函数", 
-            subTitleText = "交叠，即是回环", 
+            "一  迭代函数与不动点", 
+            subTitleText = "交叠，方生回环", 
             tex2Color = {"迭代": RED, "交叠": PINK}, 
             time = 3
         )
@@ -996,7 +994,8 @@ class s1(Scene):
                 tmp2 = func_itea(func_2, i + 2)
                 self.play(
                     ReplacementTransform(tmp1, tmp2),
-                    ReplacementTransform(text1_2[i - 1], text1_2[i])
+                    TransformMatchingShapes(text1_2[i - 1], text1_2[i], path_arc = 90 * DEGREES),
+                    run_time = 2 
                 )
                 self.wait(2)
                 tmp1 = tmp2
@@ -1015,9 +1014,15 @@ class s1(Scene):
             text1_2[4].scale, 1 / 1.4 / 0.7
         )
         self.wait(0.5)
-        self.play(ReplacementTransform(text1_2[4], text1_3))
+        self.play(
+            TransformMatchingShapes(text1_2[4], text1_3, path_arc = 90 * DEGREES),
+            run_time = 2
+        )
         self.wait(1.5)
-        self.play(ReplacementTransform(text1_3, text1_4))
+        self.play(
+            FadeOut(text1_3),
+            FadeIn(text1_4)
+        )
         self.wait(2.5)
         self.play(FadeOut(text1_4))
         self.wait(3)
@@ -1027,7 +1032,8 @@ class s1(Scene):
         self.wait(1.5)
         self.play(
             FadeIn(text2_2),
-            text2_1.shift, UP * 0.5
+            text2_1.shift, UP * 0.5,
+            text2_1.scale, 0.8
         )
         self.wait(1.5)
         self.play(
@@ -1036,7 +1042,18 @@ class s1(Scene):
             text2_2.shift, UP * 0.5
         )
         self.wait(2)
-        self.play(group1.shift, LEFT * 3)
+        self.play(
+            text2_1.shift, LEFT * 5, aligned_edge = LEFT,
+            run_time = 0.5
+        )
+        self.play(
+            text2_2.shift, LEFT * 5, aligned_edge = LEFT,
+            run_time = 0.5
+        )
+        self.play(
+            text2_3.shift, LEFT * 5, aligned_edge = LEFT,
+            run_time = 0.5
+        )
         self.wait(0.25)
         self.play(Write(text2_4))
         self.wait(0.25)
@@ -1050,8 +1067,8 @@ class s1(Scene):
         self.wait(2)
 
         # --3--
-        ad1.fadeInTitle("二  不动点", subTitleText = "神静，方可察理", tex2Color = {"不动": RED, "静": PINK}, time = 2)
-        self.wait(1)
+        # ad1.fadeInTitle("二  不动点", subTitleText = "神静，方可察理", tex2Color = {"不动": RED, "静": PINK}, time = 2)
+        # self.wait(1)
         self.play(
             FadeIn(text3_1),
             text3_1.move_to, LEFT * 5,
@@ -1059,12 +1076,16 @@ class s1(Scene):
         )
         self.wait(1)
         self.play(Write(text3_2))
-        self.wait(1)
+        self.wait(2)
         tmp1 = func_itea(func_2, 1)
-        self.play(
-            FadeOut(text3_2), 
+        self.play( 
             FadeIn(tmp1),
-            Write(numAxes_1)
+            Write(numAxes_1),
+            text3_2.move_to, DOWN * 3
+        )
+        self.play(
+            FadeOut(text3_2),
+            tmp1.shift, LEFT * 1
         )
         self.wait(1)
         for i in range(4):
@@ -1074,9 +1095,10 @@ class s1(Scene):
                 text1_2[i].shift(LEFT * 1)
                 self.play(
                     ReplacementTransform(tmp1, tmp2),
-                    ReplacementTransform(text1_2[i - 1], text1_2[i])
+                    TransformMatchingShapes(text1_2[i - 1], text1_2[i], path_arc = 90 * DEGREES),
+                    run_time = 2 
                 )
-                self.wait(2)
+                self.wait(2.5)
                 tmp1 = tmp2
             else:
                 # self.play(FadeIn(tmp1))
@@ -1085,7 +1107,6 @@ class s1(Scene):
                 self.play(
                     TransformFromCopy(dot1_1, text3_3[0]),
                     TransformFromCopy(dot1_2, text3_3[1]),
-                    tmp1.shift, LEFT * 1,
                     dot1_1.shift, LEFT * 1,
                     dot1_2.shift, LEFT * 1
                 )
@@ -1110,7 +1131,8 @@ class s1(Scene):
             Uncreate(text3_1),
             Uncreate(dashLine3_1),
             Uncreate(numAxes_1),
-            ReplacementTransform(group2, text3_5)
+            TransformMatchingShapes(group2, text3_5),
+            run_time = 2 
         )
         self.wait(2)
         self.play(
