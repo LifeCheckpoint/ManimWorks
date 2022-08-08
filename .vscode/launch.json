@@ -11,6 +11,152 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+        {
+            "name": "Preview manim", // manim 预览
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/manim", // 设置当前工作路径
+            "env":{
+                "PYTHONPATH": "${workspaceFolder}/manim" // 设置Python运行环境变量
+            },
+            "program": "${workspaceFolder}/manim/manimlib/__main__.py", // 设置运行程序
+            "console": "integratedTerminal", // 使用vsc内置终端
+            "args": [
+                "${file}", // 当前文件路径
+                "--config_file", // 配置文件参数
+                "${workspaceFolder}/custom_config.yml" // 配置文件路径
+            ]
+        },
+        {
+            "name": "Render manim",// manim 渲染 1080p@30
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/manim", // 设置当前工作路径
+            "env":{
+                "PYTHONPATH": "${workspaceFolder}/manim" // 设置Python运行环境变量
+            },
+            "program": "${workspaceFolder}/manim/manimlib/__main__.py", // 设置运行程序
+            "console": "integratedTerminal", // 使用vsc内置终端
+            "args": [
+                "${file}", // 当前文件路径
+                "--hd", // --hd选项 使用 1080p@30
+                "-w", // 写入文件
+                "-o", // 完成后打开
+                "--config_file", // 配置文件参数
+                "${workspaceFolder}/custom_config.yml" // 配置文件路径
+            ]
+        },
+        {
+            "name": "Render manim 4k",// manim 渲染 4k@60
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/manim", // 设置当前工作路径
+            "env":{
+                "PYTHONPATH": "${workspaceFolder}/manim" // 设置Python运行环境变量
+            },
+            "program": "${workspaceFolder}/manim/manimlib/__main__.py", // 设置运行程序
+            "console": "integratedTerminal", // 使用vsc内置终端
+            "args": [
+                "${file}", // 当前文件路径
+                "--uhd", // --uhd选项 使用 4k@60
+                "-w", // 写入文件
+                "-o", // 完成后打开
+                "--config_file", // 配置文件参数
+                "${workspaceFolder}/custom_config.yml" // 配置文件路径
+            ]
+        },
+        {
+            "name": "Export manim picture",// manim 导出最后一帧 4k
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/manim", // 设置当前工作路径
+            "env":{
+                "PYTHONPATH": "${workspaceFolder}/manim" // 设置Python运行环境变量
+            },
+            "program": "${workspaceFolder}/manim/manimlib/__main__.py", // 设置运行程序
+            "console": "integratedTerminal", // 使用vsc内置终端
+            "args": [
+                "${file}", // 当前文件路径
+                "--uhd", // --uhd选项 使用 4k@60
+                "-w", // 写入文件
+                "-o", // 完成后打开
+                "-s", // 跳过动画
+                "--config_file", // 配置文件参数
+                "${workspaceFolder}/custom_config.yml" // 配置文件路径
+            ]
+        },
+        {
+            "name": "Preview manim_old", // manim 老版本 低画质预览
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/manim_old", // 设置当前工作路径
+            "env":{
+                "PYTHONPATH": "${workspaceFolder}/manim_old" // 设置Python运行环境变量
+            },
+            "program": "${workspaceFolder}/manim_old/manim.py", // 设置运行程序
+            "console": "integratedTerminal", // 使用vsc内置终端
+            "args": [
+                "${file}", // 当前文件路径
+                "-m", // 中等画质
+                "-p", // 启用预览
+                "--media_dir", // 输出路径参数
+                "${workspaceFolder}/export" // 输出文件路径
+            ]
+        },
+        {
+            "name": "Render manim_old", // manim 老版本 渲染
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/manim_old", // 设置当前工作路径
+            "env":{
+                "PYTHONPATH": "${workspaceFolder}/manim_old" // 设置Python运行环境变量
+            },
+            "program": "${workspaceFolder}/manim_old/manim.py", // 设置运行程序
+            "console": "integratedTerminal", // 使用vsc内置终端
+            "args": [
+                "${file}", // 当前文件路径
+                "-p",//预览参数
+                "--media_dir", // 输出路径参数
+                "${workspaceFolder}/export" // 输出文件路径
+            ]
+        },
+        {
+            "name": "Render 4k manim_old",// manim 老版本 渲染 4k@60
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/manim_old", // 设置当前工作路径
+            "env":{
+                "PYTHONPATH": "${workspaceFolder}/manim_old" // 设置Python运行环境变量
+            },
+            "program": "${workspaceFolder}/manim_old/manim.py", // 设置运行程序
+            "console": "integratedTerminal", // 使用vsc内置终端
+            "args": [
+                "${file}", // 当前文件路径
+                "-r 2160,3840", // 4k设置
+                "-p",//预览参数
+                "--media_dir", // 输出路径参数
+                "${workspaceFolder}/export" // 输出文件路径
+            ]
+        },
+        {
+            "name": "Export manim_old picture",// manim 老版本 导出最后一帧 4k
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/manim_old", // 设置当前工作路径
+            "env":{
+                "PYTHONPATH": "${workspaceFolder}/manim_old" // 设置Python运行环境变量
+            },
+            "program": "${workspaceFolder}/manim_old/manim.py", // 设置运行程序
+            "console": "integratedTerminal", // 使用vsc内置终端
+            "args": [
+                "${file}", // 当前文件路径
+                "-s", // 跳过动画
+                "-r 2160,3840", // 4k设置
+                "-p", // 预览参数
+                "--media_dir", // 输出路径参数
+                "${workspaceFolder}/export" // 输出文件路径
+            ]
         }
     ]
 }
