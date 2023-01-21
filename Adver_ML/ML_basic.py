@@ -212,3 +212,83 @@ class Huigui1(Scene):
         )
         self.wait(2)
         
+class JuLei1(Scene):
+    def construct(self):
+        s = """
+        编号    糖分    密度    色泽
+        01      0.395   2.724   1.939
+        02     0.249   2.823   1.755
+        03     0.387   2.766   1.925
+        04     0.233   2.944   1.698
+        05     0.366   2.600   2.114
+        06     0.204   3.020   1.594
+        """
+        s1 = """
+        编号    糖分    密度    色泽
+        01      0.395   2.724   1.939
+        03     0.387   2.766   1.925
+        05     0.366   2.600   2.114
+        """
+        s2 = """
+        编号    糖分    密度    色泽
+        02     0.249   2.823   1.755
+        04     0.233   2.944   1.698
+        06     0.204   3.020   1.594
+        """
+        color_rule = {
+            "编号": WHITE,
+            "糖分": RED,
+            "0.395": RED,
+            "0.249": RED,
+            "0.387": RED,
+            "0.233": RED,
+            "0.366": RED,
+            "0.204": RED,
+            "密度": BLUE,
+            "2.724": BLUE,
+            "2.823": BLUE,
+            "2.766": BLUE,
+            "2.944": BLUE,
+            "2.600": BLUE,
+            "3.020": BLUE,
+            "色泽": GREEN,
+            "1.939": GREEN,
+            "1.755": GREEN,
+            "1.925": GREEN,
+            "1.698": GREEN,
+            "2.114": GREEN,
+            "1.594": GREEN,
+        }
+        t = Text(s, font = "BigruiqiaoGB1.0").set_color_by_text_to_color_map(color_rule)
+        t1 = Text(s1, font = "BigruiqiaoGB1.0").shift(UP * 1.7 + RIGHT * 1).scale(0.9).set_color_by_text_to_color_map(color_rule)
+        t2 = Text(s2, font = "BigruiqiaoGB1.0").shift(DOWN * 1.7 + RIGHT * 1).scale(0.9).set_color_by_text_to_color_map(color_rule)
+        sr1 = SurroundingRectangle(t1, buff = 0.6)
+        sr2 = SurroundingRectangle(t2, buff = 0.6)
+        br1 = Brace(sr1, LEFT)
+        br2 = Brace(sr2, LEFT)
+
+        self.play(Write(t), run_time = 2)
+        self.wait(5)
+        self.play(
+            TransformMatchingStrings(t, t1),
+            TransformMatchingStrings(t, t2),
+            run_time = 2
+        )
+        self.play(
+            Write(sr1),
+            Write(sr2),
+            Write(br1),
+            Write(br2),
+            run_time = 1.5
+        )
+        self.wait(5)
+        self.play(
+            Uncreate(sr1),
+            Uncreate(sr2),
+            Uncreate(br1),
+            Uncreate(br2),
+            Uncreate(t1),
+            Uncreate(t2),
+            run_time = 1
+        )
+        self.wait(1)
