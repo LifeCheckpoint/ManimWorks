@@ -27,11 +27,11 @@ from manimlib import *
 from numpy import *
 from decimal import *
 
-def set_color_by_xyz(ps: list[Dot], mode = "RG", reverse = False):
+def set_color_by_xyz(ps: list[Dot], mode = "RG", reverse = False, x_range = [-4, 4], y_range = [-4, 4], z_range = [-4, 4]):
     
-    x_min, x_max = -4.0, 4.0
-    y_min, y_max = -4.0, 4.0
-    z_min, z_max = -4.0, 4.0
+    x_min, x_max = x_range[0], x_range[1]
+    y_min, y_max = y_range[0], y_range[1]
+    z_min, z_max = z_range[0], z_range[1]
 
     for p in ps:
         cx = (p.get_center()[0] - x_min) / (x_max - x_min)
@@ -292,3 +292,59 @@ class JuLei1(Scene):
             run_time = 1
         )
         self.wait(1)
+
+class NN1(Scene):
+    def construct(self):
+        param = [
+            [2018, 0.094],
+            [2018.8, 0.34],
+            [2019.1, 1.5],
+            [2019.6, 8.3],
+            [2019.7, 11],
+            [2020.1, 17.2],
+            [2020.35, 175]
+        ]
+        param = [[p[0] - 2017, m.log10(p[1])] for p in param]
+
+        def calc_line(x1, x2, y1, y2):
+            k = (y2 - y1) / (x2 - x1)
+            b = y1 - k * x1
+            return k, b
+
+        def param_graph(x):
+            for p in range(len(param) - 1):
+                x1, x2, y1, y2 = param[p][0], param[p + 1][0], param[p][1], param[p + 1][1]
+                k, b = calc_line(x1, x2, y1, y2)
+                if x >= param[p][0] and x <= param[p + 1][0]:
+                    return k * x + b
+            return 114
+
+        axes = Axes([0, 4, 1], [-2, 3, 1])
+        t_x = ["2018", "2019", "2020", "2021"]
+        t_y = ["0.01", "0.1", "1", "10", "100", "1000"]
+        text_x = [Text(t_x[i], font = "BigruiqiaoGB1.0").scale(0.7).move_to(axes.c2p(i + 1, -0.3)) for i in range(len(t_x))]
+        text_y = [Text(t_y[i], font = "BigruiqiaoGB1.0").scale(0.7).move_to(axes.c2p(0.2, i - 2)) for i in range(len(t_y))]
+        pg = axes.get_graph(param_graph, [param[0][0], param[6][0], 0.01]).set_color(BLUE)
+        ps = [Dot(axes.c2p(p[0], p[1])) for p in param]
+        ps = set_color_by_xyz(ps, mode = "RG", x_range = [-6, 6], y_range = [-4, 4])
+
+        self.wait(1)
+        self.play(Write(axes))
+        self.play(*[Write(t) for t in text_x], run_time = 0.5)
+        self.play(*[Write(t) for t in text_y], run_time = 0.5)
+        self.wait(1)
+        self.play(Write(pg), run_time = 2)
+        for p in ps:
+            self.play(Write(p), run_time = 0.2)
+        self.wait(5)
+        self.play(
+            *[Uncreate(t) for t in text_x],
+            *[Uncreate(t) for t in text_y],
+            Uncreate(axes)
+        )
+        self.play(
+            *[Uncreate(p) for p in ps],
+            Uncreate(pg)
+        )
+        self.wait(1)
+        
