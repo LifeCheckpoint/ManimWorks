@@ -1,4 +1,29 @@
 from manimlib import *
+import random as ran
+
+road_locs = [
+    [(-3, 2, 0), (-3, -5, 0)],
+    [(-8, 2, 0), (8, 2, 0)],
+    [(3, 2, 0), (3, 5, 0)],
+    [(4, 2, 0), (4, -3, 0)],
+    [(4, -3, 0), (8, -3, 0)],
+    [(4, -3, 0), (1, -3, 0)],
+    [(1, -3, 0), (-1, -5, 0)],
+    [(-8, 0, 0), (-3, 0, 0)]
+]
+loc_pts1 = [
+    (-4.62, 2.88, 0),
+    (-2.18, 0.82, 0),
+    (-3.6, 1.22, 0),
+    (-2.58, 2.32, 0),
+    (-1.42, -1.34, 0),
+    (4.34, 1.34, 0),
+    (2.32, 0.34, 0),
+    (3.16, -1, 0),
+    (3.62, 0.28, 0),
+    (-5, -2.18, 0),
+    (5.04, -2.58, 0)
+]
 
 class EduIntro(Scene):
     def construct(self) -> None:
@@ -38,16 +63,6 @@ class EduIntro(Scene):
 
         svg_arrow = SVGMobject("./images/arrow.svg", color=RED)
         svg_loc = SVGMobject("./images/loc.svg", color=RED).scale(0.4).move_to(2*LEFT+3*RIGHT)
-        road_locs = [
-            [(-3, 2, 0), (-3, -5, 0)],
-            [(-8, 2, 0), (8, 2, 0)],
-            [(3, 2, 0), (3, 5, 0)],
-            [(4, 2, 0), (4, -3, 0)],
-            [(4, -3, 0), (8, -3, 0)],
-            [(4, -3, 0), (1, -3, 0)],
-            [(1, -3, 0), (-1, -5, 0)],
-            [(-8, 0, 0), (-3, 0, 0)]
-        ]
         roads = [Line(loc[0], loc[1], color=BLUE_E, stroke_width=15) for loc in road_locs]
 
         self.wait(1)
@@ -158,7 +173,11 @@ class EduIntro(Scene):
 
         txt_title = Text("近邻搜索", font="微软雅黑").scale(2)
 
-        self.play(Write(txt_title), run_time=3)
+        self.play(
+            Uncreate(svg_lin),
+            Write(txt_title), 
+            run_time=3
+        )
         self.wait(3)
         self.play(Uncreate(txt_title), run_time=2)
 
@@ -177,10 +196,16 @@ class GlassIntroScene(Scene):
 class DefIntro(Scene):
     def construct(self) -> None:
         txt_title = Text("近邻搜索", font="微软雅黑").scale(2)
+        txt_title2 = Text("K近邻搜索", font="微软雅黑").scale(2).align_to(txt_title, LEFT)
+        txt_title3 = Text("K邻近近邻搜索", font="微软雅黑").scale(2).align_to(txt_title, LEFT)
         txt_title_en = Text("Nearest Neighbor", font="Jetbrains Mono").scale(0.5).next_to(txt_title, DOWN).align_to(txt_title, LEFT)
         txt_title_en2 = Text("K Nearest Neighbor", font="Jetbrains Mono").scale(0.5).next_to(txt_title, DOWN).align_to(txt_title, LEFT)
+        txt_title_en3 = Text("K Approximate Nearest Neighbor", font="Jetbrains Mono").scale(0.5).next_to(txt_title, DOWN).align_to(txt_title, LEFT)
+        sep = Line(UP*1,DOWN*1, stroke=1).align_to(txt_title, LEFT).shift(LEFT*0.5+DOWN*0.3)
+        txt_ann = Text("ANN", font="Jetbrains Mono").scale(2)
 
         self.play(
+            Write(sep),
             Write(txt_title),
             Write(txt_title_en),
             lag_ratio=1,
@@ -190,17 +215,263 @@ class DefIntro(Scene):
         self.play(txt_title[1].animate.set_color(RED_B))
         self.wait(5)
         txt_title_en2[0].set_color(GREEN)
-        self.play(TransformMatchingStrings(txt_title_en, txt_title_en2))
+        txt_title2[0].set_color(GREEN)
+        self.play(
+            TransformMatchingStrings(txt_title_en, txt_title_en2),
+            TransformMatchingStrings(txt_title, txt_title2, key_map={"近邻搜索": "近邻搜索"})
+        )
         self.wait(3)
-        self.play(Uncreate(txt_title), Uncreate(txt_title_en2))
+        txt_title_en3[1:12].set_color(BLUE)
+        txt_title3[1:3].set_color(BLUE)
+        self.play(
+            TransformMatchingStrings(txt_title_en2, txt_title_en3),
+            TransformMatchingStrings(txt_title2, txt_title3, key_map={"近邻搜索": "近邻搜索", "K": "K"})
+        )
+        self.wait(3)
+        self.play(
+            TransformMatchingStrings(txt_title_en3, txt_ann, key_map={"A": "A", "N": "N"}), 
+            Uncreate(txt_title3), 
+            Uncreate(sep)
+        )
+        self.wait(3)
+        self.play(Uncreate(txt_ann))
+        
+        pts = [Circle().move_to(loc).scale(0.05).set_color(RED if loc[0]<0 else YELLOW) for loc in loc_pts1]
+        loc_line = []
+        for _ in range(8): loc_line.append(ran.choices(loc_pts1, k=2))
+        lines = [Line(loc_line[i][0], loc_line[i][1], buff=0.2) for i in range(8)]
+
+        self.wait(1)
+        self.play(*[FadeIn(pt) for pt in pts], lag_ratio=1, run_time=3)
+        self.play(*[Write(l) for l in lines], lag_ratio=1, run_time=3)
+        self.wait(3)
+        self.play(
+            *[Uncreate(pt) for pt in pts],
+            *[Uncreate(l) for l in lines],
+            lag_ratio=0.6,
+            run_time=2
+        )
+        self.wait(3)
+
+class TraditionAlgo(Scene):
+    def construct(self) -> None:
+        svg_stu = SVGMobject("./images/stu.svg", color=GREEN).scale(0.5)
+        svg_stus = [svg_stu.copy().set_color(rgb_to_color([ran.randint(0, 255)/255, ran.randint(0, 255)/255, ran.randint(0, 255)/255])) for _ in range(9)]
+        placeholder = Rectangle(1, 1).move_to(RIGHT*1)
+        grid_stu = VGroup()
+        for i in range(3):
+            for j in range(3):
+                svg_stus[i*3 + j].move_to(np.array([j - 1, 1 - i, 0]))  # 3x3 grid
+                grid_stu.add(svg_stus[i*3 + j])
+        line_match = DoubleArrow(LEFT*2, RIGHT*1, buff=0.8)
+        rec1 = SurroundingRectangle(svg_stu).shift(LEFT*2)
+        rec2 = SurroundingRectangle(placeholder)
+        
+        self.play(Write(svg_stu))
+        self.wait(2)
+        grid_stu.shift(RIGHT * 2)
+        self.play(
+            Write(grid_stu),
+            svg_stu.animate.scale(0.7).shift(LEFT*2),
+            lag_ratio=1,
+            run_time=3
+        )
+        self.play(Write(line_match))
+        self.play(
+            Write(rec1),
+            Write(rec2),
+            lag_ratio=1
+        )
+        self.wait(1)
+        self.play(Uncreate(rec1), Uncreate(rec2))
+        self.wait(2)
+        self.play(Uncreate(grid_stu))
+
+        score_paper = Rectangle(4, 5.5).move_to(RIGHT*3)
+        svg_score = SVGMobject("./images/score.svg", color=WHITE).scale(1.3).move_to(RIGHT*3+DOWN*0.2)
+        svg_APlus = SVGMobject("./images/A+.svg").set_stroke(color=RED).scale(0.5).move_to(RIGHT*4+UP*2)
+
+        self.play(svg_stu.animate.shift(LEFT*0.5), Write(score_paper))
+        self.play(
+            Write(svg_score),
+            Write(svg_APlus),
+            lag_ratio=1
+        )
+        self.wait(2)
+        self.play(
+            Uncreate(svg_stu),
+            Uncreate(score_paper),
+            Uncreate(svg_APlus),
+            svg_score.animate.move_to(LEFT*3).scale(0.4),
+            run_time=3
+        )
+        
+        mat_score = Matrix([
+            ["", "Ch", "Ma", "En", "Ph"],
+            ["A", "101", "95", "133", "65"],
+            ["1", "84", "130", "107", "80"],
+            ["2", "149", "146", "128", "71"],
+            ["3", "98", "101", "96", "59"],
+            ["4", "55", "66", "77", "25"]
+        ]).move_to(RIGHT*3.5).scale(0.5).set_color(WHITE)
+        ax = Axes(x_range=(0, 5), y_range=(0, 1)).scale(0.17)
+        axs = [ax.copy().move_to(RIGHT*3+UP*(i-2)*1.3) for i in range(5)]
+        axs_g = VGroup(*axs)
+        ptss = []
+        for i in range(5):
+            for sub in range(4):
+                loc_p = axs[i].coords_to_point(sub+1, ran.random(), 0)
+                ptss.append(Circle().scale(0.025).move_to(loc_p+RIGHT*3+UP*(i-2)*1.3))
+
+        self.wait(1)
+        self.play(Write(mat_score), run_time=3)
+        self.wait(3)
+        self.play(TransformMatchingShapes(mat_score, axs_g), run_time=2)
+        self.wait(1)
+        self.play(*[Write(p) for p in ptss], lag_ratio=1, run_time=2)
+        self.wait(1)
+        self.play(*[p.animate.shift(UP*0.3*ran.random()) for p in ptss], lag_ratio=1, run_time=2.5)
+        self.play(*[p.animate.shift(DOWN*0.3*ran.random()) for p in ptss], lag_ratio=1, run_time=2.5)
+        self.play(*[p.animate.shift(UP*0.3*ran.random()) for p in ptss], lag_ratio=1, run_time=2.5)
+        self.wait(2)
+
+        txt_A = MTex("(101,95\\,,133,65\\,)").move_to(RIGHT*3+UP*2*1.3).set_color(BLUE_A)
+        txt_1 = MTex("(84\\,,130,107,80\\,)").move_to(RIGHT*3+UP*1*1.3)
+        txt_2 = MTex("(149,146,128,71\,)").move_to(RIGHT*3)
+        txt_3 = MTex("(98\\,,101,96\\,,59\\,)").move_to(RIGHT*3+DOWN*1*1.3)
+        txt_4 = MTex("(55\\,,66\\,,77\\,,25\\,)").move_to(RIGHT*3+DOWN*2*1.3)
+        txt_vecs = [MTex(txt).move_to(RIGHT*2+UP*1.5) for txt in ["x=101", "y=95", "z=133", "m=65"]]
+        [t.align_to(txt_vecs[0], LEFT).shift(DOWN*(i+1)) for i, t in enumerate(txt_vecs[1:4])]
+
+        self.play(
+            *[Uncreate(p) for p in ptss],
+            TransformMatchingShapes(axs[4], txt_A),
+            TransformMatchingShapes(axs[3], txt_1),
+            TransformMatchingShapes(axs[2], txt_2),
+            TransformMatchingShapes(axs[1], txt_3),
+            TransformMatchingShapes(axs[0], txt_4),
+            lag_ratio=1,
+            run_time=2
+        )
+        self.wait(3)
+        self.play(
+            txt_A.animate.move_to(LEFT*2),
+            Uncreate(svg_score),
+            Uncreate(line_match),
+            Uncreate(txt_1),
+            Uncreate(txt_2),
+            Uncreate(txt_3),
+            Uncreate(txt_4),
+            run_time=2
+        )
+        txt_A2 = txt_A.copy()
+        self.add(txt_A2)
+        self.play(
+            *[TransformMatchingStrings(txt_A, txt_vecs[i]) for i in range(4)],
+            run_time=2
+        )
+        self.wait(3)
+        self.play(*[Uncreate(txt_vecs[i]) for i in range(4)], txt_A2.animate.move_to(ORIGIN))
+        self.wait(2)
+        self.play(Uncreate(txt_A2))
+        mat_score.move_to(ORIGIN).scale(2)
+        self.play(Write(mat_score))
+        self.wait(1)
+        self.play(mat_score.animate.shift(LEFT*2+UP*0.2))
+        self.wait(1)
         
         
-        self.wait()
+
+# continue
+
+class TraditionAlgo2(Scene):
+    def construct(self) -> None:
+        mat_score = Matrix([
+            ["", "Ch", "Ma", "En", "Ph"],
+            ["A", "101", "95", "133", "65"],
+            ["1", "84", "130", "107", "80"],
+            ["2", "149", "146", "128", "71"],
+            ["3", "98", "101", "96", "59"],
+            ["4", "55", "66", "77", "25"]
+        ]).move_to(LEFT*3+UP*0.2).set_color(WHITE)
+        arrs = [Arrow(RIGHT*0.5, RIGHT*1.2).next_to(mat_score, RIGHT).shift((0.4-i*0.8)*UP) for i in range(4)]
+        txt_d = [MTex(txt).next_to(arrs[i], RIGHT).match_y(arrs[i]) for i, txt in enumerate(["d=49.143", "d=70.470", "d=38.079", "d=87.710"])]
+        mat_group = VGroup(mat_score, *arrs, *txt_d)
+        map_d_tex = {"101": BLUE_A, "95": BLUE_A, "133": BLUE_A, "65": BLUE_A}
+        txt_d1 = Tex("\\sqrt{(101-84)^2+(95-130)^2+(133-107)^2+(65-80)^2}").scale(0.6).set_color_by_tex_to_color_map(map_d_tex).move_to(RIGHT*2+DOWN*2)
+        txt_d2 = Tex("\\sqrt{(101-149)^2+(95-146)^2+(133-128)^2+(65-71)^2}").scale(0.6).set_color_by_tex_to_color_map(map_d_tex).move_to(RIGHT*2+DOWN*2)
+        txt_d3 = Tex("\\sqrt{(101-98)^2+(95-101)^2+(133-96)^2+(65-59)^2}").scale(0.6).set_color_by_tex_to_color_map(map_d_tex).move_to(RIGHT*2+DOWN*2)
+        txt_d4 = Tex("\\sqrt{(101-55)^2+(95-66)^2+(133-77)^2+(65-25)^2}").scale(0.6).set_color_by_tex_to_color_map(map_d_tex).move_to(RIGHT*2+DOWN*2)
+        highlight_rec = Rectangle(6, 0.6).set_color(GREEN_B)
+        d_key_map = {"101": "101", "95": "95", "133": "133", "65": "65"}
+        
+        self.add(mat_score)
+        self.play(
+            *[Write(arr) for arr in arrs], 
+            *[Write(txt) for txt in txt_d], 
+            run_time=2
+        )
+        self.wait(1)
+        self.play(mat_group.animate.scale(0.6).shift(LEFT*2+UP*2))
+        self.wait(2)
+        highlight_rec.move_to(arrs[0].get_center()).shift(LEFT*1.2)
+        self.play(Write(highlight_rec), Write(txt_d1))
+        self.wait(1)
+        self.play(highlight_rec.animate.shift(0.48*DOWN), TransformMatchingShapes(txt_d1, txt_d2, key_map=d_key_map))
+        self.wait(1)
+        self.play(highlight_rec.animate.shift(0.48*DOWN), TransformMatchingShapes(txt_d2, txt_d3, key_map=d_key_map))
+        self.wait(1)
+        self.play(highlight_rec.animate.shift(0.48*DOWN), TransformMatchingShapes(txt_d3, txt_d4, key_map=d_key_map))
+        self.wait(2)
+        txt_d3.set_color(YELLOW)
+        self.play(highlight_rec.animate.shift(0.48*UP).set_color(YELLOW), TransformMatchingShapes(txt_d4, txt_d3, key_map=d_key_map))
+        self.wait(3)
+        self.play(
+            Uncreate(mat_group),
+            Uncreate(txt_d3),
+            Uncreate(highlight_rec),
+            run_time=2
+        )
+        self.wait(3)
+
+        txt_ann = Text("ANN", font="Jetbrains Mono").scale(3)
+        svg_q = SVGMobject("./images/ask.svg", color=BLUE_B).scale(1.6)
+
+        self.play(Write(txt_ann))
+        self.wait(1)
+        self.play(txt_ann.animate.set_color(GREY), FadeIn(svg_q))
+        self.wait(3)
+        self.play(Uncreate(txt_ann), Uncreate(svg_q))
+        self.wait(2)
+
+        txt_N = Text("N", font="Jetbrains Mono").scale(2)
+        txt_K = Text("K", font="Jetbrains Mono").scale(2).move_to(RIGHT*0.5)
+        txt_NtimesK = Text("N×K", font="Jetbrains Mono").scale(2)
+        txt_sq = Tex("O(N^2)").scale(2).set_color(RED)
+        txt_no_big = Text("大量级数据", font="微软雅黑").scale(2)
+
+        self.play(Write(txt_N))
+        self.wait(2)
+        self.play(txt_N.animate.shift(LEFT*0.5), Write(txt_K))
+        self.wait(2)
+        self.play(TransformMatchingShapes(VGroup(txt_N, txt_K), txt_NtimesK))
+        self.wait(1)
+        self.play(txt_NtimesK[0].animate.set_color(RED), txt_NtimesK[2].animate.set_color(RED))
+        self.wait(1.5)
+        self.play(TransformMatchingShapes(txt_NtimesK, txt_sq))
+        self.wait(2)
+        self.play(TransformMatchingShapes(txt_sq, txt_no_big))
+        self.wait(1)
+        self.play(txt_no_big.animate.set_color(RED))
+        self.wait(2)
+        self.play(Uncreate(txt_no_big))
+        self.wait(1)
+
+class KDTree(Scene):
+    def construct(self) -> None:
+        pass
 
 class TestScene(Scene):
     def construct(self):
-        txt_title = Text("近邻搜索", font="微软雅黑").scale(2)
-
-        self.play(Write(txt_title), run_time=3)
-        self.wait(2)
-        self.play(Uncreate(txt_title), run_time=2)
+        ax = Axes(x_range=(0, 5), y_range=(0, 1)).scale(0.2)
+        self.play(Write(ax))
