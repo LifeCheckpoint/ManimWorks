@@ -1,5 +1,7 @@
 from manimlib import *
 import random as ran
+import math as m
+import numpy as np
 
 road_locs = [
     [(-3, 2, 0), (-3, -5, 0)],
@@ -24,6 +26,12 @@ loc_pts1 = [
     (-5, -2.18, 0),
     (5.04, -2.58, 0)
 ]
+
+def get_dash_circle(num_points=1000, color=GREY, dash_nums=3, width=0.006) -> VGroup:
+    # 通过模拟虚线点进行绘制，避开 Manim DashedVMobject BUG，较慢
+    is_dash = lambda idx: (idx%int(num_points/dash_nums))>num_points/dash_nums/2
+    pts = [Circle().move_to((m.cos(theta), m.sin(theta), 0)).set_color(color).scale(width if is_dash(i) else 0) for i, theta in enumerate(np.arange(0, 2*PI, 1/num_points))]
+    return VGroup(*pts)
 
 class EduIntro(Scene):
     def construct(self) -> None:
@@ -467,11 +475,213 @@ class TraditionAlgo2(Scene):
         self.play(Uncreate(txt_no_big))
         self.wait(1)
 
+loc_pts2 = [
+    (2, 3, 0),
+    (5, 4, 0),
+    (9, 6, 0),
+    (4, 7, 0),
+    (8, 1, 0),
+    (7, 2, 0)
+]
+
+loc_pts3=[
+    (2, 4, 0),
+    (3, 5, 0),
+    (6, 9, 0),
+    (0, 0, 1),
+    (5, 5, 0),
+    (4, 1, 0),
+    (8, 8, 0),
+    (1, 7, 0),
+    (3, 6, 0)
+]
+
 class KDTree(Scene):
     def construct(self) -> None:
-        pass
+        txt_tra = Text("传统算法", font="微软雅黑").set_color(GREY).scale(1.4)
+        txt_kd = Text("K-D 树", font="微软雅黑").set_color(GREEN_A).scale(1.4).move_to(LEFT*2)
+        txt_kd_en = Text("K-D Tree", font="Jetbrains Mono").set_color(GREEN_A).scale(0.4).next_to(txt_kd, DOWN).align_to(txt_kd, LEFT)
+        txt_r = Text("R 树", font="微软雅黑").set_color(BLUE_A).scale(1.4).move_to(RIGHT*2)
+        txt_r_en = Text("R Tree", font="Jetbrains Mono").set_color(BLUE_A).scale(0.4).next_to(txt_r, DOWN).align_to(txt_r, LEFT)
+        txt_kd_group = VGroup(txt_kd, txt_kd_en)
+
+        self.play(Write(txt_tra))
+        self.wait(2)
+        self.play(Uncreate(txt_tra))
+        self.wait(1)
+        self.play(Write(txt_kd))
+        self.play(Write(txt_kd_en))
+        self.wait(1)
+        self.play(Write(txt_r))
+        self.play(Write(txt_r_en))
+        self.wait(2)
+        self.play(
+            Uncreate(txt_r), 
+            Uncreate(txt_r_en),
+            txt_kd_group.animate.move_to(ORIGIN).scale(1.2)
+        )
+        self.wait(2)
+        self.play(txt_kd_group.animate.to_edge(LEFT+UP).scale(0.5))
+        self.wait(2)
+
+        txt_k_d_space = Text("K维空间", font="微软雅黑").set_color(ORANGE)
+        ax = Axes(x_range=(0, 10), y_range=(0, 10), width=5, height=5)
+        c2p = lambda loc1, loc2: ax.coords_to_point(loc1, loc2, 0)
+        ptss = [Circle().scale(0.05).move_to(ax.coords_to_point(*loc)) for loc in loc_pts2]
+
+        self.play(Write(txt_k_d_space))
+        self.wait(3)
+        self.play(
+            txt_k_d_space.animate.to_edge(RIGHT+UP).scale(0.8),
+            Write(ax)
+        )
+        self.play(*[Write(pt) for pt in ptss], lag_ratio=1, run_time=3)
+        self.wait(2)
+
+        getSepline = lambda loc1, loc2: Line(c2p(*loc1), c2p(*loc2)).set_color(YELLOW)
+        seplines = [getSepline(l1, l2) for l1, l2 in [
+            ((5, 0), (5, 10)),
+            ((0, 4), (5, 4)),
+            ((10, 2), (5, 2))
+        ]]
+
+        self.play(Write(seplines[0]))
+        self.wait(1.5)
+        self.play(Write(seplines[1]))
+        self.wait(1.5)
+        self.play(Write(seplines[2]))
+        self.wait(2)
+
+        pt_target = Square(0.08).move_to(c2p(8, 3)).set_color(GREEN_B)
+        dist1 = m.sqrt(sum((c2p(8, 3)-c2p(9, 6))**2))
+        target_circle = get_dash_circle().move_to(c2p(8, 3)).scale(dist1)
+        mask_rec_width = abs(c2p(0, 0)[0] - c2p(5, 10)[0])
+        mask_rec_height = abs(c2p(0, 0)[1] - c2p(5, 10)[1])
+        mask_rec = Rectangle(fill_opacity=0.5, width=mask_rec_width, height=mask_rec_height).set_color(RED).move_to(c2p(2.5, 5))
+        highlight_p1 = SurroundingRectangle(ptss[2]).set_color(PURPLE_A)
+        highlight_p2 = SurroundingRectangle(ptss[4]).set_color(PURPLE_A)
+        highlight_p3 = SurroundingRectangle(ptss[5]).set_color(PURPLE_A)
+        res_line1 = Line(c2p(7, 2), c2p(8, 3), buff=0.2).set_color(GREEN_E)
+
+        self.play(Write(pt_target))
+        self.play(Rotate(pt_target, 45*DEGREES))
+        self.wait(1)
+        self.play(Write(mask_rec))
+        self.wait(2)
+        self.play(FadeInFromPoint(target_circle, c2p(8, 3)))
+        self.play(Rotate(target_circle, 45*DEGREES), run_time=4, rate_func=linear)
+        self.play(Write(highlight_p1))
+        self.wait(1)
+        self.play(Uncreate(highlight_p1))
+        self.wait(1)
+        self.play(target_circle.animate.scale(m.sqrt(2)/m.sqrt(10)))
+        self.play(Rotate(target_circle, -45*DEGREES), run_time=3, rate_func=linear)
+        self.play(Write(highlight_p2), Write(highlight_p3))
+        self.wait(1)
+        self.play(Uncreate(highlight_p2), Uncreate(highlight_p3))
+        self.wait(1)
+        self.play(FadeOutToPoint(target_circle, c2p(8, 3)))
+        self.play(Write(res_line1))
+        self.wait(4)
+
+        txt_o_square_n = Tex("O(N^2)").scale(2).set_color(RED)
+        txt_o_kd_search = Tex("O(N^{1-\\frac{1}{k}})").scale(2).set_color(GREEN)
+
+        self.play(
+            FadeOut(mask_rec),
+            ax.animate.set_opacity(0.4),
+            *[line.animate.set_opacity(0.4) for line in seplines],
+            *[p.animate.set_opacity(0.4) for p in ptss],
+            Write(txt_o_square_n),
+            run_time=3
+        )
+        self.wait(2.5)
+        self.play(TransformMatchingShapes(txt_o_square_n, txt_o_kd_search), run_time=2)
+        self.wait(2.5)
+        self.play(Uncreate(txt_o_kd_search))
+        self.wait(3)
+        self.play(Write(mask_rec))
+        self.play(FadeOut(mask_rec), run_time=0.5)
+        self.play(FadeIn(mask_rec), run_time=0.5)
+        self.play(FadeOut(mask_rec), run_time=0.5)
+        self.play(FadeIn(mask_rec), run_time=0.5)
+        self.wait(3)
+
+        txt_exact_algo = Text("精确算法", font="微软雅黑").scale(2).set_color(GREEN)
+        txt_exact_algo_en = Text("exact algorithm", font="Jetbrains Mono").scale(0.6).set_color(GREEN).next_to(txt_exact_algo, DOWN).align_to(txt_exact_algo, LEFT)
+
+        self.play(Write(txt_exact_algo), Write(txt_exact_algo_en))
+        self.wait(3)
+        self.play(
+            ax.animate.set_opacity(1),
+            *[line.animate.set_opacity(1) for line in seplines],
+            *[p.animate.set_opacity(1) for p in ptss],
+            Uncreate(txt_exact_algo),
+            Uncreate(txt_exact_algo_en),
+            run_time=2
+        )
+
+        ptss2 = [Circle().scale(0.05).move_to(ax.coords_to_point(*loc)) for loc in loc_pts3]
+        svg_right = SVGMobject("./images/right.svg", color=GREEN).scale(2)
+        svg_error = SVGMobject("./images/error.svg", color=RED, ).scale(0.2).move_to(ptss[3].get_center())
+
+        self.play(*[Write(p) for p in ptss2], Uncreate(mask_rec), lag_ratio=1, run_time=3)
+        self.wait(3)
+        self.play(
+            ax.animate.set_opacity(0.4),
+            *[p.animate.set_opacity(0.4) for p in ptss],
+            *[p.animate.set_opacity(0.4) for p in ptss2],
+            Write(svg_right)
+        )
+        self.wait(2)
+        self.play(
+            ax.animate.set_opacity(1),
+            *[p.animate.set_opacity(1) for p in ptss],
+            *[p.animate.set_opacity(1) for p in ptss2],
+            Uncreate(svg_right)
+        )
+        self.wait(2)
+        self.play(FadeIn(highlight_p1), FadeIn(ptss[5]), run_time=0.5)
+        self.play(FadeOut(highlight_p1), FadeOut(ptss[5]), run_time=0.5)
+        self.play(FadeIn(highlight_p1), FadeIn(ptss[5]), run_time=0.5)
+        self.play(FadeOut(highlight_p1), FadeOut(ptss[5]), run_time=0.5)
+        self.wait(3)
+        self.play(FadeIn(svg_error), run_time=0.5)
+        self.play(FadeOut(svg_error), run_time=0.5)
+        self.play(FadeIn(svg_error), run_time=0.5)
+        self.play(FadeOut(svg_error), run_time=0.5)
+        self.wait(3)
+
+        txt_sqrt = Text("根号重构", font="微软雅黑").set_color(PINK).shift(LEFT*2)
+        txt_bin = Text("二进制分组", font="微软雅黑").set_color(GOLD_A).shift(RIGHT*2)
+        txt_dim = Text("维度灾难", font="微软雅黑").scale(2).set_color(RED)
+
+        self.play(
+            ax.animate.set_opacity(0.4),
+            *[p.animate.set_opacity(0.4) for p in ptss],
+            *[p.animate.set_opacity(0.4) for p in ptss2],
+            Write(txt_sqrt)
+        )
+        self.play(Write(txt_bin))
+        self.wait(4)
+        self.play(TransformMatchingShapes(VGroup(txt_bin, txt_sqrt), txt_dim), run_time=2)
+        self.wait(2)
+        self.play(
+            Uncreate(ax),
+            Uncreate(res_line1),
+            Uncreate(pt_target),
+            *[Uncreate(l) for l in seplines],
+            *[Uncreate(p) for p in ptss],
+            *[Uncreate(p) for p in ptss2],
+            Uncreate(txt_dim),
+            Uncreate(txt_k_d_space)
+        )
+        self.wait(1)
+        self.play(FadeOut(VGroup(txt_kd, txt_kd_en)))
+        self.wait(1)
+
 
 class TestScene(Scene):
     def construct(self):
-        ax = Axes(x_range=(0, 5), y_range=(0, 1)).scale(0.2)
-        self.play(Write(ax))
+        target_circle = SVGMobject("./images/error.svg", color=GREEN).scale(2)
+        self.add(target_circle)
