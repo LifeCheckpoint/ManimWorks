@@ -483,7 +483,6 @@ loc_pts2 = [
     (8, 1, 0),
     (7, 2, 0)
 ]
-
 loc_pts3=[
     (2, 4, 0),
     (3, 5, 0),
@@ -494,6 +493,10 @@ loc_pts3=[
     (8, 8, 0),
     (1, 7, 0),
     (3, 6, 0)
+]
+loc_pts4=[
+    (4, 5, 0),
+    (3, 2, 0)
 ]
 
 class KDTree(Scene):
@@ -680,8 +683,211 @@ class KDTree(Scene):
         self.play(FadeOut(VGroup(txt_kd, txt_kd_en)))
         self.wait(1)
 
+class RTree(Scene):
+    def construct(self) -> None:
+        def get_wh(loc1, loc2, buff=0.1):
+            return {
+                "width": abs((ax.coords_to_point(*loc1) - ax.coords_to_point(*loc2))[0]) + buff*2, 
+                "height": abs((ax.coords_to_point(*loc1) - ax.coords_to_point(*loc2))[1]) + buff*2
+            }
+        def get_recs(locs, color, buff=0.1):
+            grecs = [Rectangle(**get_wh(loc1, loc2, buff)) for loc1, loc2 in locs]
+            center = lambda loc: ax.coords_to_point(*(np.array(loc[0])+np.array(loc[1]))/2)
+            return [r.move_to(center(loc)).set_color(color) for r, loc in zip(grecs, locs)]
+
+        txt_r = Text("R 树", font="微软雅黑").set_color(BLUE_A).scale(1.4)
+        ax = Axes(x_range=(0, 10), y_range=(0, 10), width=5, height=5)
+        loc_pts2.extend(loc_pts3)
+        ptss = [Circle().scale(0.05).move_to(ax.coords_to_point(*loc)) for loc in loc_pts2]
+
+        self.play(Write(txt_r))
+        self.wait(5)
+        self.play(txt_r.animate.to_edge(LEFT+UP).scale(0.5))
+        self.play(Write(ax))
+        self.play(*[Write(p) for p in ptss], lag_ratio=1, run_time=3)
+        self.wait(2)
+
+        rec_locs1 = [
+            ((1, 7), (5, 3)),
+            ((6, 9), (9, 1)),
+            ((0, 0), (4, 1))
+        ]
+        rec_locs2 = [
+            ((6, 9), (9, 6)),
+            ((1, 7), (4, 6)),
+            ((2, 3), (5, 5)),
+            ((7, 2), (8, 1))
+        ]
+        rec_locs3 = [
+            ((2, 3), (3, 5)),
+            ((6, 9), (8, 8))
+        ]
+        recs1 = get_recs(rec_locs1, YELLOW)
+        recs2 = get_recs(rec_locs2, GREEN, 0.07)
+        recs3 = get_recs(rec_locs3, PINK, 0.04)
+
+        self.play(*[Write(r) for r in recs1], lag_ratio=1, run_time=3)
+        self.wait(2)
+        self.play(*[Write(r) for r in recs2], lag_ratio=1, run_time=3)
+        self.wait(2)
+        self.play(*[Write(r) for r in recs3], lag_ratio=1, run_time=3)
+        self.wait(2)
+
+        svg_insert = Tex("+", font="Jetbrains Mono").set_color(GREEN_D)
+        ptss_insert = [Circle().scale(0.05).move_to(ax.coords_to_point(*loc)).set_color(GREEN) for loc in loc_pts4]
+        svg_error = SVGMobject("./images/error.svg", color=RED, ).scale(0.2).move_to(ptss[4].get_center())
+        recs2_idx_3_new = get_recs([((7, 2), (8, 2))], GREEN, 0.07)[0]
+        recs1_idx_0_new = get_recs([((1, 7), (5, 2))], YELLOW, 0.07)[0]
+
+        self.play(Write(svg_insert))
+        self.play(svg_insert.animate.move_to(ax.coords_to_point(*loc_pts4[0])))
+        self.play(Write(ptss_insert[0]))
+        self.wait(1)
+        self.play(svg_insert.animate.move_to(ax.coords_to_point(*loc_pts4[1])))
+        self.play(Write(ptss_insert[1]))
+        self.play(Transform(recs1[0], recs1_idx_0_new))
+        self.wait(1)
+        self.play(svg_insert.animate.move_to(ORIGIN))
+        self.wait(1)
+        self.play(Uncreate(svg_insert))
+        self.wait(2.5)
+        self.play(FadeIn(svg_error))
+        self.play(FadeOut(svg_error))
+        self.play(FadeIn(svg_error))
+        self.play(FadeOut(svg_error))
+        self.play(FadeOut(ptss[4]))
+        self.play(Transform(recs2[3], recs2_idx_3_new))
+        self.wait(5)
+        self.play(
+            FadeOut(ax),
+            *[FadeOut(p) for i, p in enumerate(ptss) if i!=4],
+            *[FadeOut(p) for p in ptss_insert],
+        )
+        self.wait(1)
+
+        # rec_screen = [r for r in self.mobjects if isinstance(r, Rectangle) and r not in [recs1[0], recs2[3]]]
+        rec_screen = [r for r in self.mobjects if isinstance(r, Rectangle)]
+        rec_screen.extend([recs1_idx_0_new ,recs2_idx_3_new])
+
+        self.play(*[rect.animate.move_to((-4.5+i)*RIGHT).scale(0.5) for i, rect in enumerate(rec_screen)], lag_ratio=0.8, run_time=4)
+        self.wait(1)
+        self.play(*[Rotate(rec, 10*DEGREES) for rec in rec_screen])
+        self.play(*[Rotate(rec, -10*DEGREES) for rec in rec_screen])
+        self.wait(4)
+        self.play(*[Uncreate(rec) for rec in rec_screen], Uncreate(txt_r))
+
+class DimCAxe1(Scene):
+    def construct(self) -> None:
+        ax = NumberLine(x_range=[0, 10])
+        pt = Circle(fill_color=RED).set_opacity(1).scale(0.1).move_to(ax.number_to_point(3)+UP*0.2)
+
+        self.play(Write(ax))
+        self.wait(1)
+        self.play(Write(pt))
+
+class DimCAxe2(Scene):
+    def construct(self) -> None:
+        ax = Axes(x_range=[0, 10], y_range=[0, 10], width=6, height=6)
+        pt = Circle(fill_color=RED).set_opacity(1).scale(0.1).move_to(ax.coords_to_point(3, 4))
+
+        self.play(Write(ax))
+        self.wait(1)
+        self.play(Write(pt))
+
+class DimCAxe3(Scene):
+    def construct(self) -> None:
+        ax = ThreeDAxes(x_range=[0, 10], y_range=[0, 10], z_range=[0, 10], width=6, height=6, depth=6).scale(0.6)
+        pt = Circle(fill_color=RED).set_opacity(1).scale(0.1).move_to(ax.coords_to_point(3, 4, 5))
+        frame = self.camera.frame
+
+        self.play(Write(ax))
+        self.wait(1)
+        self.play(Write(pt))
+        self.wait(1)
+        self.play(frame.animate.set_orientation(Rotation([0, 0.13, 0.13, 0.98])), run_time=2)
+
+class DimC1(Scene):
+    def construct(self) -> None:
+        txt_dc = Text("维度灾难", font="微软雅黑").set_color(RED_E).scale(2)
+        txt_dc2 = Text("维度诅咒", font="微软雅黑").set_color(RED_E).scale(2.48)
+        txt_dc_en = Text("Curse of Dimensionality", font="Jetbrains Mono").set_color(RED).scale(0.6).next_to(txt_dc, DOWN).align_to(txt_dc, LEFT)
+        txt_group = VGroup(txt_dc2, txt_dc_en)
+        img_bellman = ImageMobject("./images/bellman.png").scale(0.8).shift(LEFT*8)
+        txt_bellman = Text("Richard Bellman", font="Jetbrains Mono").scale(0.5)
+        arr1 = SVGMobject("./images/to_right.svg").set_color(WHITE).scale(0.4).move_to(LEFT*2.5)
+        arr2 = SVGMobject("./images/to_right.svg").set_color(WHITE).scale(0.4).move_to(RIGHT*2.5)
+
+        self.play(Write(txt_dc), Write(txt_dc_en))
+
+        self.wait(2)
+        self.play(ReplacementTransform(txt_dc, txt_dc2))
+        self.wait(2)
+        self.add()
+        self.play(txt_group.animate.scale(0.7).shift(RIGHT*2.5), img_bellman.animate.move_to(LEFT*2))
+        txt_bellman.next_to(img_bellman, DOWN).align_to(img_bellman, LEFT)
+        self.play(Write(txt_bellman))
+        self.wait(2)
+        self.play(Uncreate(txt_dc2), Uncreate(txt_dc_en), FadeOut(img_bellman), Uncreate(txt_bellman))
+        self.wait(4)
+        self.play(Write(arr1))
+        self.wait(2)
+        self.play(Write(arr2))
+        self.wait(4)
+
+        svg_bug = SVGMobject("./images/bug.svg", color=YELLOW)
+        
+        self.play(Write(svg_bug), arr1.animate.set_opacity(0.4), arr2.animate.set_opacity(0.4))
+        self.wait(3)
+        self.play(Uncreate(svg_bug), Uncreate(arr1), Uncreate(arr2))
+
+        pt1 = Circle().scale(0.1).move_to(np.array([-2.3, 1.6, 0])).set_color(BLUE)
+        pt2 = Circle().scale(0.1).move_to(np.array([1.7, -1, 0])).set_color(BLUE)
+        pt3 = Circle().scale(0.1).move_to(np.array([-1.6, 2.5, 0])).set_color(RED)
+        pt4 = Circle().scale(0.1).move_to(np.array([1.1, 0.9, 0])).set_color(RED)
+        l1 = DashedLine(pt1.get_center(), pt2.get_center(), buff=0.2).set_color(GREY)
+        l2 = DashedLine(pt1.get_center(), pt3.get_center(), buff=0.2).set_color(GREY)
+        l3 = DashedLine(pt2.get_center(), pt4.get_center(), buff=0.2).set_color(GREY)
+        pt_group1 = VGroup(pt1, pt2, pt3, pt4, l1, l2, l3).scale(0.8).shift(RIGHT*0.5+DOWN)
+        arr3 = SVGMobject("./images/to_right.svg").set_color(BLUE).scale(0.4)
+        pt5 = Circle().scale(0.1).move_to(np.array([-1.1, 1, 0])).set_color(BLUE)
+        pt6 = Circle().scale(0.1).move_to(np.array([1.2, -1, 0])).set_color(BLUE)
+        pt7 = Circle().scale(0.1).move_to(np.array([-0.9, -0.8, 0])).set_color(BLUE)
+        pt8 = Circle().scale(0.1).move_to(np.array([1.1, 0.9, 0])).set_color(BLUE)
+        l4 = DashedLine(pt5.get_center(), pt6.get_center(), buff=0.2).set_color(GREY)
+        l5 = DashedLine(pt5.get_center(), pt7.get_center(), buff=0.2).set_color(GREY)
+        l6 = DashedLine(pt5.get_center(), pt8.get_center(), buff=0.2).set_color(GREY)
+        l7 = DashedLine(pt6.get_center(), pt7.get_center(), buff=0.2).set_color(GREY)
+        l8 = DashedLine(pt6.get_center(), pt8.get_center(), buff=0.2).set_color(GREY)
+        l9 = DashedLine(pt7.get_center(), pt8.get_center(), buff=0.2).set_color(GREY)
+        pt_group2 = VGroup(pt5, pt6, pt7, pt8, l4, l5, l6, l7, l8, l9).move_to(RIGHT*2.5)
+
+        self.wait(2)
+        self.play(Write(pt_group1))
+        self.wait(3)
+        self.play(pt_group1.animate.scale(0.8).shift(LEFT*2.5))
+        self.wait(1)
+        self.play(Write(arr3))
+        self.wait(1)
+        self.play(Write(pt_group2))
+        self.wait(3.5)
+        self.play(Uncreate(pt_group1), Uncreate(pt_group2), Uncreate(arr3))
+
+class DimC2(Scene):
+    def construct(self) -> None:
+        pass
 
 class TestScene(Scene):
     def construct(self):
-        target_circle = SVGMobject("./images/error.svg", color=GREEN).scale(2)
-        self.add(target_circle)
+        pt5 = Circle().scale(0.1).move_to(np.array([-1.1, 1, 0])).set_color(BLUE)
+        pt6 = Circle().scale(0.1).move_to(np.array([1.2, -1, 0])).set_color(BLUE)
+        pt7 = Circle().scale(0.1).move_to(np.array([-0.9, -0.8, 0])).set_color(BLUE)
+        pt8 = Circle().scale(0.1).move_to(np.array([1.1, 0.9, 0])).set_color(BLUE)
+        l4 = DashedLine(pt5.get_center(), pt6.get_center(), buff=0.2).set_color(GREY)
+        l5 = DashedLine(pt5.get_center(), pt7.get_center(), buff=0.2).set_color(GREY)
+        l6 = DashedLine(pt5.get_center(), pt8.get_center(), buff=0.2).set_color(GREY)
+        l7 = DashedLine(pt6.get_center(), pt7.get_center(), buff=0.2).set_color(GREY)
+        l8 = DashedLine(pt6.get_center(), pt8.get_center(), buff=0.2).set_color(GREY)
+        l9 = DashedLine(pt7.get_center(), pt8.get_center(), buff=0.2).set_color(GREY)
+        pt_group2 = VGroup(pt5, pt6, pt7, pt8, l4, l5, l6, l7, l8, l9).scale(0.8)
+
+        self.play(Write(pt_group2))
