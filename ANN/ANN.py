@@ -872,22 +872,152 @@ class DimC1(Scene):
         self.wait(3.5)
         self.play(Uncreate(pt_group1), Uncreate(pt_group2), Uncreate(arr3))
 
+# 只有线条的立方体
+def get_cubeLine(side_length=2, **kwargs):
+    edges = [
+        (0, 1), (0, 2), (0, 4),
+        (1, 3), (1, 5),
+        (2, 3), (2, 6),
+        (3, 7),
+        (4, 5), (4, 6),
+        (5, 7),
+        (6, 7)
+    ]
+    half_side = side_length / 2
+    vertices, lines = [], []
+    for x in [-half_side, half_side]:
+        for y in [-half_side, half_side]:
+            for z in [-half_side, half_side]:
+                vertices.append([x, y, z])
+    for edge in edges:
+        lines.append(Line(vertices[edge[0]], vertices[edge[1]], **kwargs))
+    return VGroup(*lines)
+
 class DimC2(Scene):
+    def construct(self) -> None:
+        txt_dim_n = Text("n维空间", font="微软雅黑").set_color(YELLOW).fix_in_frame()
+        cube = Cube(side_length=2).move_to(LEFT*2).set_color(BLUE).set_opacity(0.6)
+        sphere = Sphere(radius=1).move_to(RIGHT*2).set_color(GREEN)
+        frame = self.camera.frame
+        label_cube = Text("Width = 2").scale(0.8).next_to(cube, OUT).set_color(BLUE_A)
+        label_sphere = Text("diameter = 2").scale(0.8).next_to(sphere, OUT).set_color(GREEN_A)
+        
+        self.play(Write(txt_dim_n))
+        self.wait(2)
+        self.play(txt_dim_n.animate.scale(0.7).to_edge(UP+LEFT))
+        self.wait(1.5)
+        self.play(ShowCreation(cube))
+        self.play(Write(label_cube))
+        self.wait(1)
+        self.play(ShowCreation(sphere))
+        self.play(Write(label_sphere))
+        self.wait(1)
+        self.play(
+            frame.animate.set_orientation(Rotation([0.774, 0.117, 0.093, 0.614])),
+            Rotate(label_cube, 90*DEGREES, RIGHT),
+            Rotate(label_sphere, 90*DEGREES, RIGHT),
+            run_time=2
+        )
+
+        tex_vc = Tex("V_c=2^n").move_to(LEFT*2).scale(0.6).next_to(cube, IN).rotate(90*DEGREES, RIGHT).set_color(BLUE_A)
+        tex_vs = Tex("V_s=\\frac{\\pi^\\frac{n}{2}}{\\Gamma\\left(\\frac{n}{2}+1\\right)}").move_to(RIGHT*2).scale(0.6).next_to(sphere, IN).rotate(90*DEGREES, RIGHT).set_color(GREEN_A)
+        tex_gamma = Tex("\\Gamma\\left(x\\right)=(x-1)!\\,\\left(x\\in\\mathbb{N}\\right)").scale(0.6).next_to((sphere.get_center()+cube.get_center())/2, IN, buff=2.5).rotate(90*DEGREES, RIGHT)
+        isolate_tex_frac = [
+            "\\frac{\\pi^\\frac{n}{2}}{\\Gamma\\left(\\frac{n}{2}+1\\right)}",
+            "2^n",
+            "V_s",
+            "V_c"
+        ]
+        tex_frac = Tex("\\frac{V_s}{V_c}="+isolate_tex_frac[0]).scale(0.6).next_to((sphere.get_center()+cube.get_center())/2, IN, buff=2.5).rotate(90*DEGREES, RIGHT)
+        tex_frac_lim = Tex("\\lim_{n\\rightarrow\\infty}\\frac{V_s}{V_c}="+isolate_tex_frac[0]).scale(0.6).next_to((sphere.get_center()+cube.get_center())/2, IN, buff=2.5).rotate(90*DEGREES, RIGHT)
+        tex_frac_lim2 = Tex("\\lim_{n\\rightarrow\\infty}\\frac{V_s}{V_c}\\rightarrow 0").scale(0.6).next_to((sphere.get_center()+cube.get_center())/2, IN, buff=2.5).rotate(90*DEGREES, RIGHT)
+        
+        self.wait(2)
+        self.play(Write(tex_vc))
+        self.play(Write(tex_vs))
+        self.wait(2)
+        self.play(Write(tex_gamma))
+        self.wait(3)
+        self.play(Uncreate(tex_gamma))
+        self.play(Write(tex_frac))
+        self.wait(2)
+        self.play(ReplacementTransform(tex_frac, tex_frac_lim))
+        self.wait(3)
+        self.play(ReplacementTransform(tex_frac_lim, tex_frac_lim2))
+        self.wait(3)
+        self.play(
+            frame.animate.set_orientation(Rotation([0, 0, 0, 0.001])),
+            tex_frac_lim2.animate.move_to(ORIGIN),
+            Rotate(tex_frac_lim2, -90*DEGREES, RIGHT),
+            Uncreate(tex_vc),
+            Uncreate(tex_vs),
+            Uncreate(label_cube),
+            Uncreate(label_sphere),
+            Uncreate(cube),
+            Uncreate(sphere)
+        )
+        self.play(tex_frac_lim2.animate.scale(2))
+        self.wait(3)
+        self.play(FadeOut(tex_frac_lim2), FadeOut(txt_dim_n))
+        
+# 以下内容正倒放两次
+
+class DimCRatio1(Scene):
+    def construct(self) -> None:
+        sq = Line(LEFT*1, RIGHT*1).move_to(LEFT*2).set_color(BLUE_A)
+        txt_sq = Text("Cube n=1", font="Jetbrains Mono").next_to(sq, UP).scale(0.4).set_color(BLUE_A)
+        sp = Line(LEFT*1, RIGHT*1).move_to(RIGHT*2).set_color(GREEN_A)
+        txt_sp = Text("Sphere n=1", font="Jetbrains Mono").next_to(sp, UP).scale(0.4).set_color(GREEN_A)
+        ratio = Tex("\\frac{V_s}{V_c}=1").shift(DOWN*2)
+
+        self.play(Write(sq), Write(txt_sq))
+        self.wait(1)
+        self.play(Write(sp), Write(txt_sp))
+        self.wait(1)
+        self.play(sq.animate.shift(RIGHT*2), sp.animate.shift(LEFT*2))
+        self.wait(2)
+        self.play(Write(ratio))
+        self.wait(2)
+
+class DimCRatio2(Scene):
+    def construct(self) -> None:
+        sq = Square().move_to(LEFT*2).set_color(BLUE_A)
+        txt_sq = Text("Cube n=2", font="Jetbrains Mono").next_to(sq, UP).scale(0.4).set_color(BLUE_A)
+        sp = Circle().move_to(RIGHT*2).set_color(GREEN_A)
+        txt_sp = Text("Sphere n=2", font="Jetbrains Mono").next_to(sp, UP).scale(0.4).set_color(GREEN_A)
+        ratio = Tex("\\frac{V_s}{V_c}=\\frac{\\pi}{4}").shift(DOWN*2)
+
+        self.play(Write(sq), Write(txt_sq))
+        self.wait(1)
+        self.play(Write(sp), Write(txt_sp))
+        self.wait(1)
+        self.play(sq.animate.shift(RIGHT*2), sp.animate.shift(LEFT*2))
+        self.wait(2)
+        self.play(Write(ratio))
+        self.wait(2)
+
+class DimCRatio3(Scene):
+    def construct(self) -> None:
+        self.camera.frame.set_orientation(Rotation([0.15, 0.117, 0.093, 0.614]))
+        sq = get_cubeLine(side_length=2).move_to(LEFT*2).set_color(BLUE_A)
+        txt_sq = Text("Cube n=2", font="Jetbrains Mono").next_to(sq, OUT).scale(0.4).set_color(BLUE_A)
+        sp = Sphere(radius=1).move_to(RIGHT*2).set_color(GREEN_A)
+        txt_sp = Text("Sphere n=2", font="Jetbrains Mono").next_to(sp, OUT).scale(0.4).set_color(GREEN_A)
+        ratio = Tex("\\frac{V_s}{V_c}=\\frac{\\pi}{6}").shift(DOWN*2)
+
+        self.play(ShowCreation(sq), Write(txt_sq))
+        self.wait(1)
+        self.play(ShowCreation(sp), Write(txt_sp))
+        self.wait(1)
+        self.play(sq.animate.shift(RIGHT*2), sp.animate.shift(LEFT*2))
+        self.wait(2)
+        self.play(Write(ratio))
+        self.wait(2)
+
+class DimC3(Scene):
     def construct(self) -> None:
         pass
 
 class TestScene(Scene):
     def construct(self):
-        pt5 = Circle().scale(0.1).move_to(np.array([-1.1, 1, 0])).set_color(BLUE)
-        pt6 = Circle().scale(0.1).move_to(np.array([1.2, -1, 0])).set_color(BLUE)
-        pt7 = Circle().scale(0.1).move_to(np.array([-0.9, -0.8, 0])).set_color(BLUE)
-        pt8 = Circle().scale(0.1).move_to(np.array([1.1, 0.9, 0])).set_color(BLUE)
-        l4 = DashedLine(pt5.get_center(), pt6.get_center(), buff=0.2).set_color(GREY)
-        l5 = DashedLine(pt5.get_center(), pt7.get_center(), buff=0.2).set_color(GREY)
-        l6 = DashedLine(pt5.get_center(), pt8.get_center(), buff=0.2).set_color(GREY)
-        l7 = DashedLine(pt6.get_center(), pt7.get_center(), buff=0.2).set_color(GREY)
-        l8 = DashedLine(pt6.get_center(), pt8.get_center(), buff=0.2).set_color(GREY)
-        l9 = DashedLine(pt7.get_center(), pt8.get_center(), buff=0.2).set_color(GREY)
-        pt_group2 = VGroup(pt5, pt6, pt7, pt8, l4, l5, l6, l7, l8, l9).scale(0.8)
-
-        self.play(Write(pt_group2))
+        pass
