@@ -388,7 +388,6 @@ class TraditionAlgo(Scene):
         self.play(mat_score.animate.shift(LEFT*2+UP*0.2))
         self.wait(1)
         
-        
 
 # continue
 
@@ -1014,10 +1013,121 @@ class DimCRatio3(Scene):
         self.play(Write(ratio))
         self.wait(2)
 
+def get_corner_of_sphere_and_cube(side="UL", **kwargs):
+    l1 = Line(np.array([-1, 1, 0]), np.array([-1, 0, 0]), **kwargs)
+    l2 = Line(np.array([-1, 1, 0]), np.array([0, 1, 0]), **kwargs)
+    quarter_circle = Arc(90*DEGREES, 90*DEGREES, **kwargs)
+    rotation = {"UL": 0, "DL": 90, "DR": 180, "UR": 270}
+    return VGroup(l1, l2, quarter_circle).rotate(rotation[side]*DEGREES, about_point=ORIGIN)
+
+loc_pts5 = [
+    [-0.83, 0.89, 0],
+    [-0.48, 0.68, 0],
+    [-0.72, 0.45, 0],
+    [-0.44, 0.04, 0],
+    [-0.70, -0.22, 0],
+    [-0.41, -0.43, 0],
+    [-0.72, -0.63, 0],
+    [-0.20, 0.60, 0],
+    [0.40, 0.40, 0],
+    [0.41, 0.04, 0],
+    [-0.04, -0.29, 0],
+    [0.29, -0.56, 0],
+    [-0.15, -0.84, 0],
+    [0.62, -0.90, 0],
+    [0.83, -0.33, 0],
+    [0.76, 0.02, 0],
+    [0.87, 0.68, 0],
+    [0.40, 0.80, 0],
+    [0.20, 0.60, 0]
+]
+
 class DimC3(Scene):
     def construct(self) -> None:
-        pass
+        sq = Square().move_to(LEFT*2).set_color(BLUE_A)
+        txt_sq = Text("Cube", font="Jetbrains Mono").next_to(sq, UP).scale(0.4).set_color(BLUE_A)
+        sp = Circle().move_to(RIGHT*2).set_color(GREEN_A)
+        txt_sp = Text("Sphere", font="Jetbrains Mono").next_to(sp, UP).scale(0.4).set_color(GREEN_A)
+        corners = [get_corner_of_sphere_and_cube(side, color=YELLOW) for side in ["UL", "DL", "DR", "UR"]]
+        corners_group = VGroup(*corners)
+        ptss = [Circle().scale(0.05).move_to(loc).set_color(random_color()) for loc in loc_pts5]
+        ptss_group = VGroup(*ptss)
+        ptss_group2 = VGroup(*[p.copy() for p in ptss])
+        ptss_group2.move_to(RIGHT*2)
+        frame = self.camera.frame
+        tex_r1 = Tex("Ratio=1").scale(0.6)
+        tex_r2 = Tex("Ratio=\\frac{3}{19}").scale(0.6).shift(UP*1.5)
+        tex_r3 = Tex("Ratio=\\frac{6}{19}").scale(0.6).shift(UP*2.5).fix_in_frame()
+        sq_3 = get_cubeLine(color=BLUE_A)
+        sp_3 = Sphere(color=GREEN_A, opacity=0.8)
 
+        self.play(Write(sq), Write(sp))
+        self.wait(0.5)
+        self.play(Write(txt_sq), Write(txt_sp))
+        self.wait(2)
+        self.play(sq.animate.move_to(ORIGIN), sp.animate.move_to(ORIGIN))
+        self.play(Uncreate(txt_sq), Uncreate(txt_sp))
+        self.wait(2)
+        self.play(*[Write(c) for c in corners])
+        self.wait(2)
+        self.play(
+            sq.animate.shift(LEFT*2), 
+            sp.animate.shift(LEFT*2), 
+            corners_group.animate.shift(RIGHT*2)
+        )
+        self.wait(0.5)
+        self.play(*[c.animate.scale(0.8) for c in corners])
+        self.play(corners_group.animate.scale(1.1))
+        self.wait(2)
+        self.play(
+            FadeOut(corners_group),
+            sq.animate.shift(RIGHT*2), 
+            sp.animate.shift(RIGHT*2)
+        )
+        self.wait(1)
+        self.play(frame.animate.set_phi(90*DEGREES))
+        self.wait(1)
+        self.play(LaggedStart(*[Write(p.rotate(90*DEGREES, LEFT).scale(1.25)) for p in ptss_group], lag_ratio=0.1))
+        self.wait(1.5)  
+        self.play(Write(tex_r1.rotate(90*DEGREES, RIGHT).shift(OUT*0.5)))
+        self.wait(2)
+        self.play(
+            frame.animate.set_phi(0.01),
+            tex_r1.animate.rotate(90*DEGREES, LEFT).move_to(UP*1.5),
+            LaggedStart(*[p.animate.rotate(-90*DEGREES, RIGHT).scale(0.8) for p in ptss_group], lag_ratio=0.1),
+            run_time=3
+        )
+        self.wait(1)
+        self.play(ReplacementTransform(tex_r1, tex_r2))
+        self.wait(2)
+        self.play(ReplacementTransform(sq, sq_3))
+        self.wait(1)
+        self.play(
+            frame.animate.set_orientation(Rotation([0.774, 0.117, 0.093, 0.614])),
+            *[p.animate.shift(OUT*(ran.random()*2-1)).rotate(90*DEGREES, LEFT) for p in ptss],
+            FadeOut(tex_r2),
+            run_time=3.5
+        )
+        self.wait(1)
+        self.play(
+            FadeIn(tex_r3),
+            frame.animate.rotate(180*DEGREES, UP+RIGHT+OUT),
+            FadeOut(sp),
+            FadeIn(sp_3),
+            run_time=5
+        )
+        self.wait(2)
+        self.play(FadeOut(sp_3))
+        self.play(
+            FadeOut(sq_3),
+            FadeOut(ptss_group),
+            FadeOut(tex_r3)
+        )
+        
+class DimC4(Scene):
+    def construct(self) -> None:
+        pass
+            
 class TestScene(Scene):
     def construct(self):
         pass
