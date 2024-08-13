@@ -1126,8 +1126,80 @@ class DimC3(Scene):
         
 class DimC4(Scene):
     def construct(self) -> None:
+        imgs_dis = [ImageMobject(f"./images/dis_{i}.png").shift(DOWN*0.5).scale(1.2) for i in range(2, 11)]
+        bar = Line(UP*3+LEFT*5, UP*3+RIGHT*5)
+        bar_f = [Line(UP*3+LEFT*5, UP*3+LEFT*5.01+RIGHT*i*10/8).set_color(GREEN) for i in range(9)]
+        bar_button = Circle().scale(0.15).move_to(UP*3+LEFT*5).set_color(RED)
+        txt_dim = [Text(f"Dim = {d}", font="Jetbrains mono").scale(0.5).shift(UP*3.3) for d in range(2, 11)]
+        
+        self.play(Write(bar), Write(bar_button), Write(txt_dim[0]))
+        self.add(bar_f[0])
+        self.play(FadeIn(imgs_dis[0]), run_time=2)
+        self.wait(2)
+        for i in range(len(imgs_dis)-1):
+            self.play(
+                FadeIn(imgs_dis[i+1]),
+                TransformMatchingStrings(txt_dim[i], txt_dim[i+1]),
+                bar_button.animate.shift(RIGHT*10/8),
+                ReplacementTransform(bar_f[i], bar_f[i+1])
+            )
+            self.wait(0.5)
+        self.wait(2)
+
+        # 此处做快速回退和重放
+
+        self.remove(bar)
+        [self.remove(imgs_dis[i]) for i in range(len(imgs_dis)-1)]
+        self.play(
+            Uncreate(bar_f[len(bar_f)-1]), 
+            Uncreate(bar_button), 
+            FadeOut(imgs_dis[len(imgs_dis)-1]), 
+            Uncreate(txt_dim[len(txt_dim)-1])
+        )
+        self.wait(2)
+
+        txt_1 = Text("精确性", font="微软雅黑").scale(0.7).set_color(GREY)
+        txt_2 = Text("暴力计算", font="微软雅黑").scale(0.7).set_color(RED_E)
+        txt_3 = Tex("k>10").scale(0.7).set_color(BLUE)
+        highlight = SurroundingRectangle(txt_2).set_color(YELLOW).shift(UP*0.6)
+
+        # Use AE more...
+        self.play(FadeIn(txt_1))
+        self.wait(4)
+        self.play(txt_1.animate.shift(UP*0.6).scale(0.9), FadeIn(txt_2))
+        self.wait(3)
+        self.play(txt_1.animate.shift(UP*0.6).scale(0.9), txt_2.animate.shift(UP*0.6).scale(0.9), FadeIn(txt_3))
+        self.wait(3)
+        self.play(Write(highlight))
+        self.wait(2)
+        self.play(FadeOut(txt_1), FadeOut(txt_2), FadeOut(txt_3), FadeOut(highlight))
+        self.wait(1)
+
+class LittleSummary(Scene):
+    def construct(self) -> None:
+        txt_1 = Text("精确性", font="微软雅黑").scale(0.7).set_color(GREY)
+        ax = Axes(x_range=(0, 5), y_range=(0, 5)).scale(0.8)
+        label_x, label_y = ax.get_x_axis_label("Computation").scale(0.5), ax.get_y_axis_label("Precision").scale(0.5)
+        relation_line = ax.get_graph(lambda x: m.log(x+1), (0, 5)).set_color_by_gradient(GREEN, YELLOW, RED)
+
+        self.wait(3)
+        self.play(Write(txt_1))
+        self.wait(2)
+        self.play(
+            txt_1.animate.shift(UP*3),
+            Write(ax),
+            Write(label_x),
+            Write(label_y)
+        )
+        self.wait(1)
+        self.play(Write(relation_line))
+        self.wait(4)
+        self.play(Uncreate(label_x), Uncreate(label_y), Uncreate(ax), Uncreate(relation_line), Uncreate(txt_1))
+
+class NextPart(Scene):
+    def construct(self) -> None:
         pass
-            
+
 class TestScene(Scene):
     def construct(self):
         pass
