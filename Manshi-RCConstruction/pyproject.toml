@@ -1,0 +1,11 @@
+[project]
+name = "manshi-rcconstruction"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "janim[gui]>=3.1.0",
+    "manimgl>=1.7.2",
+    "setuptools>=80.2.0",
+]

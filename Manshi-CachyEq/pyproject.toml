@@ -1,0 +1,11 @@
+[project]
+name = "manshi-cachyeq"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "manimgl>=1.7.2",
+    "pybullet>=3.2.7",
+    "setuptools>=80.3.1",
+]
