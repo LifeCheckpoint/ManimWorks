@@ -212,29 +212,30 @@ class CAPart4_1(Scene):
             "c\\cdot \\sqrt{2}": BLUE_A,
             "nx =": WHITE
         }).move_to(UP * 1)
+        tex_nx_eq_abc_copy = tex_nx_eq_abc.copy(True)
         tex_nx_eq_abc_new1 = Tex("nx + a\\cdot 1 = b\\cdot \\pi + c\\cdot \\sqrt{2}").set_color_by_tex_to_color_map({
             "a\\cdot 1": RED_A,
             "b\\cdot \\pi": GREEN_A,
             "c\\cdot \\sqrt{2}": BLUE_A,
             "nx +": WHITE
         }).move_to(UP * 1)
-        tex_nx_eq_abc_new2 = Tex("nx + a\\cdot 1 + b\\cdot \\pi = c\\cdot \\sqrt{2}").set_color_by_tex_to_color_map({
-            "a\\cdot 1": RED_A,
-            "b\\cdot \\pi": GREEN_A,
-            "c\\cdot \\sqrt{2}": BLUE_A,
-            "nx +": WHITE
-        }).move_to(UP * 1)
-        tex_nx_plus_abc_eq_0 = Tex("nx + a\\cdot 1 + b\\cdot \\pi + c\\cdot \\sqrt{2} = 0").set_color_by_tex_to_color_map({
-            "a\\cdot 1": RED_A,
-            "b\\cdot \\pi": GREEN_A,
-            "c\\cdot \\sqrt{2}": BLUE_A,
-            "nx +": WHITE,
-            " = 0": WHITE
-        }).move_to(UP * 1)
-        tex_nx_eq_minus_abc = Tex("nx = -a\\cdot 1 + -b\\cdot \\pi + -c\\cdot \\sqrt{2}").set_color_by_tex_to_color_map({
+        # tex_nx_eq_abc_new2 = Tex("nx + a\\cdot 1 + b\\cdot \\pi = c\\cdot \\sqrt{2}").set_color_by_tex_to_color_map({
+        #     "a\\cdot 1": RED_A,
+        #     "b\\cdot \\pi": GREEN_A,
+        #     "c\\cdot \\sqrt{2}": BLUE_A,
+        #     "nx +": WHITE
+        # }).move_to(UP * 1)
+        # tex_nx_plus_abc_eq_0 = Tex("nx + a\\cdot 1 + b\\cdot \\pi + c\\cdot \\sqrt{2} = 0").set_color_by_tex_to_color_map({
+        #     "a\\cdot 1": RED_A,
+        #     "b\\cdot \\pi": GREEN_A,
+        #     "c\\cdot \\sqrt{2}": BLUE_A,
+        #     "nx +": WHITE,
+        #     " = 0": WHITE
+        # }).move_to(UP * 1)
+        tex_nx_eq_minus_abc = Tex("nx = -a\\cdot 1 + b\\cdot \\pi + c\\cdot \\sqrt{2}").set_color_by_tex_to_color_map({
             "-a\\cdot 1": RED_A,
-            "-b\\cdot \\pi": GREEN_A,
-            "-c\\cdot \\sqrt{2}": BLUE_A,
+            "b\\cdot \\pi": GREEN_A,
+            "c\\cdot \\sqrt{2}": BLUE_A,
             "nx =": WHITE
         }).move_to(UP * 1)
         tex_nx_eq_abc_new = tex_nx_eq_abc.copy(True)
@@ -323,42 +324,54 @@ class CAPart4_1(Scene):
         )
         group_famas[1].next_to(famas_a_group, UP)
         self.play(FadeIn(group_famas[1], shift=DOWN * 0.5))
-        self.wait(1)
-        self.play(
-            famas_a_group.animate.shift(LEFT * 0.5),
-            group_famas[1].animate.shift(LEFT * 0.5),
-            famas_b_group.animate.move_to(sqauare_g_down + RIGHT * 0.4, aligned_edge=DOWN),
-            FadeOut(group_famas[2]),
-            TransformMatchingTex(
-                tex_nx_eq_abc_new1, tex_nx_eq_abc_new2,
-                path_arc=PI/2, run_time=1.5
-            )
-        )
-        group_famas[2].next_to(famas_b_group, UP)
-        self.play(FadeIn(group_famas[2], shift=DOWN * 0.5))
-        self.wait(1)
-        self.play(
-            famas_a_group.animate.shift(LEFT * 0.2),
-            group_famas[1].animate.shift(LEFT * 0.2),
-            famas_b_group.animate.shift(LEFT * 0.2),
-            group_famas[2].animate.shift(LEFT * 0.2),
-            famas_c_group.animate.move_to(sqauare_g_down + RIGHT * 0.7, aligned_edge=DOWN),
-            FadeOut(group_famas[3]),
-            TransformMatchingTex(
-                tex_nx_eq_abc_new2, tex_nx_plus_abc_eq_0,
-                path_arc=PI/2, run_time=1.5
-            )
-        )
-        group_famas[3].next_to(famas_c_group, UP)
-        self.play(FadeIn(group_famas[3], shift=DOWN * 0.5))
         self.wait(1.5)
+
+        # self.play(
+        #     famas_a_group.animate.shift(LEFT * 0.5),
+        #     group_famas[1].animate.shift(LEFT * 0.5),
+        #     famas_b_group.animate.move_to(sqauare_g_down + RIGHT * 0.4, aligned_edge=DOWN),
+        #     FadeOut(group_famas[2]),
+        #     TransformMatchingTex(
+        #         tex_nx_eq_abc_new1, tex_nx_eq_abc_new2,
+        #         path_arc=PI/2, run_time=1.5
+        #     )
+        # )
+        # group_famas[2].next_to(famas_b_group, UP)
+        # self.play(FadeIn(group_famas[2], shift=DOWN * 0.5))
+        # self.wait(1)
+        # self.play(
+        #     famas_a_group.animate.shift(LEFT * 0.2),
+        #     group_famas[1].animate.shift(LEFT * 0.2),
+        #     famas_b_group.animate.shift(LEFT * 0.2),
+        #     group_famas[2].animate.shift(LEFT * 0.2),
+        #     famas_c_group.animate.move_to(sqauare_g_down + RIGHT * 0.7, aligned_edge=DOWN),
+        #     FadeOut(group_famas[3]),
+        #     TransformMatchingTex(
+        #         tex_nx_eq_abc_new2, tex_nx_plus_abc_eq_0,
+        #         path_arc=PI/2, run_time=1.5
+        #     )
+        # )
+        # group_famas[3].next_to(famas_c_group, UP)
+        # self.play(FadeIn(group_famas[3], shift=DOWN * 0.5))
+        # self.wait(1.5)
+        # self.play(
+        #     TransformMatchingTex(
+        #         tex_nx_plus_abc_eq_0, tex_nx_eq_minus_abc,
+        #         path_arc=PI/2, run_time=1.5
+        #     )
+        # )
+        self.wait(2)
         self.play(
             TransformMatchingTex(
-                tex_nx_plus_abc_eq_0, tex_nx_eq_minus_abc,
+                tex_nx_eq_abc_new1, tex_nx_eq_minus_abc,
                 path_arc=PI/2, run_time=1.5
             )
         )
-        self.wait(2)
+        surround_rec_a = SurroundingRectangle(tex_nx_eq_minus_abc[3]).set_color(RED_E)
+        self.play(Write(surround_rec_a))
+        self.wait(1.5)
+        self.play(FadeOut(surround_rec_a))
+        self.wait(1.5)
         self.play(
             group_squares.animate.shift(RIGHT * 0.7),
             famas_a_group.animate.move_to(famas_a_pos),
@@ -368,14 +381,15 @@ class CAPart4_1(Scene):
             group_famas[2].animate.move_to(famas_b_label_pos),
             group_famas[3].animate.move_to(famas_c_label_pos),
             TransformMatchingTex(
-                tex_nx_eq_minus_abc, tex_nx_eq_abc_new,
+                tex_nx_eq_minus_abc, tex_nx_eq_abc_copy, # 1
                 path_arc=PI/2, run_time=1.5
             )
         )
+
         self.camera.frame.add_updater(update_manim_objects)
-        self.wait(2.5)
+        self.wait(1.5)
         self.play(TransformMatchingTex(
-            tex_nx_eq_abc_new, tex_x_eq_abc,
+            tex_nx_eq_abc_copy, tex_x_eq_abc, # 1
             path_arc=PI/2, run_time=1.5
         ))
         self.wait(1.5)
@@ -777,14 +791,14 @@ class CAPart4_3(Scene):
             for i in range(n_rows * n_cols)
         ]).arrange_in_grid(n_rows=n_rows, n_cols=n_cols, buff=1.5).set_opacity(0.5)
         one_shelf = SVGMobject("shelf.svg").scale(0.6).set_color(YELLOW)
-        text_choiceable = Text("可选的", font="微软雅黑").move_to(UP * 3.5).scale(0.8).set_color_by_text_to_color_map({
+        text_choiceable = Text("可选的", font="微软雅黑").move_to(UP * 3.5).scale(1.1).set_color_by_text_to_color_map({
             "可选": GREEN,
             "的": WHITE
-        }).move_to(DOWN * 0.5 + LEFT * 1)
-        text_howtochoose = Text("如何选", font="微软雅黑").move_to(UP * 2.5).scale(0.8).set_color_by_text_to_color_map({
+        }).move_to(DOWN * 0.5 + LEFT * 1.5)
+        text_howtochoose = Text("如何选", font="微软雅黑").move_to(UP * 2.5).scale(1.1).set_color_by_text_to_color_map({
             "如何": RED,
             "选": WHITE
-        }).move_to(DOWN * 0.5 + RIGHT * 1)
+        }).move_to(DOWN * 0.5 + RIGHT * 1.5)
 
         self.play(
             *[ReplacementTransform(group_chosen_sets[i], shelfs[i]) for i in range(len(group_chosen_sets))],
@@ -802,6 +816,7 @@ class CAPart4_3(Scene):
         self.wait(1.5)
         self.play(
             ReplacementTransform(sorts, one_shelf),
+            text_axiom_of_choice.animate.scale(1.2),
             FadeOut(shelfs)
         )
         self.wait(1.5)
@@ -816,12 +831,15 @@ class CAPart4_3(Scene):
         group_chosen_sets.set_opacity(0)
         self.play(group_chosen_sets.animate.set_opacity(0.1))
         self.wait(1.5)
-        self.play(group_chosen_sets.animate.set_opacity(0))
+        self.play(
+            group_chosen_sets.animate.set_opacity(0),
+            self.camera.frame.animate.scale(0.9)
+        )
         
         ball_1 = Sphere(radius=0.4, color=GREEN_A).move_to(DOWN * 2 + LEFT * 1.3)
         ball_2 = Sphere(radius=0.4, color=RED_A).move_to(DOWN * 1.5 + RIGHT * 1.3)
         ball_3 = Sphere(radius=0.4, color=BLUE_A).move_to(DOWN * 2.5 + RIGHT * 1.3)
-        text_zorn_lemma = Text("Zorn 引理", font="微软雅黑").scale(0.4).next_to(text_axiom_of_choice, RIGHT).shift(DOWN * 0.15).set_color_by_text_to_color_map({
+        text_zorn_lemma = Text("Zorn 引理", font="微软雅黑").scale(0.6).next_to(text_axiom_of_choice, RIGHT).shift(DOWN * 0.15).set_color_by_text_to_color_map({
             "Zorn": ORANGE,
             "引理": WHITE
         })

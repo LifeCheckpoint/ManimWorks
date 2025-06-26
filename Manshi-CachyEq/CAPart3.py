@@ -736,11 +736,11 @@ class CAPart3_2_2(Scene):
             Write(group_b_4, lag_ratio=0.1),
             run_time=0.5
         )
-        self.wait(0.5)
-        self.play(
-            Write(group_dots_pib, lag_ratio=0.1),
-            run_time=2
-        )
+        # self.wait(0.5)
+        # self.play(
+        #     Write(group_dots_pib, lag_ratio=0.1),
+        #     run_time=2
+        # )
         self.wait(2)
         self.play(
             FadeOut(group_b),
@@ -882,7 +882,7 @@ class CAPart3_2_2(Scene):
             # 创建图形元素
             dotA = Dot(pointA, radius=0.06).set_color(RED)
             dotB = Dot(pointB, radius=0.06).set_color(GREEN)
-            dotC = Dot(pointC, radius=0.06).set_color(YELLOW)
+            dotC = Dot(pointC, radius=0.03).set_color(YELLOW)
             
             arrow_OA = Arrow(ori, pointA, buff=0.05).set_color(RED)
             arrow_OB = Arrow(ori, pointB, buff=0.05).set_color(GREEN)
@@ -918,17 +918,22 @@ class CAPart3_2_2(Scene):
         opacity_delta = 1 / (end_yellow - start_yellow)
         rec_yellow = Rectangle(width=20, height=20).set_fill(color=YELLOW, opacity=0)
         self.add(rec_yellow)
+        group_back_dot = VGroup()
         for i in range(end_yellow):
-            tempC_dots.add(draw_vector_addition(self, random.uniform(-5, 5), random.uniform(-6, 10), wait_time=0, rm=False))
-            if i % 3 == 0:
+            # tempC_dots.add(draw_vector_addition(self, random.uniform(-5, 5), random.uniform(-6, 10), wait_time=0, rm=False))
+            if i % 4 == 0:
                 self.wait(1 / 120 + 0.00001)
-            if i >= start_yellow:
-                rec_yellow.set_fill(opacity=opacity_delta * (i - start_yellow))
-        self.wait(1)
-        self.play(FadeOut(rec_yellow))
-        self.wait(2)
+            for _ in range(10):
+                group_back_dot.add(Dot(np.array([
+                    random.uniform(-8, 8),
+                    random.uniform(-5, 5),
+                    0
+                ]), radius=0.03).set_color(YELLOW))
+                self.add(group_back_dot[-1])
+        self.wait(2.5)
         self.play(
             FadeOut(tempC_dots, lag_ratio=0.1, run_time=1),
+            FadeOut(group_back_dot, lag_ratio=0.1, run_time=1),
         )
         self.wait(1)
 
