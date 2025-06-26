@@ -1482,6 +1482,8 @@ class CAPart2_4_3(Scene):
 
         # Dots contruction
         func = lambda x: (math.sin(1.5 * x) + x / 2) * math.exp(0.1 * x)
+        func_interpolate: Callable[[Callable[[float], float], Callable[[float], float], float, float], float] = lambda f1, f2, x, t: f1(x) * (1 - t) + f2(x) * t
+        func_no_smooth = lambda x: (math.sin(1.5 * x) + x / 2) * math.exp(0.1 * x) + ((x + 1) - 2 * int((x + 1) / 2))
         color_func = lambda x, min_val, max_val: interpolate_color(BLUE_B, GREEN_B, (x - min_val) / (max_val - min_val))
         dots = VGroup(*[
             Dot(axes.c2p(x, func(x)), radius=0.025).set_color(color_func(x, -8, 5))
@@ -1506,7 +1508,7 @@ class CAPart2_4_3(Scene):
         start_x_1 = 0.5
         end_x_1 = np.sqrt(2)
         start_x_2 = np.sqrt(2)
-        end_x_2 = np.pi
+        end_x_2 = 2.9999
 
         dash_end_x_1 = DashedLine(axes.c2p(0, func(start_x_1)), axes.c2p(start_x_1, func(start_x_1)), color=GREY_C).set_stroke(width=0.3)
         dash_end_y_1 = DashedLine(axes.c2p(end_x_1, 0), axes.c2p(end_x_1, func(end_x_1)), color=GREY_C).set_stroke(width=0.3)
@@ -1678,6 +1680,8 @@ class CAPart2_4_3(Scene):
 
         self.wait(2)
         self.remove(position_lines)
+
+        # scale to origin
         
         self.play(
             self.camera.frame.animate.scale(100),
@@ -1690,10 +1694,39 @@ class CAPart2_4_3(Scene):
         )
         self.play(self.camera.frame.animate.move_to(ORIGIN))
 
-        target_point_2 = Dot(axes.c2p(end_x_2, func(end_x_2)), radius=0.1).set_color(YELLOW)
+        # transform func points
+
+        point_label.add_updater(lambda m: m.move_to(point_dot.get_corner(RIGHT + DOWN), aligned_edge=LEFT + UP))
+        point_label[1].add_updater(lambda m: m.set_value(axes.p2c(point_dot.get_center())[0]))
+        point_label[3].add_updater(lambda m: m.set_value(func_no_smooth(axes.p2c(point_dot.get_center())[0])))
+        self.play(
+            *[
+                dot.animate.move_to(axes.c2p(
+                    axes.p2c(dot.get_center())[0],
+                    func_no_smooth(axes.p2c(dot.get_center())[0])
+                ))
+                for dot in dots
+            ],
+            point_dot.animate.move_to(axes.c2p(
+                axes.p2c(point_dot.get_center())[0],
+                func_no_smooth(axes.p2c(point_dot.get_center())[0])
+            )),
+            run_time=1.5
+        )
+        self.play(
+            x_dot.animate.move_to(RIGHT * point_dot.get_x()),
+            y_dot.animate.move_to(UP * point_dot.get_y()),
+            x_label.animate.next_to(x_dot, DOWN, buff=0.6).set_value(axes.p2c(x_dot.get_center())[0]),
+            y_label.animate.next_to(y_dot, LEFT, buff=0.8).set_value(func_no_smooth(axes.p2c(x_dot.get_center())[0])),
+        )
+        self.wait(2)
+
+        # play animate 2
+
+        target_point_2 = Dot(axes.c2p(end_x_2 + 0.01, func_no_smooth(end_x_2 + 0.01)), radius=0.1).set_color(YELLOW)
         arrow_start_to_end_2 = Arrow(
             start=point_dot.get_center(),
-            end=axes.c2p(end_x_2, func(end_x_2)),
+            end=axes.c2p(end_x_2 + 0.01, func_no_smooth(end_x_2 + 0.01)),
             buff=0,
         ).set_color(LIGHT_BROWN).set_stroke(width=0.5)
         self.play(Write(target_point_2))
@@ -1705,17 +1738,17 @@ class CAPart2_4_3(Scene):
                 self.time, time_start, time_start + full_play_time,
                 from_val=start_x_2, to_val=end_x_2, smooth_recursion=0
             )[1],
-            func(pos_func_log_smooth(
+            func_no_smooth(pos_func_log_smooth(
                 self.time, time_start, time_start + full_play_time,
                 from_val=start_x_2, to_val=end_x_2, smooth_recursion=0
             )[1]
         ))))
         point_label.add_updater(lambda m: m.move_to(point_dot.get_corner(DOWN), aligned_edge=LEFT + UP))
         point_label[1].add_updater(lambda m: m.set_value(axes.p2c(point_dot.get_center())[0]))
-        point_label[3].add_updater(lambda m: m.set_value(func(axes.p2c(point_dot.get_center())[0])))
+        point_label[3].add_updater(lambda m: m.set_value(func_no_smooth(axes.p2c(point_dot.get_center())[0])))
         arrow_start_to_end_2.add_updater(lambda m: m.put_start_and_end_on(
             point_dot.get_center(),
-            axes.c2p(end_x_2, func(end_x_2))
+            axes.c2p(end_x_2 + 0.01, func_no_smooth(end_x_2 + 0.01))
         ).set_opacity(1 if self.time - time_start < full_play_time - 0.1 else 0))
 
         self.wait(full_play_time)
