@@ -649,15 +649,16 @@ class CAPart3_2_2(Scene):
         rec_hl_ca_fy = SurroundingRectangle(VGroup(tex_cauchy[5:9]), buff=0.1, color=GREEN_A)
         rec_hl_p_a = SurroundingRectangle(tex_1_a[3], buff=0.1, color=RED_A)
         rec_hl_p_b = SurroundingRectangle(tex_pi_b[3], buff=0.1, color=GREEN_A)
-        tex_a = Tex("a").set_color(RED).next_to(VGroup(tex_f_1_plus_f_pi[0:4]), DOWN, buff=0.15)
-        tex_plus = Tex("+").set_color(WHITE).next_to(VGroup(tex_f_1_plus_f_pi[4]), DOWN, buff=0.15).shift(DOWN * 0.1)
-        tex_b = Tex("b").set_color(GREEN).next_to(VGroup(tex_f_1_plus_f_pi[5:9]), DOWN, buff=0.15)
-        tex_eq_apb = Tex("=a+b").next_to(VGroup(tex_f_1_plus_f_pi[9:]), DOWN, buff=0.15).set_color_by_tex_to_color_map({
+        tex_a = Tex("a").set_color(RED).next_to(VGroup(tex_cauchy[0:4]), DOWN, buff=0.15)
+        tex_plus = Tex("+").set_color(WHITE).next_to(VGroup(tex_cauchy[4]), DOWN, buff=0.15).shift(DOWN * 0.1)
+        tex_b = Tex("b").set_color(GREEN).next_to(VGroup(tex_cauchy[5:9]), DOWN, buff=0.15)
+        tex_eq_apb = Tex("=a+b").next_to(VGroup(tex_cauchy[9:]), DOWN, buff=0.15).set_color_by_tex_to_color_map({
             "a": RED, "b": GREEN, "=": WHITE, "+": WHITE
         })
         tex_a.move_to(RIGHT * tex_a.get_x() + UP * tex_plus.get_y())
         tex_b.move_to(RIGHT * tex_b.get_x() + UP * tex_plus.get_y())
         tex_eq_apb.move_to(RIGHT * tex_eq_apb.get_x() + UP * tex_plus.get_y())
+        VGroup(tex_a, tex_plus, tex_b, tex_eq_apb).shift(UP * 1.2 + RIGHT * 1.5)
         dot_f1 = Dot(radius = 0.1).set_color(RED).next_to(rec_hl_f1, DOWN, buff=0.15)
         dot_f2 = Dot(radius = 0.1).set_color(GREEN).next_to(rec_hl_fpi, DOWN, buff=0.15)
         show_correct = ImageMobject("right.png").scale(0.2).next_to(VGroup(tex_f_1_plus_f_pi[10:]), DOWN, buff=0.15).shift(DOWN * 0.5)
@@ -850,14 +851,14 @@ class CAPart3_2_2(Scene):
         self.wait(1)
         self.play(Write(tex_appi_apb))
         self.wait(1.5)
-        self.play(ReplacementTransform(tex_a, dot_f1))
+        self.play(Write(dot_f1))
         self.wait(1)
-        self.play(ReplacementTransform(tex_b, dot_f2))
+        self.play(Write(dot_f2))
         self.wait(1)
         self.play(FadeIn(show_correct))
         self.wait(2.5)
         self.play(FadeOut(Group(
-            dot_f1, dot_f2, show_correct, tex_plus, tex_eq_apb
+            dot_f1, dot_f2, show_correct, tex_plus, tex_eq_apb, tex_a, tex_b,
         )))
         
         def draw_vector_addition(scene: Scene, x1, x2, wait_time=2.0, rm=True):

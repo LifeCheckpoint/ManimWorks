@@ -544,6 +544,14 @@ class CAPart2_2(Scene):
             "+": WHITE,
             "\\left(": WHITE, "\\right)": WHITE
         })
+        group_fpqqqq_0_x = VGroup(*tex_fpqqqq[2:-5])
+        group_fpqqqq_0_y = VGroup(*tex_fpqqqq[-4:-1])
+        sr_rec_0_x = SurroundingRectangle(group_fpqqqq_0_x, buff=0.1).set_color(RED_A)
+        sr_rec_0_y = SurroundingRectangle(group_fpqqqq_0_y, buff=0.1).set_color(GREEN_A)
+        brace_x_0 = Brace(group_fpqqqq_0_x, UP)
+        brace_y_0 = Brace(group_fpqqqq_0_y, UP)
+        tex_0_x = Tex("x").set_color(RED_A).next_to(brace_x_0, UP, buff=0.1)
+        tex_0_y = Tex("y").set_color(GREEN_A).next_to(brace_y_0, UP, buff=0.1)
         tex_fpqqqq_1 = Tex("f\\left(\\frac{p}{q}+\\dots+\\frac{p}{q}+\\frac{p}{q}\\right)+f\\left(\\frac{p}{q}\\right)").set_color_by_tex_to_color_map({
             "f": BLUE,
             "\\frac{p}{q}": RED,
@@ -551,8 +559,8 @@ class CAPart2_2(Scene):
             "\\left(": WHITE, "\\right)": WHITE
         })
         [word.set_color(GREEN) for word in tex_fpqqqq_1[-4:-1]]
-        group_fpqqqq_1_x = VGroup(*tex_fpqqqq_1[:-7])
-        group_fpqqqq_1_y = VGroup(*tex_fpqqqq_1[-6:])
+        group_fpqqqq_1_x = VGroup(*tex_fpqqqq_1[2:-12])
+        group_fpqqqq_1_y = VGroup(*tex_fpqqqq_1[-11:-8])
         sr_rec_1_x = SurroundingRectangle(group_fpqqqq_1_x, buff=0.1).set_color(RED_A)
         sr_rec_1_y = SurroundingRectangle(group_fpqqqq_1_y, buff=0.1).set_color(GREEN_A)
         brace_x_1 = Brace(group_fpqqqq_1_x, UP)
@@ -567,8 +575,8 @@ class CAPart2_2(Scene):
         })
         [word.set_color(GREEN) for word in tex_fpqqqq_2[-4:-1]]
         [word.set_color(GREEN) for word in tex_fpqqqq_2[-11:-8]]
-        group_fpqqqq_2_x = VGroup(*tex_fpqqqq_2[:-14])
-        group_fpqqqq_2_y = VGroup(*tex_fpqqqq_2[-13:-7])
+        group_fpqqqq_2_x = VGroup(*tex_fpqqqq_2[2:9])
+        group_fpqqqq_2_y = VGroup(*tex_fpqqqq_2[10:13])
         sr_rec_2_x = SurroundingRectangle(group_fpqqqq_2_x, buff=0.1).set_color(RED_A)
         sr_rec_2_y = SurroundingRectangle(group_fpqqqq_2_y, buff=0.1).set_color(GREEN_A)
         brace_x_2 = Brace(group_fpqqqq_2_x, UP)
@@ -584,8 +592,8 @@ class CAPart2_2(Scene):
         [word.set_color(GREEN) for word in tex_fpqqqq_3[-4:-1]]
         [word.set_color(GREEN) for word in tex_fpqqqq_3[-11:-8]]
         [word.set_color(GREEN) for word in tex_fpqqqq_3[-18:-15]]
-        group_fpqqqq_3_x = VGroup(*tex_fpqqqq_3[:-21])
-        group_fpqqqq_3_y = VGroup(*tex_fpqqqq_3[-20:-14])
+        group_fpqqqq_3_x = VGroup(*tex_fpqqqq_3[2:5])
+        group_fpqqqq_3_y = VGroup(*tex_fpqqqq_3[6:9])
         sr_rec_3_x = SurroundingRectangle(group_fpqqqq_3_x, buff=0.1).set_color(RED_A)
         sr_rec_3_y = SurroundingRectangle(group_fpqqqq_3_y, buff=0.1).set_color(GREEN_A)
         brace_x_3 = Brace(group_fpqqqq_3_x, UP)
@@ -661,8 +669,20 @@ class CAPart2_2(Scene):
             Write(brace_q1),
             run_time=2
         )
+        self.wait(1.5)
+        self.play(Write(sr_rec_0_x), Write(sr_rec_0_y))
+        self.play(
+            Write(brace_x_0), Write(brace_y_0),
+            Write(tex_0_x), Write(tex_0_y),
+        )
+        self.wait(0.5)
         self.play(Write(tex_q))
         self.wait(2)
+        self.play(
+            FadeOut(VGroup(
+                sr_rec_0_x, sr_rec_0_y, brace_x_0, brace_y_0, tex_0_x, tex_0_y,
+            )),
+        )
         self.play(
             *transformMatchingIndex(tex_fpqqqq, tex_fpqqqq_1, map_index=(
                 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21],
@@ -672,13 +692,21 @@ class CAPart2_2(Scene):
             ReplacementTransform(brace_q1, brace_q2),
             run_time=2
         )
-        self.wait(1.5)
+        self.wait(2)
         self.play(Write(sr_rec_1_x), Write(sr_rec_1_y))
         self.play(
             Write(brace_x_1), Write(brace_y_1),
             Write(tex_1_x), Write(tex_1_y),
         )
-        self.wait(2)
+        self.wait(1.5)
+        self.play(
+            FadeOut(sr_rec_1_x),
+            FadeOut(sr_rec_1_y),
+            FadeOut(brace_x_1),
+            FadeOut(brace_y_1),
+            FadeOut(tex_1_x),
+            FadeOut(tex_1_y),
+        )
         self.play(
             *transformMatchingIndex(tex_fpqqqq_1, tex_fpqqqq_2, map_index=(
                 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24],
@@ -686,15 +714,23 @@ class CAPart2_2(Scene):
             )),
             TransformMatchingTex(tex_qs1, tex_qs2, key_map={"q": "q"}),
             ReplacementTransform(brace_q2, brace_q3),
-            ReplacementTransform(sr_rec_1_x, sr_rec_2_x),
-            ReplacementTransform(sr_rec_1_y, sr_rec_2_y),
-            ReplacementTransform(brace_x_1, brace_x_2),
-            ReplacementTransform(brace_y_1, brace_y_2),
-            ReplacementTransform(tex_1_x, tex_2_x),
-            ReplacementTransform(tex_1_y, tex_2_y),
             run_time=2
         )
         self.wait(2)
+        self.play(Write(sr_rec_2_x), Write(sr_rec_2_y))
+        self.play(
+            Write(brace_x_2), Write(brace_y_2),
+            Write(tex_2_x), Write(tex_2_y),
+        )
+        self.wait(1.5)
+        self.play(
+            FadeOut(sr_rec_2_x),
+            FadeOut(sr_rec_2_y),
+            FadeOut(brace_x_2),
+            FadeOut(brace_y_2),
+            FadeOut(tex_2_x),
+            FadeOut(tex_2_y),
+        )
         self.play(
             *transformMatchingIndex(tex_fpqqqq_2, tex_fpqqqq_3, map_index=(
                 [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
@@ -702,15 +738,23 @@ class CAPart2_2(Scene):
             )),
             TransformMatchingTex(tex_qs2, tex_qs3, key_map={"q": "q"}),
             ReplacementTransform(brace_q3, brace_q4),
-            ReplacementTransform(sr_rec_2_x, sr_rec_3_x),
-            ReplacementTransform(sr_rec_2_y, sr_rec_3_y),
-            ReplacementTransform(brace_x_2, brace_x_3),
-            ReplacementTransform(brace_y_2, brace_y_3),
-            ReplacementTransform(tex_2_x, tex_3_x),
-            ReplacementTransform(tex_2_y, tex_3_y),
             run_time=2
         )
         self.wait(2)
+        self.play(Write(sr_rec_3_x), Write(sr_rec_3_y))
+        self.play(
+            Write(brace_x_3), Write(brace_y_3),
+            Write(tex_3_x), Write(tex_3_y),
+        )
+        self.wait(1.5)
+        self.play(
+            FadeOut(sr_rec_3_x),
+            FadeOut(sr_rec_3_y),
+            FadeOut(brace_x_3),
+            FadeOut(brace_y_3),
+            FadeOut(tex_3_x),
+            FadeOut(tex_3_y),
+        )
         self.play(
             *transformMatchingIndex(tex_fpqqqq_3, tex_fpqqqq_final, map_index=(
                 [0, 1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
@@ -718,9 +762,6 @@ class CAPart2_2(Scene):
             )),
             TransformMatchingTex(tex_qs3, tex_qs_final, key_map={"q": "q"}),
             ReplacementTransform(brace_q4, brace_final),
-            FadeOut(VGroup(
-                sr_rec_3_x, sr_rec_3_y, brace_x_3, brace_y_3, tex_3_x, tex_3_y,
-            )),
             run_time=2
         )
         self.wait(2)
