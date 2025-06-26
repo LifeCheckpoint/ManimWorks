@@ -1749,7 +1749,7 @@ class CAPart2_4_3(Scene):
         arrow_start_to_end_2.add_updater(lambda m: m.put_start_and_end_on(
             point_dot.get_center(),
             axes.c2p(end_x_2 + 0.01, func_no_smooth(end_x_2 + 0.01))
-        ).set_opacity(1 if self.time - time_start < full_play_time - 0.1 else 0))
+        ))
 
         self.wait(full_play_time)
         point_dot.clear_updaters()
@@ -1770,13 +1770,14 @@ class CAPart2_4_3(Scene):
             y_label.animate.set_opacity(0.2),
             point_dot.animate.set_opacity(0.2),
             point_label.animate.set_opacity(0.2),
+            arrow_start_to_end_2.animate.set_opacity(0.2),
         )
         self.wait(2)
         self.play(FadeOut(VGroup(
             tex_cauchy, tex_f, underline_tex_f, text_continuous,
             axes, func_label,
             point_dot, point_label, x_dot, y_dot, x_label, y_label,
-            target_point_2,
+            target_point_2, arrow_start_to_end_2,
             dash_end_x_1, dash_end_y_1,
             *dots_sq2_patch, *dots,
         )))

@@ -573,25 +573,74 @@ class CAPart3_2_2(Scene):
         dots_on_line_1a = [Dot(radius=0.04).set_color(RED_B) for _ in range(6)]
         dots_on_line_pib = [Dot(radius=0.04).set_color(GREEN_B) for _ in range(6)]
         np.random.seed([114, 514, 1919])
-        # a
-        random_dot_pos_1a = np.random.uniform(-3, 5, 6)
-        group_tex_dots_1a = VGroup()
-        for i, dot in enumerate(dots_on_line_1a):
-            dot.move_to(axes.c2p(random_dot_pos_1a[i], random_dot_pos_1a[i] * a))
-            tex_thisp = Tex(f"({random_dot_pos_1a[i]:.2f},{random_dot_pos_1a[i]:.2f} \\cdot a)").scale(0.35).next_to(dot, UP * 0.2 + LEFT * 0.2)
-            for t in tex_thisp:
-                t.set_color(RED_D).set_opacity(0.75)
-            group_tex_dots_1a.add(tex_thisp)
-        group_dots_1a = VGroup(*dots_on_line_1a)
-        # b
-        random_dot_pos_pib = np.random.uniform(-4, 12, 6)
-        group_tex_dots_pib = VGroup()
-        for i, dot in enumerate(dots_on_line_pib):
-            dot.move_to(axes.c2p(random_dot_pos_pib[i] / np.pi, random_dot_pos_pib[i] / np.pi * b / np.pi))
-            tex_thisp = Tex(f"({((random_dot_pos_pib[i] / np.pi)):.2f} \\cdot \\pi,{(random_dot_pos_pib[i] / np.pi):.2f} \\cdot b)").scale(0.35).next_to(dot, DOWN * 0.2 + RIGHT * 0.2)
-            for t in tex_thisp:
-                t.set_color(GREEN_D).set_opacity(0.75)
-            group_tex_dots_pib.add(tex_thisp)
+        # # a
+        # random_dot_pos_1a = np.random.uniform(-3, 5, 6)
+        # group_tex_dots_1a = VGroup()
+        # for i, dot in enumerate(dots_on_line_1a):
+        #     dot.move_to(axes.c2p(random_dot_pos_1a[i], random_dot_pos_1a[i] * a))
+        #     tex_thisp = Tex(f"({random_dot_pos_1a[i]:.2f},{random_dot_pos_1a[i]:.2f} \\cdot a)").scale(0.35).next_to(dot, UP * 0.2 + LEFT * 0.2)
+        #     for t in tex_thisp:
+        #         t.set_color(RED_D).set_opacity(0.75)
+        #     group_tex_dots_1a.add(tex_thisp)
+        # group_dots_1a = VGroup(*dots_on_line_1a)
+        # # b
+        # random_dot_pos_pib = np.random.uniform(-4, 12, 6)
+        # group_tex_dots_pib = VGroup()
+        # for i, dot in enumerate(dots_on_line_pib):
+        #     dot.move_to(axes.c2p(random_dot_pos_pib[i] / np.pi, random_dot_pos_pib[i] / np.pi * b / np.pi))
+        #     tex_thisp = Tex(f"({((random_dot_pos_pib[i] / np.pi)):.2f} \\cdot \\pi,{(random_dot_pos_pib[i] / np.pi):.2f} \\cdot b)").scale(0.35).next_to(dot, DOWN * 0.2 + RIGHT * 0.2)
+        #     for t in tex_thisp:
+        #         t.set_color(GREEN_D).set_opacity(0.75)
+        #     group_tex_dots_pib.add(tex_thisp)
+
+        # Q for Line a
+
+        q_a_dots_div_1 = [Dot(axes.c2p(k, k * a), radius=0.05).set_color(RED) for k in range(-4, 5)]
+        q_a_texs_label_1 = [Tex("M\\frac{tt}{1} \\cdot a".replace("tt", str(abs(k))).replace("M", "-" if k <= 0 else "")).set_color(RED).scale(0.4).next_to(q_a_dots_div_1[k + 4], RIGHT + DOWN, buff=0.2) for k in range(-4, 5)]
+        q_a_dash_line_1 = [DashedLine(q_a_dots_div_1[i].get_corner(RIGHT + DOWN), q_a_texs_label_1[i].get_corner(LEFT + UP)).set_stroke(width=0.4).set_color(RED) for i in range(len(q_a_dots_div_1))]
+
+        q_a_dots_div_2 = [Dot(axes.c2p(k, k * a), radius=0.045).set_color(ORANGE) for k in [-3.5, -2.5, -1.5, -0.5, 0.5, 1.5, 2.5, 3.5]]
+        q_a_texs_label_2 = [Tex("M\\frac{tt}{2} \\cdot a".replace("tt", str(abs(k))).replace("M", "-" if k <= 0 else "")).set_color(ORANGE).scale(0.4).next_to(q_a_dots_div_2[i], RIGHT + DOWN, buff=0.5) for i, k in enumerate([-7, -5, -3, -1, 1, 3, 5, 7])]
+        q_a_dash_line_2 = [DashedLine(q_a_dots_div_2[i].get_corner(RIGHT + DOWN), q_a_texs_label_2[i].get_corner(LEFT + UP)).set_stroke(width=0.4).set_color(ORANGE) for i in range(len(q_a_dots_div_2))]
+
+        q_a_dots_div_3 = [Dot(axes.c2p(k, k * a), radius=0.04).set_color(YELLOW) for k in [-3.667, -3.333, -2.667, -2.333, -1.667, -1.333, -0.667, -0.333, 0.333, 0.667, 1.333, 1.667, 2.333, 2.667, 3.333, 3.667]]
+        q_a_texs_label_3 = [Tex("M\\frac{tt}{3} \\cdot a".replace("tt", str(abs(k))).replace("M", "-" if k <= 0 else "")).set_color(YELLOW).scale(0.4).next_to(q_a_dots_div_3[i], LEFT + UP, buff=0.2) for i, k in enumerate([-11, -10, -8, -7, -5, -4, -2, -1, 1, 2, 4, 5, 7, 8, 10, 11])]
+        q_a_dash_line_3 = [DashedLine(q_a_dots_div_3[i].get_corner(LEFT + UP), q_a_texs_label_3[i].get_corner(RIGHT + DOWN)).set_stroke(width=0.4).set_color(YELLOW) for i in range(len(q_a_dots_div_3))]
+
+        q_a_dots_div_4 = [Dot(axes.c2p(k, k * a), radius=0.035).set_color(GREEN) for k in [-3.75, -3.25, -2.75, -2.25, -1.75, -1.25, -0.75, -0.25, 0.25, 0.75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75]]
+        q_a_texs_label_4 = [Tex("M\\frac{tt}{4} \\cdot a".replace("tt", str(abs(k))).replace("M", "-" if k <= 0 else "")).set_color(GREEN).scale(0.4).next_to(q_a_dots_div_4[i], LEFT + UP, buff=0.5) for i, k in enumerate([-15, -13, -11, -9, -7, -5, -3, -1, 1, 3, 5, 7, 9, 11, 13, 15])]
+        q_a_dash_line_4 = [DashedLine(q_a_dots_div_4[i].get_corner(LEFT + UP), q_a_texs_label_4[i].get_corner(RIGHT + DOWN)).set_stroke(width=0.4).set_color(GREEN) for i in range(len(q_a_dots_div_4))]
+
+        group_a_1 = VGroup(*q_a_dots_div_1, *q_a_texs_label_1, *q_a_dash_line_1)
+        group_a_2 = VGroup(*q_a_dots_div_2, *q_a_texs_label_2, *q_a_dash_line_2)
+        group_a_3 = VGroup(*q_a_dots_div_3, *q_a_texs_label_3, *q_a_dash_line_3)
+        group_a_4 = VGroup(*q_a_dots_div_4, *q_a_texs_label_4, *q_a_dash_line_4)
+        group_a = VGroup(group_a_1, group_a_2, group_a_3, group_a_4)
+
+        # Q for Line b
+
+        q_b_dots_div_1 = [Dot(axes.c2p(k, k * b / np.pi), radius=0.05).set_color(GREEN) for k in range(-4, 11)]
+        q_b_texs_label_1 = [Tex("M\\frac{tt}{1} \\cdot b".replace("tt", str(abs(k))).replace("M", "-" if k <= 0 else "")).set_color(GREEN).scale(0.4).next_to(q_b_dots_div_1[k + 4], RIGHT + DOWN, buff=0.2) for k in range(-4, 11)]
+        q_b_dash_line_1 = [DashedLine(q_b_dots_div_1[i].get_corner(RIGHT + DOWN), q_b_texs_label_1[i].get_corner(LEFT + UP)).set_stroke(width=0.4).set_color(GREEN) for i in range(len(q_b_dots_div_1))]
+
+        q_b_dots_div_2 = [Dot(axes.c2p(k, k * b / np.pi), radius=0.045).set_color(ORANGE) for k in [-3.5, -2.5, -1.5, -0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5]]
+        q_b_texs_label_2 = [Tex("M\\frac{tt}{2} \\cdot b".replace("tt", str(abs(k))).replace("M", "-" if k <= 0 else "")).set_color(ORANGE).scale(0.4).next_to(q_b_dots_div_2[i], RIGHT + DOWN, buff=0.5) for i, k in enumerate([-7, -5, -3, -1, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23])]
+        q_b_dash_line_2 = [DashedLine(q_b_dots_div_2[i].get_corner(RIGHT + DOWN), q_b_texs_label_2[i].get_corner(LEFT + UP)).set_stroke(width=0.4).set_color(ORANGE) for i in range(len(q_b_dots_div_2))]
+
+        q_b_dots_div_3 = [Dot(axes.c2p(k, k * b / np.pi), radius=0.04).set_color(YELLOW) for k in [-3.667, -3.333, -2.667, -2.333, -1.667, -1.333, -0.667, -0.333, 0.333, 0.667, 1.333, 1.667, 2.333, 2.667, 3.333, 3.667, 4.333, 4.667, 5.333, 5.667, 6.333, 6.667, 7.333, 7.667, 8.333, 8.667, 9.333, 9.667, 10.333, 10.667, 11.333, 11.667]]
+        q_b_texs_label_3 = [Tex("M\\frac{tt}{3} \\cdot b".replace("tt", str(abs(k))).replace("M", "-" if k <= 0 else "")).set_color(YELLOW).scale(0.4).next_to(q_b_dots_div_3[i], LEFT + UP, buff=0.2) for i, k in enumerate([-11, -10, -8, -7, -5, -4, -2, -1, 1, 2, 4, 5, 7, 8, 10, 11, 13, 14, 15, 16, 18, 19, 21, 22, 24, 25, 27, 28, 30, 31, 33, 34])]
+        q_b_dash_line_3 = [DashedLine(q_b_dots_div_3[i].get_corner(LEFT + UP), q_b_texs_label_3[i].get_corner(RIGHT + DOWN)).set_stroke(width=0.4).set_color(YELLOW) for i in range(len(q_b_dots_div_3))]
+
+        q_b_dots_div_4 = [Dot(axes.c2p(k, k * b / np.pi), radius=0.035).set_color(GREEN) for k in [-3.75, -3.25, -2.75, -2.25, -1.75, -1.25, -0.75, -0.25, 0.25, 0.75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75, 4.25, 4.75, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75, 8.25, 8.75, 9.25, 9.75, 10.25, 10.75, 11.25, 11.75]]
+        q_b_texs_label_4 = [Tex("M\\frac{tt}{4} \\cdot b".replace("tt", str(abs(k))).replace("M", "-" if k <= 0 else "")).set_color(GREEN).scale(0.4).next_to(q_b_dots_div_4[i], LEFT + UP, buff=0.5) for i, k in enumerate([-15, -13, -11, -9, -7, -5, -3, -1, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47])]
+        q_b_dash_line_4 = [DashedLine(q_b_dots_div_4[i].get_corner(LEFT + UP), q_b_texs_label_4[i].get_corner(RIGHT + DOWN)).set_stroke(width=0.4).set_color(GREEN) for i in range(len(q_b_dots_div_4))]
+
+        group_b_1 = VGroup(*q_b_dots_div_1, *q_b_texs_label_1, *q_b_dash_line_1)
+        group_b_2 = VGroup(*q_b_dots_div_2, *q_b_texs_label_2, *q_b_dash_line_2)
+        group_b_3 = VGroup(*q_b_dots_div_3, *q_b_texs_label_3, *q_b_dash_line_3)
+        group_b_4 = VGroup(*q_b_dots_div_4, *q_b_texs_label_4, *q_b_dash_line_4)
+        group_b = VGroup(group_b_1, group_b_2, group_b_3, group_b_4)
+
         group_dots_pib = VGroup(*dots_on_line_pib)
         tex_f_1_plus_f_pi = Tex("f(1)+f(\\pi)=f(1+\\pi)").scale(0.8).set_color_by_tex_to_color_map(colormap_xy_f | {"1": RED, "\\pi": GREEN}).next_to(tex_pi_b, DOWN * 1.5 + RIGHT * 1)
         rec_hl_f1 = SurroundingRectangle(VGroup(tex_f_1_plus_f_pi[0:4]), buff=0.1, color=RED_A)
@@ -648,28 +697,53 @@ class CAPart3_2_2(Scene):
         )
         self.wait(0.5)
         self.play(
-            Write(group_tex_dots_1a, lag_ratio=0.1),
-            Write(group_dots_1a, lag_ratio=0.1),
-            run_time=2
+            Write(group_a_1, lag_ratio=0.1),
+            run_time=1
         )
-        self.wait(1.5)
+        self.play(
+            Write(group_a_2, lag_ratio=0.1),
+            run_time=0.5
+        )
+        self.play(
+            Write(group_a_3, lag_ratio=0.1),
+            run_time=0.5
+        )
+        self.play(
+            Write(group_a_4, lag_ratio=0.1),
+            run_time=0.5
+        )
+        self.wait(2)
+        self.play(FadeOut(group_a))
         self.play(
             Write(line_pib),
             FadeOut(arrow_pi_0tob),
             FadeOut(dot_pi_0),
             run_time=1.5
         )
+        self.play(
+            Write(group_b_1, lag_ratio=0.1),
+            run_time=0.5
+        )
+        self.play(
+            Write(group_b_2, lag_ratio=0.1),
+            run_time=0.5
+        )
+        self.play(
+            Write(group_b_3, lag_ratio=0.1),
+            run_time=0.5
+        )
+        self.play(
+            Write(group_b_4, lag_ratio=0.1),
+            run_time=0.5
+        )
         self.wait(0.5)
         self.play(
-            Write(group_tex_dots_pib, lag_ratio=0.1),
             Write(group_dots_pib, lag_ratio=0.1),
             run_time=2
         )
         self.wait(2)
         self.play(
-            FadeOut(group_tex_dots_1a),
-            FadeOut(group_dots_1a),
-            FadeOut(group_tex_dots_pib),
+            FadeOut(group_b),
             FadeOut(group_dots_pib),
         )
         
