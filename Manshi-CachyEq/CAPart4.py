@@ -464,20 +464,43 @@ class CAPart4_1(Scene):
             group_limited_famas_label[i].move_to(group_limited_famas[i].get_bottom() + DOWN * 0.35)
         for i, label in enumerate(group_limited_famas_label[:-1]):
             label.set_color(group_limited_famas[i].get_color())
-        tex_x_eq_q1b1 = Tex("x = q_1 b_1 + q_2 b_2 + \\cdots + q_n b_n").set_color_by_tex_to_color_map({
-            "q_1 b_1": RED_A,
-            "q_2 b_2": GREEN_A,
-            "q_n b_n": BLUE_A,
+        tex_x_eq_q1b1 = Tex("x = q_{i_1} b_{i_1} + q_{i_2} b_{i_2} + \\cdots + q_{i_k} b_{i_k}").set_color_by_tex_to_color_map({
+            "q_{i_1} b_{i_1}": RED_A,
+            "q_{i_2} b_{i_2}": GREEN_A,
+            "q_{i_k} b_{i_k}": BLUE_A,
             "x =": WHITE
         }).move_to(DOWN * 1.5)
+        group_i1_1_bottom = VGroup(*tex_x_eq_q1b1[3:5]).get_bottom()
+        group_i1_2_bottom = VGroup(*tex_x_eq_q1b1[6:8]).get_bottom()
+        group_i2_1_bottom = VGroup(*tex_x_eq_q1b1[10:12]).get_bottom()
+        group_i2_2_bottom = VGroup(*tex_x_eq_q1b1[13:15]).get_bottom()
+        arrow_i1_1 = Arrow(group_i1_1_bottom, group_i1_1_bottom + DOWN * 0.5, buff=0.05).set_color(RED_A)
+        arrow_i1_2 = Arrow(group_i1_2_bottom, group_i1_2_bottom + DOWN * 0.5, buff=0.05).set_color(RED_A)
+        arrow_i2_1 = Arrow(group_i2_1_bottom, group_i2_1_bottom + DOWN * 0.5, buff=0.05).set_color(GREEN_A)
+        arrow_i2_2 = Arrow(group_i2_2_bottom, group_i2_2_bottom + DOWN * 0.5, buff=0.05).set_color(GREEN_A)
+        tex_2_1 = Tex("2").set_color(RED_A).move_to(arrow_i1_1.get_bottom() + DOWN * 0.1, aligned_edge=UP)
+        tex_2_2 = Tex("2").set_color(RED_A).move_to(arrow_i1_2.get_bottom() + DOWN * 0.1, aligned_edge=UP)
+        tex_6_1 = Tex("6").set_color(GREEN_A).move_to(arrow_i2_1.get_bottom() + DOWN * 0.1, aligned_edge=UP)
+        tex_6_2 = Tex("6").set_color(GREEN_A).move_to(arrow_i2_2.get_bottom() + DOWN * 0.1, aligned_edge=UP)
+        group_a_i_1 = VGroup(arrow_i1_1, tex_2_1, arrow_i1_2, tex_2_2)
+        group_a_i_2 = VGroup(arrow_i2_1, tex_6_1, arrow_i2_2, tex_6_2)
+        rec_bi_2 = SurroundingRectangle(group_limited_famas_label[2]).set_color(RED_A)
+        rec_bi_6 = SurroundingRectangle(group_limited_famas_label[6]).set_color(GREEN_A)
+        [tex_x_eq_q1b1[i].set_color("#f7afb0") for i in [3, 4, 6, 7]]
+        [tex_x_eq_q1b1[i].set_color("#dcf1c6") for i in [10, 11, 13, 14]]
+        [tex_x_eq_q1b1[i].set_color("#daf3f9") for i in [-1, -2, -4, -5]]
         tex_RR = Tex("\\mathbb{R}").set_color(YELLOW).move_to(DOWN + LEFT * 1)
         tex_QQ = Tex("\\mathbb{Q}").set_color(LIGHT_PINK).move_to(DOWN + RIGHT * 1)
-        arrow_R2Q = Arrow(
-            start=tex_RR.get_right(),
-            end=tex_QQ.get_left(),
-            buff=0.1, color=WHITE
-        )
-        text_hamel_basis = Text("Hamel 基", font="微软雅黑").move_to(arrow_R2Q.get_center()).scale(0.6).set_color_by_text_to_color_map({
+        tex_R_Q = Tex("\\mathbb{R}=\\mathbb{Q}( b_1 , b_2 , \\cdots )").move_to((tex_RR.get_center() + tex_QQ.get_center()) / 2)
+        tex_R_Q[0].set_color(YELLOW)
+        tex_R_Q[2].set_color(LIGHT_PINK)
+        [tex_R_Q[i].set_color(GREY_B) for i in [4, 5, 7, 8, 10, 11, 12]]
+        # arrow_R2Q = Arrow(
+        #     start=tex_RR.get_right(),
+        #     end=tex_QQ.get_left(),
+        #     buff=0.1, color=WHITE
+        # )
+        text_hamel_basis = Text("Hamel 基", font="微软雅黑").next_to(tex_R_Q, DOWN).scale(0.6).set_color_by_text_to_color_map({
             "Hamel": LIGHT_PINK,
             "基": WHITE
         })
@@ -494,11 +517,20 @@ class CAPart4_1(Scene):
         )
         self.wait(1.5)
         self.play(Write(tex_x_eq_q1b1, run_time=1.5))
+        self.wait(1.5)
+        self.play(Write(group_a_i_1))
+        self.play(Write(rec_bi_2))
+        self.wait(1)
+        self.play(Write(group_a_i_2))
+        self.play(Write(rec_bi_6))
         self.wait(2)
         self.play(
             FadeOut(VGroup(
-                group_limited_famas, *little_square_manim, balancer
+                group_limited_famas, *little_square_manim, balancer,
+                group_a_i_1, group_a_i_2,
             )),
+            Uncreate(rec_bi_2),
+            Uncreate(rec_bi_6),
             tex_x_eq_q1b1.animate.shift(UP * 1.5),
             group_limited_famas_label.animate.shift(UP * 1.5),
             run_time=1.5
@@ -507,13 +539,12 @@ class CAPart4_1(Scene):
         self.play(Write(tex_RR))
         self.wait(1)
         self.play(Write(tex_QQ))
-        self.wait(0.5)
-        self.play(Write(arrow_R2Q))
         self.wait(1.5)
         self.play(
-            arrow_R2Q.animate.shift(DOWN * 0.3),
-            tex_RR.animate.shift(DOWN * 0.15),
-            tex_QQ.animate.shift(DOWN * 0.15),
+            ReplacementTransform(VGroup(tex_RR, tex_QQ), tex_R_Q, path_arc=PI/2),
+        )
+        self.wait(1.5)
+        self.play(
             Write(text_hamel_basis),
             run_time=1.5
         )
@@ -538,7 +569,7 @@ class CAPart4_1(Scene):
         self.play(
             FadeOut(group_limited_famas_label),
             FadeOut(tex_x_eq_q1b1),
-            FadeOut(VGroup(tex_RR, tex_QQ, arrow_R2Q, text_hamel_basis)),
+            FadeOut(VGroup(tex_R_Q, text_hamel_basis)),
             group_label146.animate.arrange_in_grid(n_rows=1, buff=0.6).move_to(ORIGIN)
         )
         self.wait(1.5)
