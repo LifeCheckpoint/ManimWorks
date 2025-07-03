@@ -568,19 +568,23 @@ class CAPart4_2(Scene):
         self.play(Write(tex_cauchy, run_time=1.5))
         self.wait(1)
 
-        tex_x_eq_sum_qb = Tex("x = \\sum_{i=1}^{n} q_i b_i").set_color_by_tex_to_color_map({
+        tex_x_eq_sum_qb = Tex("x = \\sum_{j=1}^{k} q_{i_j} b_{i_j}").set_color_by_tex_to_color_map({
             "x =": WHITE,
-            "\\sum_{i=1}^{n}": WHITE,
-            "q_i": LIGHT_PINK,
-            "b_i": RED_A
+            "\\sum_{j=1}^{k}": WHITE,
+            "q_{i_j}": LIGHT_PINK,
+            "b_{i_j}": RED_A
         }).move_to(UP * 1.5)
-        tex_fx_eq_sum_fqb = Tex("f(x) = \\sum_{i=1}^{n} q_i f(b_i)").set_color_by_tex_to_color_map({
+        [tex_x_eq_sum_qb[i].set_color("#f696e8") for i in [8, 9]]
+        [tex_x_eq_sum_qb[i].set_color("#f9b8b9") for i in [11, 12]]
+        tex_fx_eq_sum_fqb = Tex("f(x) = \\sum_{j=1}^{k} q_{i_j} f(b_{i_j})").set_color_by_tex_to_color_map({
             "f(x) =": WHITE,
-            "\\sum_{i=1}^{n}": WHITE,
-            "q_i": LIGHT_PINK,
+            "\\sum_{j=1}^{k}": WHITE,
+            "q_{i_j}": LIGHT_PINK,
             "f": BLUE,
-            "b_i": RED_A
+            "b_{i_j}": RED_A
         }).move_to(UP * 1.5)
+        [tex_fx_eq_sum_fqb[i].set_color("#f696e8") for i in [11, 12]]
+        [tex_fx_eq_sum_fqb[i].set_color("#f9b8b9") for i in [16, 17]]
         axes = Axes(
             x_range=(-8, 8),
             y_range=(-4, 4),
